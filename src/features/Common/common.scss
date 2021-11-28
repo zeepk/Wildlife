@@ -1,0 +1,59 @@
+@import '../../App.scss';
+.title {
+	color: white;
+	padding: 2rem;
+}
+.img--logo {
+	max-height: 40px;
+	max-width: 40vw;
+}
+.fullscreen {
+	min-width: 100vw;
+	height: 80vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.fullscreen > i {
+	background-size: 4rem;
+	width: 4rem;
+	height: 5rem;
+	animation-duration: 0.5s;
+}
+@media (min-width: 500px) {
+	.container--footer {
+		position: fixed;
+	}
+}
+.container--footer {
+	bottom: 0;
+	width: 100vw;
+	max-height: 20vh;
+	background: $mediumGray;
+
+	.container--links {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+	}
+
+	.footer-link {
+		color: white;
+		text-decoration: none;
+		background: $mediumGray;
+		margin-right: 1rem;
+		padding: 0.5rem;
+
+		&:hover {
+			filter: brightness(190%);
+		}
+
+		&.twitter {
+			color: $linkBlue;
+		}
+		&.code {
+			color: silver;
+		}
+	}
+}

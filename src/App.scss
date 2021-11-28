@@ -1,0 +1,20 @@
+$darkGray: rgb(33, 33, 33);
+$mediumGray: #2c2f31;
+$gainzGreen: #44e744;
+$linkBlue: #1d9bf0;
+.App {
+	min-height: 100vh;
+	width: 100%;
+	max-width: 100vw;
+	background-color: $darkGray;
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	// overflow-x: hidden;
+}
+html {
+	background-color: $darkGray;
+	max-width: 100vw;
+}
