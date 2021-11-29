@@ -1,30 +1,18 @@
 import requestWrapper from 'utils/requestWrapper';
-import {
-	AuthDataLogin,
-	AuthDataCreateAccount,
-} from 'features/Common/commonTypes';
+import { AuthDataCreateAccount } from 'features/Common/commonTypes';
+import { profileUrl } from 'utils/constants';
 
-export async function checkIfUserLoggedIn(token: string) {
+export async function getProfile(userId: string) {
 	const requestOptions = {
-		url: 'checkUrl',
+		url: `${profileUrl}/${userId}`,
 		method: 'GET',
-		token,
 	};
 	return await requestWrapper(requestOptions);
 }
 
-export async function logUserIn(data: AuthDataLogin) {
+export async function createProfile(data: AuthDataCreateAccount) {
 	const requestOptions = {
-		url: 'loginUrl',
-		method: 'POST',
-		data,
-	};
-	return await requestWrapper(requestOptions);
-}
-
-export async function createUserAccount(data: AuthDataCreateAccount) {
-	const requestOptions = {
-		url: 'createUrl',
+		url: profileUrl,
 		method: 'POST',
 		data,
 	};

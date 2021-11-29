@@ -1,20 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500&display=swap');
+
+$backgroundColor: #b4d3cd;
 $darkGray: rgb(33, 33, 33);
+$mediumGreen: #66b888;
+$mediumDarkGreen: #5ba379;
+$mediumBlue: #71b6f7;
 $mediumGray: #2c2f31;
 $gainzGreen: #44e744;
 $linkBlue: #1d9bf0;
+.App *:not(.pi) {
+	font-family: 'Baloo 2', cursive !important;
+}
 .App {
 	min-height: 100vh;
 	width: 100%;
 	max-width: 100vw;
-	background-color: $darkGray;
 	padding: 0;
 	margin: 0;
 	position: absolute;
 	top: 0;
 	left: 0;
-	// overflow-x: hidden;
+	background: linear-gradient(#e7d1b070, #e7d1b060),
+		url('./assets/images/pattern.jpg');
+	background-attachment: fixed;
+	background-position: center;
 }
 html {
-	background-color: $darkGray;
+	background: linear-gradient(#e7d1b070, #e7d1b060),
+		url('./assets/images/pattern.jpg');
+	background-attachment: fixed;
+	background-position: center;
 	max-width: 100vw;
 }

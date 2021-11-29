@@ -17,5 +17,9 @@ export function LandingPage() {
 		return <h1 className="title">Logged In!</h1>;
 	}
 
-	return <h1 className="title">Welcome, new user!</h1>;
+	return (
+		<div>
+			<h1 className="title">Welcome, new user!</h1>
+		</div>
+	);
 }

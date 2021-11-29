@@ -14,6 +14,11 @@ export const isDxpOver = DateTime.now() > dxpEnd;
 // urls
 
 export const apiBaseUrl = process.env.REACT_APP_API_URL;
+export const loginUrl = `${apiBaseUrl}/login`;
+export const userUrl = `${apiBaseUrl}/api/user`;
+export const profileUrl = `${apiBaseUrl}/api/profile`;
+export const defaultAvatarUrl =
+	'https://64.media.tumblr.com/660a46fe7a5825d898e36fc8c240685b/bd38759d70dd2985-ab/s400x600/05eb60dacdbb47e946713a8aaa048274dc176cb7.png';
 export const twitterUsername = '@matthughes2112';
 export const twitterUrl = `https://twitter.com/${twitterUsername}`;
 export const githubUrl =
@@ -42,4 +47,10 @@ export const footerLinks = [
 	{ id: 0, text: `v${versionNumber}`, class: 'version' },
 	{ id: 1, text: 'github code', link: githubUrl, class: 'code' },
 	{ id: 2, text: 'twitter / feedback', link: twitterUrl, class: 'twitter' },
+];
+
+export const navbarMenuItems = [
+	{ id: 0, text: 'Fish', path: '/fish' },
+	{ id: 1, text: 'Bugs', path: '/bugs' },
+	{ id: 2, text: 'Sea', path: '/sea' },
 ];

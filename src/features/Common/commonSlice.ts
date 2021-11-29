@@ -1,21 +1,24 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { checkIfUserLoggedIn, logUserIn, createUserAccount } from './commonApi';
-import {
-	AuthDataCreateAccount,
-	AuthDataLogin,
-} from 'features/Common/commonTypes';
+import { getProfile, createProfile } from './commonApi';
+import { AuthDataCreateAccount } from 'features/Common/commonTypes';
+import { defaultAvatarUrl } from 'utils/constants';
 
 export interface CommonState {
 	auth: {
 		error: boolean;
 		errorMessage: string | null;
-		loading: boolean;
+		loading: number;
 		resetLoading: boolean;
 		loginLoading: boolean;
 		createLoading: boolean;
 		isLoggedIn: boolean;
-		username: string;
+		account: {
+			username: string;
+			authId: string;
+			avatar: string;
+			friends: Array<string>;
+		};
 	};
 }
 
@@ -23,134 +26,105 @@ const initialState: CommonState = {
 	auth: {
 		error: false,
 		errorMessage: null,
-		loading: false,
+		loading: 0,
 		resetLoading: false,
 		loginLoading: false,
 		createLoading: false,
 		isLoggedIn: false,
-		username: '',
+		account: {
+			username: '',
+			authId: '',
+			avatar: defaultAvatarUrl,
+			friends: [],
+		},
 	},
 };
 
-export const getToken = () => {
-	const cookie = document.cookie;
-	let token;
-	try {
-		token = cookie.split('authtoken=')[1].split(';')[0];
-	} catch (error) {
-		token = null;
+export const getUserProfile = createAsyncThunk(
+	'common/auth/isLoggedIn',
+	async (userId: string) => {
+		const response = await getProfile(userId);
+		return response;
 	}
-	return token;
+);
+
+export const createUserProfile = createAsyncThunk(
+	'common/auth/createProfile',
+	async (payload: AuthDataCreateAccount) => {
+		const response = await createProfile(payload);
+		return response;
+	}
+);
+
+const incrementLoading = (state: CommonState) => {
+	state.auth.loading = state.auth.loading + 1;
 };
 
-export const isUserLoggedIn = createAsyncThunk(
-	'common/auth/isLoggedIn',
-	async () => {
-		const token = getToken();
-		if (!token) {
-			return;
-		}
-
-		const response = await checkIfUserLoggedIn(token);
-		return response;
-	}
-);
-
-export const logIn = createAsyncThunk(
-	'common/auth/login',
-	async (data: AuthDataLogin) => {
-		const response = await logUserIn(data);
-		return response;
-	}
-);
-
-export const createAccount = createAsyncThunk(
-	'common/auth/create',
-	async (data: AuthDataCreateAccount) => {
-		const response = await createUserAccount(data);
-		return response;
-	}
-);
+const decrementLoading = (state: CommonState) => {
+	state.auth.loading = Math.max(state.auth.loading - 1, 0);
+};
 
 export const commonSlice = createSlice({
 	name: 'common',
 	initialState,
 	reducers: {
-		logOut(state) {
-			document.cookie = 'authtoken=';
-			state.auth.isLoggedIn = false;
-			state.auth.username = '';
+		updateUserInfo(state, args) {
+			// console.log(args);
 		},
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(isUserLoggedIn.pending, (state) => {
-				state.auth.loading = true;
+			.addCase(getUserProfile.pending, (state) => {
+				incrementLoading(state);
 			})
-			.addCase(isUserLoggedIn.rejected, (state) => {
-				state.auth.loading = false;
+			.addCase(getUserProfile.rejected, (state) => {
+				decrementLoading(state);
+				console.log('could not find profile');
 				state.auth.isLoggedIn = false;
 			})
-			.addCase(isUserLoggedIn.fulfilled, (state, action) => {
-				state.auth.loading = false;
-				if (action.payload?.data) {
-					state.auth.isLoggedIn = action.payload.data.success;
-					state.auth.username = action.payload.data.data;
-				}
-			})
-			.addCase(logIn.pending, (state) => {
-				state.auth.loginLoading = true;
-			})
-			.addCase(logIn.rejected, (state) => {
-				state.auth.loginLoading = false;
-				state.auth.error = true;
-			})
-			.addCase(logIn.fulfilled, (state, action) => {
-				state.auth.loginLoading = false;
-				if (action.payload.data) {
-					state.auth.error = false;
-					state.auth.isLoggedIn = action.payload.data.success;
-					document.cookie = `authtoken=${action.payload.data.token}; expires=Thu, 18 Dec 2099 12:00:00 UTC`;
-				} else {
-					state.auth.error = true;
-				}
-			})
-			.addCase(createAccount.pending, (state) => {
-				state.auth.createLoading = true;
-			})
-			.addCase(createAccount.rejected, (state) => {
-				state.auth.createLoading = false;
-				state.auth.error = true;
-			})
-			.addCase(createAccount.fulfilled, (state, action) => {
-				state.auth.createLoading = false;
-				if (action.payload.data.errors) {
-					state.auth.error = true;
-					state.auth.errorMessage =
-						action.payload.data.errors[0] || 'Invalid form submission';
-				} else {
-					state.auth.error = false;
+			.addCase(getUserProfile.fulfilled, (state, action) => {
+				decrementLoading(state);
+				if (action?.payload?.data) {
+					const resp = action.payload.data;
+					state.auth.account.username = resp.username;
+					state.auth.account.authId = resp.authId;
+					state.auth.account.avatar = resp.avatar;
+					state.auth.account.friends = resp.friends;
 					state.auth.isLoggedIn = true;
-					document.cookie = `authtoken=${action.payload.data.token}; expires=Thu, 18 Dec 2099 12:00:00 UTC`;
+				}
+			})
+			.addCase(createUserProfile.pending, (state) => {
+				incrementLoading(state);
+			})
+			.addCase(createUserProfile.rejected, (state) => {
+				decrementLoading(state);
+				console.log('could not create profile');
+				state.auth.isLoggedIn = false;
+			})
+			.addCase(createUserProfile.fulfilled, (state, action) => {
+				decrementLoading(state);
+				if (action?.payload?.data) {
+					const resp = action.payload.data;
+					state.auth.account.username = resp.username;
+					state.auth.account.authId = resp.authId;
+					state.auth.account.avatar = resp.avatar;
+					state.auth.account.friends = resp.friends;
+					state.auth.isLoggedIn = true;
 				}
 			});
 	},
 });
 
-export const { logOut } = commonSlice.actions;
+export const { updateUserInfo } = commonSlice.actions;
 
 export const selectAuthIsLoggedIn = (state: RootState) =>
 	state.common.auth.isLoggedIn;
-export const selectAuthUsername = (state: RootState) =>
-	state.common.auth.username;
-export const selectAuthLoginLoading = (state: RootState) =>
-	state.common.auth.loginLoading;
-export const selectAuthCreateLoading = (state: RootState) =>
-	state.common.auth.createLoading;
 export const selectAuthLoading = (state: RootState) =>
-	state.common.auth.loading;
-export const selectAuthResetLoading = (state: RootState) =>
-	state.common.auth.resetLoading;
+	state.common.auth.loading > 0;
+export const selectAccountUsername = (state: RootState) =>
+	state.common.auth.account.username;
+export const selectAccountAvatar = (state: RootState) =>
+	state.common.auth.account.avatar;
 export const selectAuthError = (state: RootState) => state.common.auth.error;
 export const selectAuthErrorMessage = (state: RootState) =>
 	state.common.auth.errorMessage;

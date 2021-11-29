@@ -1,6 +1,52 @@
 @import '../../App.scss';
+.p-menubar.p-component.navbar {
+	background-color: $mediumGreen !important;
+	border-bottom: 2px solid green !important;
+	padding: 0.2rem;
+	// border-bottom: 10px solid $mediumBlue !important;
+
+	.p-menubar-root-list {
+		width: 100%;
+	}
+	.navbar-item {
+		color: white;
+		text-decoration: none;
+		font-size: 1.4rem;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	.container--auth {
+		margin-left: auto;
+
+		.loading--profile {
+			height: 0.2rem;
+			width: 7rem;
+		}
+
+		.text--username {
+			font-size: 1.5rem;
+		}
+
+		.container--click {
+			cursor: pointer;
+		}
+
+		.p-button.button--avatar {
+			height: 3rem;
+			width: 3rem;
+			img {
+				height: 3rem;
+				width: 3rem;
+				margin-left: -1rem;
+				object-fit: scale-down;
+			}
+		}
+	}
+}
 .title {
-	color: white;
+	color: $mediumGray;
 	padding: 2rem;
 }
 .img--logo {
@@ -54,6 +100,23 @@
 		}
 		&.code {
 			color: silver;
+		}
+	}
+}
+.p-menu.p-menu-overlay.account-menu {
+	background-color: $mediumDarkGreen;
+	border: 2px solid green;
+	li {
+		background-color: $mediumDarkGreen;
+		&:hover {
+			filter: brightness(90%);
+		}
+		span {
+			font-weight: bold;
+
+			&.pi {
+				font-size: 1.2rem;
+			}
 		}
 	}
 }
