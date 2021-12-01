@@ -16,7 +16,7 @@ export function AccountIcon() {
 	const { logout } = useAuth0();
 	const username = useAppSelector(selectAccountUsername);
 	const avatar = useAppSelector(selectAccountAvatar);
-	const [avatarUri, setAvatarUri] = useState(avatar);
+	// const [avatarUri, setAvatarUri] = useState(avatar);
 
 	const menuItems = [
 		{
@@ -54,11 +54,7 @@ export function AccountIcon() {
 			>
 				<p className="text--username p-my-0 p-mr-2">{username}</p>
 				<Button className="button--avatar p-button-rounded p-button-success">
-					<img
-						src={avatarUri}
-						alt={username}
-						onError={() => setAvatarUri(defaultAvatarUrl)}
-					/>
+					<img src={avatar} alt={username} />
 				</Button>
 			</div>
 			<Menu
