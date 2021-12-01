@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { getProfile, createProfile } from './commonApi';
-import { AuthDataCreateAccount } from 'features/Common/commonTypes';
+import { getProfile, createProfile, getCaught } from './commonApi';
+import { AuthDataCreateAccount, Caught } from 'features/Common/commonTypes';
 import { defaultAvatarUrl } from 'utils/constants';
 
 export interface CommonState {
@@ -18,6 +18,7 @@ export interface CommonState {
 			authId: string;
 			avatar: string;
 			friends: Array<string>;
+			caught: Array<Caught>;
 		};
 	};
 }
@@ -36,6 +37,7 @@ const initialState: CommonState = {
 			authId: '',
 			avatar: defaultAvatarUrl,
 			friends: [],
+			caught: [],
 		},
 	},
 };
@@ -45,7 +47,7 @@ export const getUserProfile = createAsyncThunk(
 	async (userId: string) => {
 		const response = await getProfile(userId);
 		return response;
-	}
+	},
 );
 
 export const createUserProfile = createAsyncThunk(
@@ -53,7 +55,15 @@ export const createUserProfile = createAsyncThunk(
 	async (payload: AuthDataCreateAccount) => {
 		const response = await createProfile(payload);
 		return response;
-	}
+	},
+);
+
+export const getUserCaught = createAsyncThunk(
+	'common/auth/getcaught',
+	async (userId: string) => {
+		const response = await getCaught(userId);
+		return response;
+	},
 );
 
 const incrementLoading = (state: CommonState) => {
@@ -86,10 +96,11 @@ export const commonSlice = createSlice({
 				decrementLoading(state);
 				if (action?.payload?.data) {
 					const resp = action.payload.data;
-					state.auth.account.username = resp.username;
-					state.auth.account.authId = resp.authId;
-					state.auth.account.avatar = resp.avatar;
-					state.auth.account.friends = resp.friends;
+					state.auth.account.username = resp.profile.username;
+					state.auth.account.authId = resp.profile.authId;
+					state.auth.account.avatar = resp.profile.avatar;
+					state.auth.account.friends = resp.profile.friends;
+					state.auth.account.caught = resp.caught;
 					state.auth.isLoggedIn = true;
 				}
 			})
