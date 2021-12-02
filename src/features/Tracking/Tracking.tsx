@@ -1,12 +1,12 @@
 import React, { FunctionComponent, useState } from 'react';
 import LoadingIcon from 'features/Common/LoadingIcon';
-import 'features/Fish/fish.scss';
+import 'features/Tracking/tracking.scss';
 
 type props = {
 	username: string;
 };
 
-export const Fish: FunctionComponent<props> = ({ username }) => {
+export const Tracking: FunctionComponent<props> = ({ username }) => {
 	const [avatarLoading, updateAvatarLoading] = useState(true);
 
 	const avatarSrc = 'sample uri';

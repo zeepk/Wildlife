@@ -1,9 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { getProfile, createProfile, getCaught } from './commonApi';
-import { AuthDataCreateAccount, Caught } from 'features/Common/commonTypes';
-import { defaultAvatarUrl } from 'utils/constants';
-
+import {
+	AuthDataCreateAccount,
+	Caught,
+	Profile,
+} from 'features/Common/commonTypes';
 export interface CommonState {
 	auth: {
 		error: boolean;
@@ -14,10 +16,7 @@ export interface CommonState {
 		createLoading: boolean;
 		isLoggedIn: boolean;
 		account: {
-			username: string;
-			authId: string;
-			avatar: string;
-			friends: Array<string>;
+			profile: Profile | null;
 			caught: Array<Caught>;
 		};
 	};
@@ -33,10 +32,7 @@ const initialState: CommonState = {
 		createLoading: false,
 		isLoggedIn: false,
 		account: {
-			username: '',
-			authId: '',
-			avatar: defaultAvatarUrl,
-			friends: [],
+			profile: null,
 			caught: [],
 		},
 	},
@@ -96,10 +92,7 @@ export const commonSlice = createSlice({
 				decrementLoading(state);
 				if (action?.payload?.data) {
 					const resp = action.payload.data;
-					state.auth.account.username = resp.profile.username;
-					state.auth.account.authId = resp.profile.authId;
-					state.auth.account.avatar = resp.profile.avatar;
-					state.auth.account.friends = resp.profile.friends;
+					state.auth.account.profile = resp.profile;
 					state.auth.account.caught = resp.caught;
 					state.auth.isLoggedIn = true;
 				}
@@ -116,10 +109,7 @@ export const commonSlice = createSlice({
 				decrementLoading(state);
 				if (action?.payload?.data) {
 					const resp = action.payload.data;
-					state.auth.account.username = resp.username;
-					state.auth.account.authId = resp.authId;
-					state.auth.account.avatar = resp.avatar;
-					state.auth.account.friends = resp.friends;
+					state.auth.account.profile = resp;
 					state.auth.isLoggedIn = true;
 				}
 			});
@@ -133,9 +123,9 @@ export const selectAuthIsLoggedIn = (state: RootState) =>
 export const selectAuthLoading = (state: RootState) =>
 	state.common.auth.loading > 0;
 export const selectAccountUsername = (state: RootState) =>
-	state.common.auth.account.username;
+	state.common.auth.account.profile?.username;
 export const selectAccountAvatar = (state: RootState) =>
-	state.common.auth.account.avatar;
+	state.common.auth.account.profile?.avatar;
 export const selectAuthError = (state: RootState) => state.common.auth.error;
 export const selectAuthErrorMessage = (state: RootState) =>
 	state.common.auth.errorMessage;

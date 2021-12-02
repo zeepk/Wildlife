@@ -1,10 +1,10 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import fishReducer from 'features/Fish/fishSlice';
+import trackingReducer from 'features/Tracking/trackingSlice';
 import commonReducer from 'features/Common/commonSlice';
 
 export const store = configureStore({
 	reducer: {
-		fish: fishReducer,
+		tracking: trackingReducer,
 		common: commonReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
