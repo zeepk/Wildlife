@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { critterTypes } from 'utils/constants';
+import { critterTypes, hemispheres } from 'utils/constants';
 
 export type AuthDataCreateAccount = {
 	authId: string;
@@ -15,8 +15,7 @@ export type Profile = {
 	friends: Array<string>;
 	createdAt: DateTime;
 	updatedAt: DateTime;
-	// TODO: add to server
-	isNorthernHemisphere: boolean;
+	hemisphere: hemispheres;
 	__v: any;
 };
 
