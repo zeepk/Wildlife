@@ -3,10 +3,10 @@ import { DateTime } from 'luxon';
 // version
 export const versionNumber = '0.1.0';
 export const dxpStart = DateTime.fromJSDate(
-	new Date('05 November 2021 12:00 UTC'),
+	new Date('05 November 2021 12:00 UTC')
 );
 export const dxpEnd = DateTime.fromJSDate(
-	new Date('15 November 2021 12:00 UTC'),
+	new Date('15 November 2021 12:00 UTC')
 );
 export const isDxpUpcoming = DateTime.now() < dxpStart;
 export const isDxpOver = DateTime.now() > dxpEnd;
@@ -24,6 +24,7 @@ export const defaultAvatarUrl =
 export const twitterUsername = '@matthughes2112';
 export const twitterUrl = `https://twitter.com/${twitterUsername}`;
 export const githubUrl = 'https://github.com/zeepk/wildlife';
+export const twitchUrl = 'https://www.twitch.tv/zee_pk';
 
 // verbiage
 
@@ -53,10 +54,27 @@ export enum hemispheres {
 	SOUTHERN,
 }
 
+export const hemisphereChoices = [
+	{
+		id: hemispheres.NORTHERN,
+		text: 'Northern',
+	},
+	{
+		id: hemispheres.SOUTHERN,
+		text: 'Southern',
+	},
+];
+
 export const footerLinks = [
 	{ id: 0, text: `v${versionNumber}`, class: 'version' },
 	{ id: 1, text: 'github code', link: githubUrl, class: 'code' },
 	{ id: 2, text: 'twitter / feedback', link: twitterUrl, class: 'twitter' },
+	{
+		id: 3,
+		text: 'watch me code this on twitch',
+		link: twitchUrl,
+		class: 'twitch',
+	},
 ];
 
 export const navbarMenuItems = [

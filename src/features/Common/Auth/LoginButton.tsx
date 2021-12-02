@@ -7,7 +7,7 @@ export function LoginButton() {
 	const { loginWithRedirect } = useAuth0();
 	return (
 		<Button
-			label="Log In"
+			label="Log In / Sign up"
 			onClick={() =>
 				loginWithRedirect({
 					prompt: 'select_account',

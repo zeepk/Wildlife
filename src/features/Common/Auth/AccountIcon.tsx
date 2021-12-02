@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector } from 'app/hooks';
 import {
@@ -6,13 +7,13 @@ import {
 	selectAccountAvatar,
 } from 'features/Common/commonSlice';
 import { isNullUndefinedOrWhitespace } from 'utils/helperFunctions';
-import { defaultAvatarUrl } from 'utils/constants';
 
 import { Menu } from 'primereact/menu';
 import { Button } from 'primereact/button';
 import 'features/Common/common.scss';
 
 export function AccountIcon() {
+	const history = useHistory();
 	const { logout } = useAuth0();
 	const username = useAppSelector(selectAccountUsername);
 	const avatar = useAppSelector(selectAccountAvatar);
@@ -22,6 +23,7 @@ export function AccountIcon() {
 		{
 			label: 'Account',
 			icon: 'pi pi-user-edit',
+			command: () => history.push('/account'),
 		},
 		{
 			label: 'Friends',

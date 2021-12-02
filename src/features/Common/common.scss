@@ -4,6 +4,9 @@
 	border-bottom: 2px solid green !important;
 	padding: 0.2rem;
 	// border-bottom: 10px solid $mediumBlue !important;
+	color: white;
+	text-decoration: none;
+	font-size: 1.4rem;
 
 	.p-menubar-root-list {
 		width: 100%;
@@ -31,17 +34,6 @@
 
 		.container--click {
 			cursor: pointer;
-		}
-
-		.p-button.button--avatar {
-			height: 3rem;
-			width: 3rem;
-			img {
-				height: 3rem;
-				width: 3rem;
-				margin-left: -1rem;
-				object-fit: scale-down;
-			}
 		}
 	}
 }
@@ -101,6 +93,9 @@
 		&.code {
 			color: silver;
 		}
+		&.twitch {
+			color: rgb(187, 95, 187);
+		}
 	}
 }
 .p-menu.p-menu-overlay.account-menu {
@@ -118,5 +113,44 @@
 				font-size: 1.2rem;
 			}
 		}
+	}
+}
+.container--account-settings {
+	width: 100vw;
+	.container--settings {
+		width: 95vw;
+		max-width: 800px;
+		min-height: 50vh;
+		background-color: $mediumDarkGreen;
+		border: 0.7rem solid white;
+		border-radius: 3rem;
+
+		.title {
+			color: white;
+			text-align: center;
+		}
+
+		.setting {
+			color: white;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.end {
+			.p-button {
+				width: 7rem;
+			}
+		}
+	}
+}
+.p-button.button--avatar {
+	height: 3rem;
+	width: 3rem;
+	img {
+		height: 3rem;
+		width: 3rem;
+		margin-left: -1rem;
+		object-fit: scale-down;
 	}
 }

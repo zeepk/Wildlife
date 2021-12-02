@@ -5,7 +5,6 @@ import { getUserProfile, createUserProfile } from 'features/Common/commonSlice';
 import { ProgressBar } from 'primereact/progressbar';
 
 import { LoginButton } from 'features/Common/Auth/LoginButton';
-import { SignUpButton } from 'features/Common/Auth/SignUpButton';
 import { AccountIcon } from 'features/Common/Auth/AccountIcon';
 import 'features/Common/common.scss';
 
@@ -30,7 +29,9 @@ export function AuthButtons() {
 	}, [isAuthenticated, dispatch, user?.sub, user?.name, user?.picture]);
 
 	if (isLoading) {
-		return <ProgressBar mode="indeterminate" className="loading--profile" />;
+		return (
+			<ProgressBar mode="indeterminate" className="loading--profile p-mr-2" />
+		);
 	}
 
 	if (isAuthenticated && user) {
@@ -40,7 +41,6 @@ export function AuthButtons() {
 	return (
 		<div className="container--auth">
 			<LoginButton />
-			<SignUpButton />
 		</div>
 	);
 }
