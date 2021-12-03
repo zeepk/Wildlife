@@ -3,10 +3,10 @@ import { DateTime } from 'luxon';
 // version
 export const versionNumber = '0.1.0';
 export const dxpStart = DateTime.fromJSDate(
-	new Date('05 November 2021 12:00 UTC')
+	new Date('05 November 2021 12:00 UTC'),
 );
 export const dxpEnd = DateTime.fromJSDate(
-	new Date('15 November 2021 12:00 UTC')
+	new Date('15 November 2021 12:00 UTC'),
 );
 export const isDxpUpcoming = DateTime.now() < dxpStart;
 export const isDxpOver = DateTime.now() > dxpEnd;
@@ -30,10 +30,18 @@ export const twitchUrl = 'https://www.twitch.tv/zee_pk';
 
 export const homeTitleText = 'Tracking';
 export const homeText = 'Sample React Redux TypeScript app for Tracking';
+export const accountSettingsTitleText = 'Account Settings';
+export const accountSettingsUsernameText = 'Username';
+export const accountSettingsAvatarUriText = 'Avatar URL';
+
+export const errorMessageAccountSettingsNotLoggedIn =
+	'You must be logged in to view your account settings!';
 
 // thresholds
 
 export const maxNumberOfTracking = 5000;
+export const maxUsernameLength = 15;
+export const minUsernameLength = 3;
 
 // types
 

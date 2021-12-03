@@ -1,5 +1,7 @@
+import { maxUsernameLength, minUsernameLength } from 'utils/constants';
+
 export const isNullUndefinedOrWhitespace = (
-	text: string | null | undefined
+	text: string | null | undefined,
 ) => {
 	if (text === null || text === undefined) {
 		return true;
@@ -9,4 +11,12 @@ export const isNullUndefinedOrWhitespace = (
 
 export const isDevEnv = () => {
 	return process.env.node_env === 'development';
+};
+
+export const usernameValid = (username: string) => {
+	return (
+		!isNullUndefinedOrWhitespace(username) &&
+		username.length >= minUsernameLength &&
+		username.length <= maxUsernameLength
+	);
 };

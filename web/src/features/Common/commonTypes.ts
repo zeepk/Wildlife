@@ -5,6 +5,7 @@ export type AuthDataCreateAccount = {
 	authId: string;
 	username: string;
 	avatar: string;
+	avatarId: number;
 };
 
 export type Profile = {
@@ -12,6 +13,7 @@ export type Profile = {
 	authId: string;
 	username: string;
 	avatar: string;
+	avatarId: number;
 	friends: Array<string>;
 	createdAt: DateTime;
 	updatedAt: DateTime;

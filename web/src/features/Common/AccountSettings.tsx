@@ -9,6 +9,12 @@ import {
 	selectAccountAvatar,
 } from '../Common/commonSlice';
 import LoadingIcon from 'features/Common/LoadingIcon';
+import {
+	accountSettingsAvatarUriText,
+	accountSettingsTitleText,
+	accountSettingsUsernameText,
+	errorMessageAccountSettingsNotLoggedIn,
+} from 'utils/constants';
 import 'features/Common/common.scss';
 
 export function AccountSettings() {
@@ -25,24 +31,22 @@ export function AccountSettings() {
 	}
 
 	if (!isLoggedIn) {
-		return (
-			<h1 className="title">Must be logged in to view account settings!</h1>
-		);
+		return <h1 className="title">{errorMessageAccountSettingsNotLoggedIn}</h1>;
 	}
 
 	return (
 		<div className="container--account-settings p-d-flex p-jc-center p-align-center">
 			<div className="container--settings p-mt-6 p-px-4">
-				<h1 className="title">Account Settings</h1>
+				<h1 className="title">{accountSettingsTitleText}</h1>
 				<div className="setting">
-					<h3>Username</h3>
+					<h3>{accountSettingsUsernameText}</h3>
 					<InputText
 						value={username}
 						onChange={(e) => setUsername(e.target.value)}
 					/>
 				</div>
 				<div className="setting">
-					<h3>Avatar URL</h3>
+					<h3>{accountSettingsAvatarUriText}</h3>
 					<InputText
 						value={avatarUri}
 						onChange={(e) => setAvatarUri(e.target.value)}
@@ -50,7 +54,7 @@ export function AccountSettings() {
 				</div>
 				<div className="setting">
 					<div />
-					<Button className="button--avatar p-button-rounded p-button-success">
+					<Button className="button--avatar account-settings p-button-rounded p-button-success">
 						<img src={avatarUri} alt="avatar" />
 					</Button>
 				</div>
