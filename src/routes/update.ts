@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { Critter } from '@/models/critter';
 import { critterTypes } from '@/utils/constants';
+import { Villager } from '@/models/villager';
 
 const fs = require('fs');
 const readline = require('readline');
@@ -19,6 +20,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 	const artSheetRange = 'Art!2:71';
 	const gyroidsSheetRange = 'Gyroids!2:190';
 	const songsSheetRange = 'Music!2:111';
+	const villagerSheetRange = 'Villagers!2:414';
 
 	fs.readFile('credentials.json', (err: any, content: any) => {
 		if (err) return console.log('Error loading client secret file:', err);
@@ -30,7 +32,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 		const oAuth2Client = new google.auth.OAuth2(
 			client_id,
 			client_secret,
-			redirect_uris[0]
+			redirect_uris[0],
 		);
 
 		// Check if we have previously stored a token.
@@ -59,7 +61,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 				if (err)
 					return console.error(
 						'Error while trying to retrieve access token',
-						err
+						err,
 					);
 				oAuth2Client.setCredentials(token);
 				fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err: any) => {
@@ -131,17 +133,51 @@ router.get('/api/update', (req: Request, res: Response) => {
 								sh_dec: row[35],
 								description: row[38],
 								ueid: row[49],
-							}
+							},
 							// },
 							// { upsert: true }
 						);
-						console.log('Created');
+						console.log(`Created Fish: ${row[1]}`);
 					});
-					console.log('Done creating');
+					console.log('Done creating Fish');
 				} else {
-					console.log('No data found.');
+					console.log('No Fish data found.');
 				}
-			}
+			},
+		);
+
+		sheets.spreadsheets.values.get(
+			{
+				spreadsheetId,
+				range: villagerSheetRange,
+				valueRenderOption: 'FORMULA',
+			},
+			(err: any, res: any) => {
+				if (err) return console.log('The API returned an error: ' + err);
+				const rows = res.data.values;
+				if (rows.length) {
+					rows.map(async (row: any) => {
+						// console.log(row[1]);
+						const exists = await Villager.exists({ name: row[0] });
+						if (exists) {
+							return;
+						}
+						Villager.create({
+							name: row[0],
+							icon_uri: row[1].split('"')[1],
+							image_uri: row[2].split('"')[1],
+							species: row[4],
+							gender: row[5],
+							personality: row[6],
+							birthday: row[9],
+							euid: row[29],
+						});
+						console.log(`Created Villager: ${row[0]}`);
+					});
+				} else {
+					console.log('No Villager data found');
+				}
+			},
 		);
 	}
 	return res.status(200).send('updated');

@@ -5,6 +5,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import { json } from 'body-parser';
 import { critterRouter } from '@/routes/critters';
+import { villagerRouter } from '@/routes/villagers';
 import { updateRouter } from '@/routes/update';
 import { caughtRouter } from '@/routes/caught';
 import { profileRouter } from '@/routes/profiles';
@@ -46,6 +47,7 @@ dotenv.config();
 
 app.use(json());
 app.use(critterRouter);
+app.use(villagerRouter);
 app.use(updateRouter);
 app.use(caughtRouter);
 app.use(profileRouter);
