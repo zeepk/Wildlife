@@ -21,7 +21,7 @@ export default function AvatarDropdown({ callback, selectedId }: Props) {
 		}
 	}, []);
 
-	const selectedVillager = villagers?.find((v) => v.euid === selectedId);
+	const selectedVillager = villagers?.find((v) => v.ueid === selectedId);
 
 	const villagerItemTemplate = (villager?: Villager) => {
 		if (!villager) {

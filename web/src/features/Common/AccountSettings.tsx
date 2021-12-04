@@ -41,7 +41,7 @@ export function AccountSettings() {
 
 	const updateAvatar = (villager: Villager) => {
 		setAvatarUri(villager.image_uri);
-		setAvatarId(villager.euid);
+		setAvatarId(villager.ueid);
 	};
 
 	return (

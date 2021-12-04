@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { Profile } from '@/models/profile';
 import { Caught } from '@/models/caught';
 import { hemispheres } from '@/utils/constants';
+import { Villager } from '@/models/villager';
 const router = express.Router();
 
 // "given_name": "Matt",
@@ -43,19 +44,28 @@ router.post('/api/profile', async (req: Request, res: Response) => {
 	return res.status(201).send(createdProfile);
 });
 
-// router.post('/api/profile', async (req: Request, res: Response) => {
-// 	const { authId, username, avatar, avatarId } = req.body;
+router.put('/api/profile', async (req: Request, res: Response) => {
+	// TODO: allow users to change their timezone for fish times, etc
+	const { authId, username, avatarId, hemisphere } = req.body;
+	const profile = await Profile.findOne({ authId });
+	if (!profile) {
+		return res.sendStatus(404);
+	}
+	profile.username = username;
+	profile.hemisphere = hemisphere;
 
-// 	const createdProfile = await Profile.create({
-// 		authId,
-// 		username,
-// 		avatar,
-// 		avatarId,
-// 		hemisphere: hemispheres.NORTHERN,
-// 		friends: [],
-// 	});
-// 	return res.status(201).send(createdProfile);
-// });
+	if (avatarId !== profile.avatarId) {
+		const villager = await Villager.findOne({ ueid: avatarId });
+		console.log(villager);
+		if (villager?.ueid) {
+			profile.avatar = villager.image_uri;
+			profile.avatarId = villager.ueid;
+		}
+	}
+
+	const updatedProfile = await profile.save();
+	return res.status(200).send(updatedProfile);
+});
 
 router.delete('/api/profile', async (req: Request, res: Response) => {
 	const { userId, id, ueid } = req.body;

@@ -170,7 +170,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 							gender: row[5],
 							personality: row[6],
 							birthday: row[9],
-							euid: row[29],
+							ueid: row[29],
 						});
 						console.log(`Created Villager: ${row[0]}`);
 					});

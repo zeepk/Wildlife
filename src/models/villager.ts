@@ -8,7 +8,6 @@ export interface IVillager extends Document {
 	gender: string;
 	personality: string;
 	birthday: string;
-	euid: string;
 }
 
 const VillagerSchema = new Schema<IVillager>(
@@ -21,7 +20,6 @@ const VillagerSchema = new Schema<IVillager>(
 		gender: String,
 		personality: String,
 		birthday: String,
-		euid: String,
 	},
 	{
 		timestamps: {

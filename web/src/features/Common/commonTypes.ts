@@ -45,6 +45,6 @@ export type Villager = {
 	birthday: string;
 	createdAt: DateTime;
 	updatedAt: DateTime;
-	euid: string;
+	ueid: string;
 	__v: any;
 };
