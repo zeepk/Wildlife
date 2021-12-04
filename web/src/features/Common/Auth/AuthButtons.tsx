@@ -9,16 +9,29 @@ import { InputText } from 'primereact/inputtext';
 
 import { LoginButton } from 'features/Common/Auth/LoginButton';
 import { AccountIcon } from 'features/Common/Auth/AccountIcon';
-import { usernameValid } from 'utils/helperFunctions';
+import {
+	isNullUndefinedOrWhitespace,
+	usernameValid,
+} from 'utils/helperFunctions';
 import { maxUsernameLength, minUsernameLength } from 'utils/constants';
 import 'features/Common/common.scss';
+import { Villager } from '../commonTypes';
+import AvatarDropdown from './AvatarDropdown';
 
 export function AuthButtons() {
 	const dispatch = useAppDispatch();
 	const { user, isAuthenticated, isLoading } = useAuth0();
 	const [username, setUsername] = useState('');
+	const [avatarUri, setAvatarUri] = useState('');
+	const [avatarId, setAvatarId] = useState('');
+
 	const [errorMessage, setErrorMessage] = useState('');
 	const [usernameModalOpen, setUsernameModalOpen] = useState(false);
+
+	const formValid = () =>
+		usernameValid(username) &&
+		!isNullUndefinedOrWhitespace(avatarUri) &&
+		!isNullUndefinedOrWhitespace(avatarId);
 
 	const updateUsername = (value: string) => {
 		setUsername(value);
@@ -38,9 +51,15 @@ export function AuthButtons() {
 		const createPayload = {
 			authId: user.sub,
 			username: username,
-			avatar: user.picture,
+			avatar: avatarUri,
+			avatarId: avatarId,
 		};
 		dispatch(createUserProfile(createPayload));
+	};
+
+	const updateAvatar = (villager: Villager) => {
+		setAvatarUri(villager.image_uri);
+		setAvatarId(villager.euid);
 	};
 
 	useEffect(() => {
@@ -75,11 +94,12 @@ export function AuthButtons() {
 							value={username}
 							onChange={(e) => updateUsername(e.target.value)}
 						/>
-						<p>{errorMessage}</p>
+						<p className="text--error p-mb-2">{errorMessage}</p>
+						<AvatarDropdown callback={updateAvatar} selectedId={avatarId} />
 						<Button
-							className="p-button-info p-mr-2"
-							label={usernameValid(username) ? 'Looks good!' : 'hmmm...'}
-							disabled={!usernameValid(username)}
+							className="p-button-info p-mt-6"
+							label={formValid() ? 'Looks good!' : 'hmmm...'}
+							disabled={!formValid()}
 							onClick={() => createAccount()}
 						/>
 					</div>

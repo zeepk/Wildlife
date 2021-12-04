@@ -5,7 +5,7 @@ export type AuthDataCreateAccount = {
 	authId: string;
 	username: string;
 	avatar: string;
-	avatarId: number;
+	avatarId: string;
 };
 
 export type Profile = {
@@ -13,7 +13,7 @@ export type Profile = {
 	authId: string;
 	username: string;
 	avatar: string;
-	avatarId: number;
+	avatarId: string;
 	friends: Array<string>;
 	createdAt: DateTime;
 	updatedAt: DateTime;
@@ -31,5 +31,20 @@ export type Caught = {
 	critterType: critterTypes;
 	createdAt: DateTime;
 	updatedAt: DateTime;
+	__v: any;
+};
+
+export type Villager = {
+	_id: string;
+	name: string;
+	icon_uri: string;
+	image_uri: string;
+	species: string;
+	gender: string;
+	personality: string;
+	birthday: string;
+	createdAt: DateTime;
+	updatedAt: DateTime;
+	euid: string;
 	__v: any;
 };

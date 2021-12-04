@@ -43,6 +43,20 @@ router.post('/api/profile', async (req: Request, res: Response) => {
 	return res.status(201).send(createdProfile);
 });
 
+// router.post('/api/profile', async (req: Request, res: Response) => {
+// 	const { authId, username, avatar, avatarId } = req.body;
+
+// 	const createdProfile = await Profile.create({
+// 		authId,
+// 		username,
+// 		avatar,
+// 		avatarId,
+// 		hemisphere: hemispheres.NORTHERN,
+// 		friends: [],
+// 	});
+// 	return res.status(201).send(createdProfile);
+// });
+
 router.delete('/api/profile', async (req: Request, res: Response) => {
 	const { userId, id, ueid } = req.body;
 

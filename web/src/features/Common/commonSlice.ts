@@ -1,10 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { getProfile, createProfile, getCaught } from './commonApi';
+import {
+	getProfile,
+	createProfile,
+	getCaught,
+	getVillagers,
+} from './commonApi';
 import {
 	AuthDataCreateAccount,
 	Caught,
 	Profile,
+	Villager,
 } from 'features/Common/commonTypes';
 export interface CommonState {
 	auth: {
@@ -19,6 +25,7 @@ export interface CommonState {
 			profile: Profile | null;
 			caught: Array<Caught>;
 		};
+		villagers: Array<Villager> | null;
 	};
 }
 
@@ -35,6 +42,7 @@ const initialState: CommonState = {
 			profile: null,
 			caught: [],
 		},
+		villagers: [],
 	},
 };
 
@@ -58,6 +66,14 @@ export const getUserCaught = createAsyncThunk(
 	'common/auth/getcaught',
 	async (userId: string) => {
 		const response = await getCaught(userId);
+		return response;
+	},
+);
+
+export const getAllVillagers = createAsyncThunk(
+	'common/auth/getvillagers',
+	async () => {
+		const response = await getVillagers();
 		return response;
 	},
 );
@@ -112,6 +128,20 @@ export const commonSlice = createSlice({
 					state.auth.account.profile = resp;
 					state.auth.isLoggedIn = true;
 				}
+			})
+			.addCase(getAllVillagers.pending, (state) => {
+				incrementLoading(state);
+				state.auth.villagers = [];
+			})
+			.addCase(getAllVillagers.rejected, (state) => {
+				decrementLoading(state);
+				state.auth.villagers = null;
+			})
+			.addCase(getAllVillagers.fulfilled, (state, action) => {
+				decrementLoading(state);
+				if (action?.payload?.data) {
+					state.auth.villagers = action.payload.data;
+				}
 			});
 	},
 });
@@ -126,8 +156,12 @@ export const selectAccountUsername = (state: RootState) =>
 	state.common.auth.account.profile?.username;
 export const selectAccountAvatar = (state: RootState) =>
 	state.common.auth.account.profile?.avatar;
+export const selectAccountAvatarId = (state: RootState) =>
+	state.common.auth.account.profile?.avatarId;
 export const selectAuthError = (state: RootState) => state.common.auth.error;
 export const selectAuthErrorMessage = (state: RootState) =>
 	state.common.auth.errorMessage;
+export const selectVillagers = (state: RootState) =>
+	state.common.auth.villagers;
 
 export default commonSlice.reducer;

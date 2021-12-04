@@ -7,6 +7,7 @@ import {
 	selectAuthLoading,
 	selectAccountUsername,
 	selectAccountAvatar,
+	selectAccountAvatarId,
 } from '../Common/commonSlice';
 import LoadingIcon from 'features/Common/LoadingIcon';
 import {
@@ -16,14 +17,18 @@ import {
 	errorMessageAccountSettingsNotLoggedIn,
 } from 'utils/constants';
 import 'features/Common/common.scss';
+import AvatarDropdown from './Auth/AvatarDropdown';
+import { Villager } from './commonTypes';
 
 export function AccountSettings() {
 	const isLoggedIn = useAppSelector(selectAuthIsLoggedIn);
 	const loading = useAppSelector(selectAuthLoading);
 	const existingUsername = useAppSelector(selectAccountUsername);
 	const existingAvatar = useAppSelector(selectAccountAvatar);
+	const existingAvatarId = useAppSelector(selectAccountAvatarId);
 
 	const [avatarUri, setAvatarUri] = useState(existingAvatar);
+	const [avatarId, setAvatarId] = useState(existingAvatarId);
 	const [username, setUsername] = useState(existingUsername);
 
 	if (loading) {
@@ -33,6 +38,11 @@ export function AccountSettings() {
 	if (!isLoggedIn) {
 		return <h1 className="title">{errorMessageAccountSettingsNotLoggedIn}</h1>;
 	}
+
+	const updateAvatar = (villager: Villager) => {
+		setAvatarUri(villager.image_uri);
+		setAvatarId(villager.euid);
+	};
 
 	return (
 		<div className="container--account-settings p-d-flex p-jc-center p-align-center">
@@ -47,10 +57,7 @@ export function AccountSettings() {
 				</div>
 				<div className="setting">
 					<h3>{accountSettingsAvatarUriText}</h3>
-					<InputText
-						value={avatarUri}
-						onChange={(e) => setAvatarUri(e.target.value)}
-					/>
+					<AvatarDropdown callback={updateAvatar} selectedId={avatarId} />
 				</div>
 				<div className="setting">
 					<div />

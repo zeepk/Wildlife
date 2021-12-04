@@ -19,6 +19,7 @@ export const userUrl = `${apiBaseUrl}/api/user`;
 export const caughtUrl = `${apiBaseUrl}/api/caught`;
 export const profileUrl = `${apiBaseUrl}/api/profile`;
 export const fishUrl = `${apiBaseUrl}/api/fish`;
+export const villagerUrl = `${apiBaseUrl}/api/villagers`;
 export const defaultAvatarUrl =
 	'https://64.media.tumblr.com/660a46fe7a5825d898e36fc8c240685b/bd38759d70dd2985-ab/s400x600/05eb60dacdbb47e946713a8aaa048274dc176cb7.png';
 export const twitterUsername = '@matthughes2112';
@@ -32,7 +33,8 @@ export const homeTitleText = 'Tracking';
 export const homeText = 'Sample React Redux TypeScript app for Tracking';
 export const accountSettingsTitleText = 'Account Settings';
 export const accountSettingsUsernameText = 'Username';
-export const accountSettingsAvatarUriText = 'Avatar URL';
+export const accountSettingsAvatarUriText = 'Villager Icon';
+export const accountSettingsSelectAVillagerText = 'Select a villager';
 
 export const errorMessageAccountSettingsNotLoggedIn =
 	'You must be logged in to view your account settings!';
