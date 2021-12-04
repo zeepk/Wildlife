@@ -30,12 +30,13 @@ router.get('/api/profile/:id', async (req: Request, res: Response) => {
 });
 
 router.post('/api/profile', async (req: Request, res: Response) => {
-	const { authId, username, avatar } = req.body;
+	const { authId, username, avatar, avatarId } = req.body;
 
 	const createdProfile = await Profile.create({
 		authId,
 		username,
 		avatar,
+		avatarId,
 		hemisphere: hemispheres.NORTHERN,
 		friends: [],
 	});

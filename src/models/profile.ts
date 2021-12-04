@@ -4,6 +4,7 @@ export interface IProfile extends Document {
 	authId: string;
 	username: string;
 	avatar: string;
+	avatarId: string;
 	friends: Array<string>;
 	hemisphere: hemispheres;
 }
@@ -13,6 +14,7 @@ const ProfileSchema = new Schema<IProfile>(
 		authId: String,
 		username: String,
 		avatar: String,
+		avatarId: String,
 		friends: Array,
 		hemisphere: hemispheres.NORTHERN,
 	},
