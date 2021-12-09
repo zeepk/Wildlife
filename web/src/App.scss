@@ -9,6 +9,8 @@ $mediumGray: #2c2f31;
 $gainzGreen: #44e744;
 $linkBlue: #1d9bf0;
 $errorRed: #eb4d4d;
+$transparentMediumGray: #00000070;
+$transparentDarkGray: #00000060;
 .App *:not(.pi) {
 	font-family: 'Baloo 2', cursive !important;
 }
@@ -21,13 +23,13 @@ $errorRed: #eb4d4d;
 	position: absolute;
 	top: 0;
 	left: 0;
-	background: linear-gradient(#e7d1b070, #e7d1b060),
+	background: linear-gradient($transparentMediumGray, $transparentDarkGray),
 		url('./assets/images/pattern.jpg');
 	background-attachment: fixed;
 	background-position: center;
 }
 html {
-	background: linear-gradient(#e7d1b070, #e7d1b060),
+	background: linear-gradient($transparentMediumGray, $transparentDarkGray),
 		url('./assets/images/pattern.jpg');
 	background-attachment: fixed;
 	background-position: center;
