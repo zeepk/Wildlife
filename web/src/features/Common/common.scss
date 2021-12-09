@@ -4,6 +4,8 @@
 }
 .p-menubar.p-component.navbar {
 	background-color: $mediumGreen !important;
+	border: none;
+	border-radius: none;
 	border-bottom: 2px solid green !important;
 	padding: 0.2rem;
 	// border-bottom: 10px solid $mediumBlue !important;
@@ -55,11 +57,10 @@
 	align-items: center;
 	justify-content: center;
 }
-.fullscreen > i {
-	background-size: 4rem;
-	width: 4rem;
-	height: 5rem;
-	animation-duration: 0.5s;
+.fullscreen > .loading--global {
+	width: 90vw;
+	max-width: 20rem;
+	height: 0.5rem;
 }
 @media (min-width: 500px) {
 	.container--footer {
@@ -101,8 +102,10 @@
 		}
 	}
 }
-.p-menu.p-menu-overlay.account-menu {
+.p-menu.p-menu-overlay.account-menu,
+.p-menubar-mobile-active > .p-menubar-root-list {
 	background-color: $mediumDarkGreen;
+	background: $mediumDarkGreen !important;
 	border: 2px solid green;
 	li {
 		background-color: $mediumDarkGreen;
@@ -139,6 +142,7 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+			flex-wrap: wrap;
 		}
 
 		.container--error {

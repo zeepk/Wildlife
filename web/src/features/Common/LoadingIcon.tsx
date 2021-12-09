@@ -1,4 +1,5 @@
 import React from 'react';
+import { ProgressBar } from 'primereact/progressbar';
 import 'features/Common/common.scss';
 
 type Props = {
@@ -9,8 +10,7 @@ export default function LoadingIcon({ fullScreen }: Props) {
 	const loadingClass = fullScreen ? 'fullscreen' : '';
 	return (
 		<div className={loadingClass}>
-			<i className="pi icon--search pi-spin" />
-			<h1>loading...</h1>
+			<ProgressBar mode="indeterminate" className="loading--global" />
 		</div>
 	);
 }

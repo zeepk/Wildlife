@@ -117,6 +117,15 @@ export function AccountSettings() {
 					detail: errorMessageAccountSettingsCannotUpdate,
 					life: globalToastLifetime,
 				});
+			} else if (
+				resp.payload.data.success === false &&
+				!isNullUndefinedOrWhitespace(resp.payload.data.errorMessage)
+			) {
+				toast?.current?.show({
+					severity: 'error',
+					detail: resp.payload.data.errorMessage,
+					life: globalToastLifetime,
+				});
 			} else {
 				toast?.current?.show({
 					severity: 'success',
@@ -128,7 +137,7 @@ export function AccountSettings() {
 		});
 	};
 	return (
-		<div className="container--account-settings p-d-flex p-jc-center p-align-center">
+		<div className="container--account-settings p-d-flex p-jc-center p-align-center p-mb-6">
 			<Toast ref={toast} />
 			<div className="container--settings p-mt-6 p-px-4">
 				<h1 className="title">{accountSettingsTitleText}</h1>
