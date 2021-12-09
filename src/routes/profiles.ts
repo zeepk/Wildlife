@@ -53,14 +53,16 @@ router.put('/api/profile', async (req: Request, res: Response) => {
 	}
 
 	// check to see if another profile exists with the new username
-	const otherProfileSameName = await Profile.findOne({ username });
-	if (otherProfileSameName) {
-		const resp = {
-			success: false,
-			errorMessage: 'Username taken, please try again.',
-			profile,
-		};
-		return res.status(200).send(resp);
+	if (username !== profile.username) {
+		const otherProfileSameName = await Profile.findOne({ username });
+		if (otherProfileSameName) {
+			const resp = {
+				success: false,
+				errorMessage: 'Username taken, please try again.',
+				profile,
+			};
+			return res.status(200).send(resp);
+		}
 	}
 
 	profile.username = username;

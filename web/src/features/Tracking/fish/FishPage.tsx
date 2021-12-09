@@ -11,12 +11,15 @@ import LoadingIcon from 'features/Common/LoadingIcon';
 import { IconTemplate } from 'features/Tracking/common/IconTemplate';
 import 'features/Tracking/tracking.scss';
 import { Fish } from 'features/Tracking/trackingTypes';
-import { months } from 'utils/constants';
+import { hemispheres, months } from 'utils/constants';
+import { selectAccountHemisphere } from 'features/Common/commonSlice';
+import { isNullOrUndefined } from 'utils/helperFunctions';
 
 export function FishPage() {
 	const dispatch = useAppDispatch();
 	const loading = useAppSelector(selectTrackingLoading);
 	const fish = useAppSelector(selectFish);
+	const hemisphere = useAppSelector(selectAccountHemisphere);
 
 	useEffect(() => {
 		dispatch(getAllFish());
@@ -32,7 +35,11 @@ export function FishPage() {
 
 	// TODO: change field based on user hemisphere
 	const monthColumns = months.map((m) => (
-		<Column key={m.name} field={m.nhColumn} header={m.name} />
+		<Column
+			key={m.name}
+			field={hemisphere === hemispheres.SOUTHERN ? m.shColumn : m.nhColumn}
+			header={m.name}
+		/>
 	));
 
 	return (
