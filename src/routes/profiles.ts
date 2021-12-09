@@ -56,7 +56,6 @@ router.put('/api/profile', async (req: Request, res: Response) => {
 
 	if (avatarId !== profile.avatarId) {
 		const villager = await Villager.findOne({ ueid: avatarId });
-		console.log(villager);
 		if (villager?.ueid) {
 			profile.avatar = villager.image_uri;
 			profile.avatarId = villager.ueid;
@@ -64,7 +63,11 @@ router.put('/api/profile', async (req: Request, res: Response) => {
 	}
 
 	const updatedProfile = await profile.save();
-	return res.status(200).send(updatedProfile);
+	const resp = {
+		success: Boolean(updatedProfile),
+		profile: updatedProfile,
+	};
+	return res.status(200).send(resp);
 });
 
 router.delete('/api/profile', async (req: Request, res: Response) => {
