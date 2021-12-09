@@ -51,7 +51,6 @@ export function AccountSettings() {
 	const [avatarUri, setAvatarUri] = useState(existingAvatar);
 	const [avatarId, setAvatarId] = useState(existingAvatarId);
 	const [hemisphere, setHemisphere] = useState(existingHemisphere);
-	// TODO: make sure username rules are enforced
 	const [username, setUsername] = useState(existingUsername);
 	const [profileLoading, setProfileLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
