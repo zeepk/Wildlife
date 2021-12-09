@@ -9,12 +9,15 @@ export const isNullUndefinedOrWhitespace = (
 	return text.trim() === '';
 };
 
+export const isNullOrUndefined = (x: any) => x === null || x === undefined;
+
 export const isDevEnv = () => {
 	return process.env.node_env === 'development';
 };
 
-export const usernameValid = (username: string) => {
+export const usernameValid = (username: string | undefined) => {
 	return (
+		username !== undefined &&
 		!isNullUndefinedOrWhitespace(username) &&
 		username.length >= minUsernameLength &&
 		username.length <= maxUsernameLength

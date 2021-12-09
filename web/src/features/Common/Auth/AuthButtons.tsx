@@ -13,7 +13,11 @@ import {
 	isNullUndefinedOrWhitespace,
 	usernameValid,
 } from 'utils/helperFunctions';
-import { maxUsernameLength, minUsernameLength } from 'utils/constants';
+import {
+	errorMessageUsernameInvalidLength,
+	maxUsernameLength,
+	minUsernameLength,
+} from 'utils/constants';
 import 'features/Common/common.scss';
 import { Villager } from '../commonTypes';
 import AvatarDropdown from './AvatarDropdown';
@@ -36,7 +40,7 @@ export function AuthButtons() {
 	const updateUsername = (value: string) => {
 		setUsername(value);
 		if (value.length < minUsernameLength || value.length > maxUsernameLength) {
-			setErrorMessage("Let's keep it between 4 and 12 characters");
+			setErrorMessage(errorMessageUsernameInvalidLength);
 		} else {
 			setErrorMessage('');
 		}

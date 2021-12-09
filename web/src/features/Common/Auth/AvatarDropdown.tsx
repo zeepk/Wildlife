@@ -14,6 +14,7 @@ type Props = {
 export default function AvatarDropdown({ callback, selectedId }: Props) {
 	const dispatch = useAppDispatch();
 	const villagers = useAppSelector(selectVillagers);
+	const searchableVillagerList = useAppSelector(selectVillagers);
 
 	useEffect(() => {
 		if (villagers?.length === 0) {
@@ -36,7 +37,7 @@ export default function AvatarDropdown({ callback, selectedId }: Props) {
 		);
 	};
 
-	if (!villagers) {
+	if (!searchableVillagerList) {
 		return <h3>error loading choices</h3>;
 	}
 
@@ -44,7 +45,7 @@ export default function AvatarDropdown({ callback, selectedId }: Props) {
 		<div className="container--avatar-dropdown">
 			<Dropdown
 				value={selectedVillager}
-				options={villagers}
+				options={searchableVillagerList}
 				onChange={(e) => callback(e.target.value)}
 				optionLabel="name"
 				filter

@@ -35,15 +35,24 @@ export const accountSettingsTitleText = 'Account Settings';
 export const accountSettingsUsernameText = 'Username';
 export const accountSettingsAvatarUriText = 'Villager Icon';
 export const accountSettingsSelectAVillagerText = 'Select a villager';
+export const accountSettingsHemisphereText = 'Hemisphere';
+
+export const successMessageAccountSettingsUpdated =
+	'Account updated successfully!';
 
 export const errorMessageAccountSettingsNotLoggedIn =
 	'You must be logged in to view your account settings!';
+export const errorMessageAccountSettingsCannotUpdate =
+	'Could not update your account. Please try again or contact support.';
 
 // thresholds
 
 export const maxNumberOfTracking = 5000;
 export const maxUsernameLength = 15;
 export const minUsernameLength = 3;
+export const globalToastLifetime = 5000;
+
+export const errorMessageUsernameInvalidLength = `Let's keep it between ${minUsernameLength} and ${maxUsernameLength} characters`;
 
 // types
 
@@ -60,8 +69,8 @@ export enum critterTypes {
 }
 
 export enum hemispheres {
-	NORTHERN,
-	SOUTHERN,
+	NORTHERN = 0,
+	SOUTHERN = 1,
 }
 
 export const hemisphereChoices = [

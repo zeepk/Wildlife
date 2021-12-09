@@ -5,9 +5,11 @@ import {
 	createProfile,
 	getCaught,
 	getVillagers,
+	updateProfile,
 } from './commonApi';
 import {
 	AuthDataCreateAccount,
+	AuthDataUpdateProfile,
 	Caught,
 	Profile,
 	Villager,
@@ -58,6 +60,14 @@ export const createUserProfile = createAsyncThunk(
 	'common/auth/createProfile',
 	async (payload: AuthDataCreateAccount) => {
 		const response = await createProfile(payload);
+		return response;
+	},
+);
+
+export const updateUserProfile = createAsyncThunk(
+	'common/auth/updateProfile',
+	async (payload: AuthDataUpdateProfile) => {
+		const response = await updateProfile(payload);
 		return response;
 	},
 );
@@ -129,6 +139,15 @@ export const commonSlice = createSlice({
 					state.auth.isLoggedIn = true;
 				}
 			})
+			.addCase(updateUserProfile.rejected, (state) => {
+				console.log('could not update profile');
+			})
+			.addCase(updateUserProfile.fulfilled, (state, action) => {
+				if (action?.payload?.data?.success) {
+					const resp = action.payload.data.profile;
+					state.auth.account.profile = resp;
+				}
+			})
 			.addCase(getAllVillagers.pending, (state) => {
 				incrementLoading(state);
 				state.auth.villagers = [];
@@ -154,6 +173,10 @@ export const selectAuthLoading = (state: RootState) =>
 	state.common.auth.loading > 0;
 export const selectAccountUsername = (state: RootState) =>
 	state.common.auth.account.profile?.username;
+export const selectAuthId = (state: RootState) =>
+	state.common.auth.account.profile?.authId;
+export const selectAccountHemisphere = (state: RootState) =>
+	state.common.auth.account.profile?.hemisphere;
 export const selectAccountAvatar = (state: RootState) =>
 	state.common.auth.account.profile?.avatar;
 export const selectAccountAvatarId = (state: RootState) =>

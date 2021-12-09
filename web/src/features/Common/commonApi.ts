@@ -1,11 +1,23 @@
 import requestWrapper from 'utils/requestWrapper';
-import { AuthDataCreateAccount } from 'features/Common/commonTypes';
+import {
+	AuthDataCreateAccount,
+	AuthDataUpdateProfile,
+} from 'features/Common/commonTypes';
 import { profileUrl, caughtUrl, villagerUrl } from 'utils/constants';
 
 export async function getProfile(userId: string) {
 	const requestOptions = {
 		url: `${profileUrl}/${userId}`,
 		method: 'GET',
+	};
+	return await requestWrapper(requestOptions);
+}
+
+export async function updateProfile(data: AuthDataUpdateProfile) {
+	const requestOptions = {
+		url: profileUrl,
+		method: 'PUT',
+		data,
 	};
 	return await requestWrapper(requestOptions);
 }

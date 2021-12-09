@@ -141,6 +141,26 @@
 			align-items: center;
 		}
 
+		.container--error {
+			width: 100%;
+			height: 3.5rem;
+
+			&.hidden {
+				visibility: hidden;
+			}
+			.text--error {
+				text-align: right;
+				background-color: white;
+				border-radius: 0.3rem;
+				border: 0.2rem solid $backgroundColor;
+			}
+		}
+
+		.loading--profile {
+			height: 0.2rem;
+			width: 7rem;
+		}
+
 		.end {
 			.p-button {
 				width: 7rem;

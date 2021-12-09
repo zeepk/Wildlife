@@ -8,6 +8,13 @@ export type AuthDataCreateAccount = {
 	avatarId: string;
 };
 
+export type AuthDataUpdateProfile = {
+	authId: string;
+	username: string;
+	avatarId: string;
+	hemisphere: hemispheres;
+};
+
 export type Profile = {
 	_id: string;
 	authId: string;
