@@ -1,9 +1,27 @@
 @import '../../App.scss';
-.p-datatable {
-	.p-column-header-content {
-		text-align: center;
-	}
-	.icon {
-		max-width: 5rem;
+.container--tracking-cards {
+	margin: 2rem 2rem 8rem 2rem;
+
+	.p-card {
+		width: 95vw;
+		max-width: 15rem;
+		height: 15rem;
+		overflow: hidden;
+
+		.header {
+			font-size: 1.2rem;
+		}
+
+		.p-card-body {
+			height: 100%;
+			padding: 0;
+			.p-card-content {
+				padding: 0.3rem;
+				height: 100%;
+			}
+		}
+		.icon {
+			max-width: 5rem;
+		}
 	}
 }

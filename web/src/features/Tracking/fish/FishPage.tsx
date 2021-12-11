@@ -1,25 +1,18 @@
 import React, { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
 import {
 	getAllFish,
 	selectFish,
 	selectTrackingLoading,
 } from 'features/Tracking/trackingSlice';
 import LoadingIcon from 'features/Common/LoadingIcon';
-import { IconTemplate } from 'features/Tracking/common/IconTemplate';
 import 'features/Tracking/tracking.scss';
-import { Fish } from 'features/Tracking/trackingTypes';
-import { hemispheres, months } from 'utils/constants';
-import { selectAccountHemisphere } from 'features/Common/commonSlice';
-import { isNullOrUndefined } from 'utils/helperFunctions';
+import { TrackingCard } from '../common/TrackingCard';
 
 export function FishPage() {
 	const dispatch = useAppDispatch();
 	const loading = useAppSelector(selectTrackingLoading);
 	const fish = useAppSelector(selectFish);
-	const hemisphere = useAppSelector(selectAccountHemisphere);
 
 	useEffect(() => {
 		dispatch(getAllFish());
@@ -29,33 +22,11 @@ export function FishPage() {
 		return <LoadingIcon fullScreen={true} />;
 	}
 
-	const iconTemplate = (rowdata: Fish) => (
-		<IconTemplate uri={rowdata.icon_uri} altText={rowdata.name} />
-	);
-
-	// TODO: change field based on user hemisphere
-	const monthColumns = months.map((m) => (
-		<Column
-			key={m.name}
-			field={hemisphere === hemispheres.SOUTHERN ? m.shColumn : m.nhColumn}
-			header={m.name}
-		/>
-	));
+	const fishCards = fish.map((f) => <TrackingCard item={f} />);
 
 	return (
-		<div>
-			<h1 className="title">Fish!</h1>
-			<DataTable value={fish} responsiveLayout="scroll">
-				<Column field="name" header="Name" />
-				<Column
-					field="icon_uri"
-					header="Icon"
-					className="column--icon"
-					body={iconTemplate}
-				/>
-				<Column field="source" header="Source" />
-				{monthColumns}
-			</DataTable>
+		<div className="container--tracking-cards fish p-d-flex p-flex-wrap">
+			{fishCards}
 		</div>
 	);
 }
