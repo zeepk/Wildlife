@@ -24,9 +24,5 @@ export function FishPage() {
 
 	const fishCards = fish.map((f) => <TrackingCard item={f} />);
 
-	return (
-		<div className="container--tracking-cards fish p-d-flex p-flex-wrap">
-			{fishCards}
-		</div>
-	);
+	return <div className="container--tracking-cards fish">{fishCards}</div>;
 }
