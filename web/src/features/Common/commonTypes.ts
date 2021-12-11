@@ -31,7 +31,7 @@ export type Profile = {
 export type Caught = {
 	_id: string;
 	id: string;
-	userId: string;
+	authId: string;
 	ueid: string;
 	name: string;
 	active: boolean;

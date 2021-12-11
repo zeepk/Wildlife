@@ -17,12 +17,12 @@ const router = express.Router();
 // "sub": "google-oauth2|1234"
 
 router.get('/api/profile/:id', async (req: Request, res: Response) => {
-	const userId = req.params.id;
-	const profile = await Profile.findOne({ authId: userId });
+	const authId = req.params.id;
+	const profile = await Profile.findOne({ authId: authId });
 	if (!profile) {
 		return res.sendStatus(404);
 	}
-	const caught = await Caught.find({ userId });
+	const caught = await Caught.find({ authId });
 	const resp = {
 		profile,
 		caught: caught ? caught : [],
@@ -85,9 +85,9 @@ router.put('/api/profile', async (req: Request, res: Response) => {
 });
 
 router.delete('/api/profile', async (req: Request, res: Response) => {
-	const { userId, id, ueid } = req.body;
+	const { authId, id, ueid } = req.body;
 
-	await Profile.deleteOne({ userId, id, ueid });
+	await Profile.deleteOne({ authId, id, ueid });
 	return res.status(200).send('Deleted successfully');
 });
 

@@ -5,9 +5,9 @@ import {
 } from 'features/Common/commonTypes';
 import { profileUrl, caughtUrl, villagerUrl } from 'utils/constants';
 
-export async function getProfile(userId: string) {
+export async function getProfile(authId: string) {
 	const requestOptions = {
-		url: `${profileUrl}/${userId}`,
+		url: `${profileUrl}/${authId}`,
 		method: 'GET',
 	};
 	return await requestWrapper(requestOptions);
@@ -31,12 +31,12 @@ export async function createProfile(data: AuthDataCreateAccount) {
 	return await requestWrapper(requestOptions);
 }
 
-export async function getCaught(userId: string) {
+export async function getCaught(authId: string) {
 	const requestOptions = {
-		url: `${caughtUrl}/${userId}`,
+		url: `${caughtUrl}/${authId}`,
 		method: 'GET',
 		data: {
-			userId,
+			authId,
 		},
 	};
 	return await requestWrapper(requestOptions);

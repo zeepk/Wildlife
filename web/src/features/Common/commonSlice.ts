@@ -50,8 +50,8 @@ const initialState: CommonState = {
 
 export const getUserProfile = createAsyncThunk(
 	'common/auth/isLoggedIn',
-	async (userId: string) => {
-		const response = await getProfile(userId);
+	async (authId: string) => {
+		const response = await getProfile(authId);
 		return response;
 	},
 );
@@ -74,8 +74,8 @@ export const updateUserProfile = createAsyncThunk(
 
 export const getUserCaught = createAsyncThunk(
 	'common/auth/getcaught',
-	async (userId: string) => {
-		const response = await getCaught(userId);
+	async (authId: string) => {
+		const response = await getCaught(authId);
 		return response;
 	},
 );
