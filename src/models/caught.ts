@@ -1,23 +1,19 @@
 import { Document, Schema, model } from 'mongoose';
 import { critterTypes } from '@/utils/constants';
 export interface ICaught extends Document {
-	id: string;
 	authId: string;
 	ueid: string;
-	name: string;
 	active: boolean;
-	critterType: number | undefined;
+	critterType: string | undefined;
 }
 
 const CaughtSchema = new Schema<ICaught>(
 	{
-		id: String,
 		authId: String,
 		ueid: String,
-		name: String,
 		active: Boolean,
 		critterType: {
-			type: Number,
+			type: String,
 			enum: critterTypes,
 			default: critterTypes.FISH,
 		},

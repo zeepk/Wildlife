@@ -4,7 +4,7 @@ export interface ICritter extends Document {
 	name: string;
 	ueid: string;
 	description: string;
-	critterType: number | undefined;
+	critterType: string | undefined;
 	order: number;
 	icon_uri: string;
 	image_uri: string;
@@ -62,7 +62,7 @@ const CritterSchema = new Schema<ICritter>(
 		ueid: String,
 		description: String,
 		critterType: {
-			type: Number,
+			type: String,
 			enum: critterTypes,
 			default: critterTypes.FISH,
 		},

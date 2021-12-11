@@ -5,7 +5,7 @@ export type Fish = {
 	name: string;
 	ueid: string;
 	description: string;
-	critterType: number;
+	critterType: string;
 	order: number;
 	icon_uri: string;
 	image_uri: string;

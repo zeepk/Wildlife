@@ -57,15 +57,15 @@ export const errorMessageUsernameInvalidLength = `Let's keep it between ${minUse
 // types
 
 export enum critterTypes {
-	FISH,
-	BUG,
-	SEA,
-	SONG,
-	FOSSIL,
-	ART,
-	GYROID,
-	VILLAGER,
-	REACTION,
+	FISH = 'FISH',
+	BUG = 'BUG',
+	SEA = 'SEA',
+	SONG = 'SONG',
+	FOSSIL = 'FOSSIL',
+	ART = 'ART',
+	GYROID = 'GYROID',
+	VILLAGER = 'VILLAGER',
+	REACTION = 'REACTION',
 }
 
 export enum hemispheres {

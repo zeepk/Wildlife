@@ -13,6 +13,11 @@ router.get('/api/fish', async (req: Request, res: Response) => {
 	return res.status(200).send(critters);
 });
 
+router.get('/api/bugs', async (req: Request, res: Response) => {
+	const critters = await Critter.find({ critterType: critterTypes.BUG });
+	return res.status(200).send(critters);
+});
+
 router.post('/api/critters', async (req: Request, res: Response) => {
 	const { name, description } = req.body;
 
