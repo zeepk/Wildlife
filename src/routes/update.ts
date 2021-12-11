@@ -135,7 +135,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 							? 'all day'
 							: months.find((m) => m !== 'NA');
 
-						Critter.create(
+						await Critter.create(
 							// { name: row[1] },
 							{
 								// $set: {
@@ -250,7 +250,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 							? 'all day'
 							: months.find((m) => m !== 'NA');
 
-						Critter.create(
+						await Critter.create(
 							// { name: row[1] },
 							{
 								// $set: {
@@ -297,7 +297,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 							// },
 							// { upsert: true }
 						);
-						console.log(`Created Bugs: ${row[1]}`);
+						console.log(`Created Bug: ${row[1]}`);
 					});
 					console.log('Done creating Bugs');
 				} else {

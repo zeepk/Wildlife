@@ -2,6 +2,7 @@ import requestWrapper from 'utils/requestWrapper';
 import {
 	AuthDataCreateAccount,
 	AuthDataUpdateProfile,
+	UpdateCaughtPayload,
 } from 'features/Common/commonTypes';
 import { profileUrl, caughtUrl, villagerUrl } from 'utils/constants';
 
@@ -42,10 +43,20 @@ export async function getCaught(authId: string) {
 	return await requestWrapper(requestOptions);
 }
 
-export async function createCaught() {
+export async function createCaught(data: UpdateCaughtPayload) {
 	const requestOptions = {
 		url: `${caughtUrl}`,
-		method: 'CREATE',
+		method: 'POST',
+		data,
+	};
+	return await requestWrapper(requestOptions);
+}
+
+export async function deleteCaught(data: UpdateCaughtPayload) {
+	const requestOptions = {
+		url: `${caughtUrl}`,
+		method: 'DELETE',
+		data,
 	};
 	return await requestWrapper(requestOptions);
 }

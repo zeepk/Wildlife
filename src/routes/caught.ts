@@ -9,13 +9,11 @@ router.get('/api/caught', async (req: Request, res: Response) => {
 });
 
 router.post('/api/caught', async (req: Request, res: Response) => {
-	const { authId, id, ueid, name, critterType } = req.body;
+	const { authId, ueid, critterType } = req.body;
 
 	const createdCaught = await Caught.create({
 		authId,
-		id,
 		ueid,
-		name,
 		critterType,
 		active: true,
 	});
@@ -23,9 +21,9 @@ router.post('/api/caught', async (req: Request, res: Response) => {
 });
 
 router.delete('/api/caught', async (req: Request, res: Response) => {
-	const { authId, id, ueid } = req.body;
+	const { authId, ueid } = req.body;
 
-	await Caught.deleteOne({ authId, id, ueid });
+	await Caught.deleteMany({ authId, ueid });
 	return res.status(200).send('Deleted successfully');
 });
 

@@ -14,6 +14,7 @@
 		"@types/react-dom": "^16.9.13",
 		"@types/react-router-dom": "^5.1.7",
 		"axios": "^0.21.1",
+		"framer-motion": "^4.1.17",
 		"luxon": "^1.27.0",
 		"primeflex": "^2.0.0",
 		"primeicons": "^5.0.0",
@@ -27,7 +28,8 @@
 		"react-scripts": "4.0.3",
 		"react-transition-group": "^4.4.1",
 		"sass": "^1.43.5",
-		"typescript": "~4.1.5"
+		"typescript": "~4.1.5",
+		"typescript-is": "^0.19.0"
 	},
 	"scripts": {
 		"start": "react-scripts start",
@@ -56,7 +58,7 @@
 	"devDependencies": {
 		"@types/luxon": "^1.27.0",
 		"@types/react-redux": "^7.1.16",
-		"@types/react-transition-group": "^4.4.1",
+		"@types/react-transition-group": "^4.4.4",
 		"react-app-rewire-alias": "^1.0.3"
 	}
 }

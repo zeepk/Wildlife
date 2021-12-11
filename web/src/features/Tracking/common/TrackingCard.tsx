@@ -1,46 +1,69 @@
-import React, { FunctionComponent, useState } from 'react';
-import { useAppSelector } from 'app/hooks';
+import React, { FunctionComponent, useState, useEffect } from 'react';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { Card } from 'primereact/card';
 import { Checkbox } from 'primereact/checkbox';
 
-import { Fish } from 'features/Tracking/trackingTypes';
+import { Fish, Bug } from 'features/Tracking/trackingTypes';
 import { IconTemplate } from './IconTemplate';
 import {
 	selectAccountHemisphere,
 	selectCaught,
+	createUserCaught,
+	deleteUserCaught,
 } from 'features/Common/commonSlice';
 import { hemispheres } from 'utils/constants';
 
 type props = {
-	item: Fish;
+	item: Fish | Bug;
 	// this will end up also including | Bug | Sea | Fossil | etc.
 };
 
 export const TrackingCard: FunctionComponent<props> = ({ item }) => {
+	const dispatch = useAppDispatch();
 	const [allowCheck, setAllowCheck] = useState(true);
 	const hemisphere = useAppSelector(selectAccountHemisphere);
 	const caught = useAppSelector(selectCaught);
 	const isCaught = caught.includes(item.ueid);
+	const [checked, setChecked] = useState(isCaught);
+
+	function isFish(critter: Fish | Bug): critter is Fish {
+		return (critter as Fish).vision !== undefined;
+	}
+
+	useEffect(() => {
+		setChecked(isCaught);
+	}, [isCaught]);
 
 	const months =
 		hemisphere === hemispheres.SOUTHERN
 			? item.southernMonths
 			: item.northernMonths;
 
-	const updateCaught = () => {
+	const updateCaught = async () => {
 		if (!allowCheck) {
 			return;
 		}
 		setAllowCheck(false);
-		if (isCaught) {
+
+		if (checked) {
+			setChecked(false);
+			await dispatch(deleteUserCaught(item.ueid));
+			setAllowCheck(true);
 		} else {
+			const payload = {
+				ueid: item.ueid,
+				critterType: item.critter_type,
+			};
+			setChecked(true);
+			await dispatch(createUserCaught(payload));
+			setAllowCheck(true);
 		}
 	};
 
 	const header = (
 		<div className="header p-mx-2 p-py-0 p-d-flex p-ai-center p-jc-between">
 			<div className="p-py-0">{item.name}</div>
-			<Checkbox checked={isCaught} />
+			<Checkbox checked={checked} onChange={() => updateCaught()} />
 		</div>
 	);
 
@@ -50,6 +73,7 @@ export const TrackingCard: FunctionComponent<props> = ({ item }) => {
 				<IconTemplate uri={item.icon_uri} altText={item.name} />
 			</div>
 			{months}
+			{isFish(item) ? item.vision : item.weather}
 		</div>
 	);
 

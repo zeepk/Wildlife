@@ -6,14 +6,18 @@ import {
 	getCaught,
 	getVillagers,
 	updateProfile,
+	createCaught,
+	deleteCaught,
 } from './commonApi';
 import {
 	AuthDataCreateAccount,
 	AuthDataUpdateProfile,
 	Caught,
 	Profile,
+	UpdateCaughtPayload,
 	Villager,
 } from 'features/Common/commonTypes';
+import { critterTypes } from 'utils/constants';
 export interface CommonState {
 	auth: {
 		error: boolean;
@@ -84,6 +88,40 @@ export const getAllVillagers = createAsyncThunk(
 	'common/auth/getvillagers',
 	async () => {
 		const response = await getVillagers();
+		return response;
+	},
+);
+
+export const createUserCaught = createAsyncThunk(
+	'common/auth/createcaught',
+	async (
+		data: { ueid: string; critterType?: critterTypes },
+		{ getState, requestId },
+	) => {
+		// not using other params, but function won't work without them
+		const state: any = getState();
+		const authId = state.common.auth.account.profile.authId;
+		const payload: UpdateCaughtPayload = {
+			authId,
+			ueid: data.ueid,
+			critterType: data.critterType,
+		};
+		const response = await createCaught(payload);
+		return response;
+	},
+);
+
+export const deleteUserCaught = createAsyncThunk(
+	'common/auth/deletecaught',
+	async (ueid: string, { getState, requestId }) => {
+		// not using other params, but function won't work without them
+		const state: any = getState();
+		const authId = state.common.auth.account.profile.authId;
+		const payload: UpdateCaughtPayload = {
+			authId,
+			ueid,
+		};
+		const response = await deleteCaught(payload);
 		return response;
 	},
 );
@@ -160,6 +198,30 @@ export const commonSlice = createSlice({
 				decrementLoading(state);
 				if (action?.payload?.data) {
 					state.auth.villagers = action.payload.data;
+				}
+			})
+			.addCase(createUserCaught.rejected, () => {
+				console.log('could not update caught status');
+			})
+			.addCase(createUserCaught.fulfilled, (state, action) => {
+				if (action?.payload?.data) {
+					console.log(action.payload.data);
+					state.auth.account.caught.push(action.payload.data);
+					state.auth.account.caught = [
+						...state.auth.account.caught,
+						action.payload.data,
+					];
+				}
+			})
+			.addCase(deleteUserCaught.rejected, () => {
+				console.log('could not update caught status');
+			})
+			.addCase(deleteUserCaught.fulfilled, (state, action) => {
+				if (action?.payload?.data) {
+					console.log(action);
+					state.auth.account.caught = state.auth.account.caught.filter(
+						(c) => c.ueid !== action.payload.data.euid,
+					);
 				}
 			});
 	},

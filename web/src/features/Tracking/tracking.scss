@@ -1,55 +1,88 @@
 @import '../../App.scss';
+.modal-enter {
+	opacity: 0.01;
+
+	.modal-view {
+		transform: scale(0.9) translateY(20%);
+	}
+}
+.modal-enter-active {
+	opacity: 1;
+	transition: all 200ms ease-out;
+
+	.modal-view {
+		transform: scale(1) translateY(0%);
+	}
+}
+.modal-exit {
+	opacity: 1;
+
+	.modal-view {
+		transform: scale(1) translateY(0%);
+	}
+}
+.modal-exit-active {
+	opacity: 0.01;
+	transition: all 200ms ease-out;
+
+	.modal-view {
+		transform: scale(0.9) translateY(20%);
+	}
+}
 .container--tracking-cards {
 	margin: 2rem 2rem 8rem 2rem;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
+	.container--cards {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
 
-	.p-card {
-		width: 95vw;
-		max-width: 20rem;
-		height: 20rem;
-		overflow: hidden;
-		box-shadow: 0 0 2rem rgba(0, 0, 0, 0.281);
-		.p-card-header {
-			background-color: $mediumGreen;
-			border-bottom: 0.3rem solid $mediumDarkGreen !important;
+		.p-card {
+			width: 95vw;
+			max-width: 20rem;
+			height: 20rem;
+			overflow: hidden;
+			box-shadow: 0 0 2rem rgba(0, 0, 0, 0.281);
+			.p-card-header {
+				background-color: $mediumGreen;
+				border-bottom: 0.3rem solid $mediumDarkGreen !important;
 
-			.header {
-				color: white;
-				text-shadow: 2px 2px $transparentMediumGray;
-				font-size: 1.5rem;
-				height: 3rem;
-				.p-checkbox {
-					height: 100%;
-					display: flex;
-					align-items: center;
-					.p-checkbox-box {
-						margin-left: -1rem !important;
-						width: 2rem;
-						height: 2rem;
-						// height: 3rem;
-						.pi {
-							font-size: 1.5rem;
+				.header {
+					color: white;
+					text-transform: capitalize;
+					text-shadow: 2px 2px $transparentMediumGray;
+					font-size: 1.5rem;
+					height: 3rem;
+					.p-checkbox {
+						height: 100%;
+						display: flex;
+						align-items: center;
+						.p-checkbox-box {
+							margin-left: -1rem !important;
+							width: 2rem;
+							height: 2rem;
+							// height: 3rem;
+							.pi {
+								font-size: 1.5rem;
+							}
 						}
 					}
 				}
 			}
-		}
 
-		.p-card-body {
-			background-color: #f5f5dd;
-			height: 100%;
-			padding: 0;
-			.p-card-content {
-				padding: 0.3rem;
+			.p-card-body {
+				background-color: #f5f5dd;
 				height: 100%;
+				padding: 0;
+				.p-card-content {
+					padding: 0.3rem;
+					height: 100%;
 
-				.container--icon {
-					// background-color: $backgroundColor;
-					border-radius: 1rem;
-					.icon {
-						max-width: 5rem;
+					.container--icon {
+						// background-color: $backgroundColor;
+						border-radius: 1rem;
+						.icon {
+							max-width: 5rem;
+						}
 					}
 				}
 			}

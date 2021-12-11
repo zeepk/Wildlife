@@ -7,7 +7,7 @@ import {
 } from 'features/Tracking/trackingSlice';
 import LoadingIcon from 'features/Common/LoadingIcon';
 import 'features/Tracking/tracking.scss';
-import { TrackingCard } from '../common/TrackingCard';
+import { TrackingCards } from '../common/TrackingCards';
 
 export function FishPage() {
 	const dispatch = useAppDispatch();
@@ -15,14 +15,14 @@ export function FishPage() {
 	const fish = useAppSelector(selectFish);
 
 	useEffect(() => {
-		dispatch(getAllFish());
-	}, [dispatch]);
+		if (fish.length === 0) {
+			dispatch(getAllFish());
+		}
+	}, [dispatch, fish.length]);
 
 	if (loading) {
 		return <LoadingIcon fullScreen={true} />;
 	}
 
-	const fishCards = fish.map((f) => <TrackingCard item={f} key={f._id} />);
-
-	return <div className="container--tracking-cards fish">{fishCards}</div>;
+	return <TrackingCards items={fish} />;
 }

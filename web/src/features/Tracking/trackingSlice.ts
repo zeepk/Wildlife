@@ -1,23 +1,29 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { getFish } from './trackingApi';
-import { Fish } from 'features/Tracking/trackingTypes';
+import { getBugs, getFish } from './trackingApi';
+import { Bug, Fish } from 'features/Tracking/trackingTypes';
 
 export interface TrackingState {
 	loading: number;
 	status: 'idle' | 'loading' | 'failed';
 	fish: Array<Fish>;
+	bugs: Array<Bug>;
 }
 
 const initialState: TrackingState = {
 	status: 'idle',
 	loading: 0,
 	fish: [],
+	bugs: [],
 };
 
 export const getAllFish = createAsyncThunk('tracking/fish', async () => {
 	const response = await getFish();
-	// The value we return becomes the `fulfilled` action payload
+	return response;
+});
+
+export const getAllBugs = createAsyncThunk('tracking/bugs', async () => {
+	const response = await getBugs();
 	return response;
 });
 
@@ -45,6 +51,14 @@ export const trackingSlice = createSlice({
 			.addCase(getAllFish.fulfilled, (state, action) => {
 				decrementLoading(state);
 				state.fish = action.payload.data;
+			})
+			.addCase(getAllBugs.pending, (state) => {
+				incrementLoading(state);
+				state.bugs = [];
+			})
+			.addCase(getAllBugs.fulfilled, (state, action) => {
+				decrementLoading(state);
+				state.bugs = action.payload.data;
 			});
 	},
 });
@@ -55,5 +69,7 @@ export const selectTrackingLoading = (state: RootState) =>
 	state.tracking.loading > 0;
 export const selectFish = (state: RootState) =>
 	state.tracking.fish.slice().sort((a, b) => a.order - b.order);
+export const selectBugs = (state: RootState) =>
+	state.tracking.bugs.slice().sort((a, b) => a.order - b.order);
 
 export default trackingSlice.reducer;

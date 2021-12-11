@@ -9,12 +9,12 @@ router.get('/api/critters', async (req: Request, res: Response) => {
 });
 
 router.get('/api/fish', async (req: Request, res: Response) => {
-	const critters = await Critter.find({ critterType: critterTypes.FISH });
+	const critters = await Critter.find({ critter_type: critterTypes.FISH });
 	return res.status(200).send(critters);
 });
 
 router.get('/api/bugs', async (req: Request, res: Response) => {
-	const critters = await Critter.find({ critterType: critterTypes.BUG });
+	const critters = await Critter.find({ critter_type: critterTypes.BUG });
 	return res.status(200).send(critters);
 });
 

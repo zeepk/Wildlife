@@ -30,10 +30,8 @@ export type Profile = {
 
 export type Caught = {
 	_id: string;
-	id: string;
 	authId: string;
 	ueid: string;
-	name: string;
 	active: boolean;
 	critterType: critterTypes;
 	createdAt: DateTime;
@@ -56,10 +54,8 @@ export type Villager = {
 	__v: any;
 };
 
-export type CreateCaughtPayload = {
+export type UpdateCaughtPayload = {
 	authId: string;
-	id: string;
-	name: string;
 	ueid: string;
-	critterType: critterTypes;
+	critterType?: critterTypes;
 };

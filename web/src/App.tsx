@@ -11,7 +11,8 @@ import {
 import { LandingPage } from 'features/Common/LandingPage';
 import { Footer } from 'features/Common/Footer';
 import { Navbar } from 'features/Common/Navbar';
-import { FishPage } from 'features/Tracking/fish/FishPage';
+import { FishPage } from 'features/Tracking/pages/FishPage';
+import { BugsPage } from 'features/Tracking/pages/BugsPage';
 import './App.scss';
 import 'primereact/resources/themes/tailwind-light/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -37,6 +38,9 @@ function App() {
 					</Route>
 					<Route exact path="/fish">
 						<FishPage />
+					</Route>
+					<Route exact path="/bugs">
+						<BugsPage />
 					</Route>
 					<Route path="/">
 						<LandingPage />
