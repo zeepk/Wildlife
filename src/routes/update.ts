@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { Critter } from '@/models/critter';
 import { critterTypes } from '@/utils/constants';
 import { Villager } from '@/models/villager';
+import { getMonthString } from '@/utils/helperFunctions';
 
 const fs = require('fs');
 const readline = require('readline');
@@ -87,10 +88,27 @@ router.get('/api/update', (req: Request, res: Response) => {
 				if (rows.length) {
 					rows.map(async (row: any) => {
 						// console.log(row[1]);
+
+						const monthString = getMonthString([
+							row[12],
+							row[13],
+							row[14],
+							row[15],
+							row[16],
+							row[17],
+							row[18],
+							row[19],
+							row[20],
+							row[21],
+							row[22],
+							row[23],
+						]);
+
 						const exists = await Critter.exists({ name: row[1] });
 						if (exists) {
 							return;
 						}
+
 						Critter.create(
 							// { name: row[1] },
 							{
@@ -107,6 +125,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 								vision: row[9],
 								catches_to_unlock: Number(row[10]),
 								spawn_rates: row[11],
+								months: monthString,
 								nh_jan: row[12],
 								nh_feb: row[13],
 								nh_mar: row[14],

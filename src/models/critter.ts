@@ -26,6 +26,7 @@ export interface ICritter extends Document {
 	// only for bugs
 	weather: string | undefined;
 
+	months: string | undefined;
 	nh_jan: string | undefined;
 	nh_feb: string | undefined;
 	nh_mar: string | undefined;
@@ -84,6 +85,7 @@ const CritterSchema = new Schema<ICritter>(
 		// only for bugs
 		weather: String,
 
+		months: String,
 		nh_jan: String,
 		nh_feb: String,
 		nh_mar: String,
@@ -115,7 +117,7 @@ const CritterSchema = new Schema<ICritter>(
 			createdAt: 'createdAt',
 			updatedAt: 'updatedAt',
 		},
-	}
+	},
 );
 
 export const Critter = model<ICritter>('Critter', CritterSchema);
