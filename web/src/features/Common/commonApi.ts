@@ -42,6 +42,14 @@ export async function getCaught(userId: string) {
 	return await requestWrapper(requestOptions);
 }
 
+export async function createCaught() {
+	const requestOptions = {
+		url: `${caughtUrl}`,
+		method: 'CREATE',
+	};
+	return await requestWrapper(requestOptions);
+}
+
 export async function getVillagers() {
 	const requestOptions = {
 		url: villagerUrl,

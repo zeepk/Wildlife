@@ -55,3 +55,11 @@ export type Villager = {
 	ueid: string;
 	__v: any;
 };
+
+export type CreateCaughtPayload = {
+	authId: string;
+	id: string;
+	name: string;
+	ueid: string;
+	critterType: critterTypes;
+};

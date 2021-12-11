@@ -187,4 +187,7 @@ export const selectAuthErrorMessage = (state: RootState) =>
 export const selectVillagers = (state: RootState) =>
 	state.common.auth.villagers;
 
+export const selectCaught = (state: RootState) =>
+	state.common.auth.account.caught.map((c) => c.ueid);
+
 export default commonSlice.reducer;

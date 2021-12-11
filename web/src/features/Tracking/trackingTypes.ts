@@ -16,7 +16,9 @@ export type Fish = {
 	shadow_size: string;
 	difficulty: string;
 	vision: string;
-	months: string;
+	northernMonths: string;
+	southernMonths: string;
+	time: string;
 	createdAt: DateTime;
 	updatedAt: DateTime;
 	__v: any;

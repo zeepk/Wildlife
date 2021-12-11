@@ -1,5 +1,5 @@
 import requestWrapper from '../../utils/requestWrapper';
-import { fishUrl } from 'utils/constants';
+import { caughtUrl, fishUrl } from 'utils/constants';
 
 export async function getFish() {
 	const requestOptions = {

@@ -22,7 +22,7 @@ export function FishPage() {
 		return <LoadingIcon fullScreen={true} />;
 	}
 
-	const fishCards = fish.map((f) => <TrackingCard item={f} />);
+	const fishCards = fish.map((f) => <TrackingCard item={f} key={f._id} />);
 
 	return <div className="container--tracking-cards fish">{fishCards}</div>;
 }
