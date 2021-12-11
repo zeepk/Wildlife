@@ -87,9 +87,16 @@ router.get('/api/update', (req: Request, res: Response) => {
 				const rows = res.data.values;
 				if (rows.length) {
 					rows.map(async (row: any) => {
-						// console.log(row[1]);
+						const exists = await Critter.exists({ name: row[1] });
+						if (exists) {
+							return;
+						}
+						// TODO:
+						// get the time avail.
+						// get the southernMonths
+						// specify nothernMonths
 
-						const monthString = getMonthString([
+						const months = [
 							row[12],
 							row[13],
 							row[14],
@@ -102,12 +109,29 @@ router.get('/api/update', (req: Request, res: Response) => {
 							row[21],
 							row[22],
 							row[23],
-						]);
+							row[24],
+							row[25],
+							row[26],
+							row[27],
+							row[28],
+							row[29],
+							row[30],
+							row[31],
+							row[32],
+							row[33],
+							row[34],
+							row[35],
+						];
 
-						const exists = await Critter.exists({ name: row[1] });
-						if (exists) {
-							return;
-						}
+						const northernMonths = months.filter((m, i) => i < 12);
+						const southernMonths = months.filter((m, i) => i >= 12);
+
+						const northernMonthString = getMonthString(northernMonths);
+						const southernMonthString = getMonthString(southernMonths);
+
+						const timeString = months.includes('All day')
+							? 'all day'
+							: months.find((m) => m !== 'NA');
 
 						Critter.create(
 							// { name: row[1] },
@@ -125,7 +149,9 @@ router.get('/api/update', (req: Request, res: Response) => {
 								vision: row[9],
 								catches_to_unlock: Number(row[10]),
 								spawn_rates: row[11],
-								months: monthString,
+								northernMonths: northernMonthString,
+								southernMonths: southernMonthString,
+								time: timeString,
 								nh_jan: row[12],
 								nh_feb: row[13],
 								nh_mar: row[14],
