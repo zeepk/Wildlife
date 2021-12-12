@@ -15,10 +15,13 @@ import { hemispheres } from 'utils/constants';
 
 type props = {
 	item: Fish | Bug;
-	// this will end up also including | Bug | Sea | Fossil | etc.
+	showCheckbox: boolean;
 };
 
-export const TrackingCard: FunctionComponent<props> = ({ item }) => {
+export const TrackingCard: FunctionComponent<props> = ({
+	item,
+	showCheckbox,
+}) => {
 	const dispatch = useAppDispatch();
 	const [allowCheck, setAllowCheck] = useState(true);
 	const hemisphere = useAppSelector(selectAccountHemisphere);
@@ -26,7 +29,7 @@ export const TrackingCard: FunctionComponent<props> = ({ item }) => {
 	const isCaught = caught.includes(item.ueid);
 	const [checked, setChecked] = useState(isCaught);
 
-	function isFish(critter: Fish | Bug): critter is Fish {
+	function isFish(critter: any): critter is Fish {
 		return (critter as Fish).vision !== undefined;
 	}
 
@@ -63,7 +66,9 @@ export const TrackingCard: FunctionComponent<props> = ({ item }) => {
 	const header = (
 		<div className="header p-mx-2 p-py-0 p-d-flex p-ai-center p-jc-between">
 			<div className="p-py-0">{item.name}</div>
-			<Checkbox checked={checked} onChange={() => updateCaught()} />
+			{showCheckbox && (
+				<Checkbox checked={checked} onChange={() => updateCaught()} />
+			)}
 		</div>
 	);
 
