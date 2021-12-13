@@ -46,3 +46,25 @@ export type Bug = {
 	updatedAt: DateTime;
 	__v: any;
 };
+
+export type Sea = {
+	_id: string;
+	name: string;
+	ueid: string;
+	description: string;
+	critter_type: critterTypes;
+	order: number;
+	icon_uri: string;
+	image_uri: string;
+	bells_sell: number;
+	shadow_size: string;
+	speed: string;
+	catches_to_unlock: number;
+	spawn_rates: string;
+	northernMonths: string;
+	southernMonths: string;
+	time: string;
+	createdAt: DateTime;
+	updatedAt: DateTime;
+	__v: any;
+};

@@ -214,7 +214,6 @@ router.get('/api/update', (req: Request, res: Response) => {
 						// specify nothernMonths
 
 						const months = [
-							row[9],
 							row[10],
 							row[11],
 							row[12],
@@ -238,6 +237,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 							row[30],
 							row[31],
 							row[32],
+							row[33],
 						];
 
 						const northernMonths = months.filter((m, i) => i < 12);
@@ -267,32 +267,32 @@ router.get('/api/update', (req: Request, res: Response) => {
 								northernMonths: northernMonthString,
 								southernMonths: southernMonthString,
 								time: timeString,
-								nh_jan: row[9],
-								nh_feb: row[10],
-								nh_mar: row[11],
-								nh_apr: row[12],
-								nh_may: row[13],
-								nh_jun: row[14],
-								nh_jul: row[15],
-								nh_aug: row[16],
-								nh_sep: row[17],
-								nh_oct: row[18],
-								nh_nov: row[19],
-								nh_dec: row[20],
-								sh_jan: row[21],
-								sh_feb: row[22],
-								sh_mar: row[23],
-								sh_apr: row[24],
-								sh_may: row[25],
-								sh_jun: row[26],
-								sh_jul: row[27],
-								sh_aug: row[28],
-								sh_sep: row[29],
-								sh_oct: row[30],
-								sh_nov: row[31],
-								sh_dec: row[32],
-								description: row[35],
-								ueid: row[45],
+								nh_jan: row[10],
+								nh_feb: row[11],
+								nh_mar: row[12],
+								nh_apr: row[13],
+								nh_may: row[14],
+								nh_jun: row[15],
+								nh_jul: row[16],
+								nh_aug: row[17],
+								nh_sep: row[18],
+								nh_oct: row[19],
+								nh_nov: row[20],
+								nh_dec: row[21],
+								sh_jan: row[22],
+								sh_feb: row[23],
+								sh_mar: row[24],
+								sh_apr: row[25],
+								sh_may: row[26],
+								sh_jun: row[27],
+								sh_jul: row[28],
+								sh_aug: row[29],
+								sh_sep: row[30],
+								sh_oct: row[31],
+								sh_nov: row[32],
+								sh_dec: row[33],
+								description: row[36],
+								ueid: row[46],
 							},
 							// },
 							// { upsert: true }
@@ -302,6 +302,115 @@ router.get('/api/update', (req: Request, res: Response) => {
 					console.log('Done creating Bugs');
 				} else {
 					console.log('No Bugs data found.');
+				}
+			},
+		);
+
+		sheets.spreadsheets.values.get(
+			{
+				spreadsheetId,
+				range: seaSheetRange,
+				valueRenderOption: 'FORMULA',
+			},
+			(err: any, res: any) => {
+				if (err) return console.log('The API returned an error: ' + err);
+				const rows = res.data.values;
+				if (rows.length) {
+					rows.map(async (row: any) => {
+						const exists = await Critter.exists({ name: row[1] });
+						if (exists) {
+							return;
+						}
+
+						const months = [
+							row[10],
+							row[11],
+							row[12],
+							row[13],
+							row[14],
+							row[15],
+							row[16],
+							row[17],
+							row[18],
+							row[19],
+							row[20],
+							row[21],
+							row[22],
+							row[23],
+							row[24],
+							row[25],
+							row[26],
+							row[27],
+							row[28],
+							row[29],
+							row[30],
+							row[31],
+							row[32],
+							row[33],
+						];
+
+						const northernMonths = months.filter((m, i) => i < 12);
+						const southernMonths = months.filter((m, i) => i >= 12);
+
+						const northernMonthString = getMonthString(northernMonths);
+						const southernMonthString = getMonthString(southernMonths);
+
+						const timeString = months.includes('All day')
+							? 'all day'
+							: months.find((m) => m !== 'NA');
+
+						await Critter.create(
+							// { name: row[1] },
+							{
+								// $set: {
+								name: row[1],
+								order: row[0],
+								critter_type: critterTypes.SEA,
+								icon_uri: row[2].split('"')[1],
+								image_uri: row[3].split('"')[1],
+								bells_sell: Number(row[5]),
+								shadow_size: row[6],
+								speed: row[7],
+								catches_to_unlock: Number(row[8]),
+								spawn_rates: row[9],
+								northernMonths: northernMonthString,
+								southernMonths: southernMonthString,
+								time: timeString,
+								nh_jan: row[10],
+								nh_feb: row[11],
+								nh_mar: row[12],
+								nh_apr: row[13],
+								nh_may: row[14],
+								nh_jun: row[15],
+								nh_jul: row[16],
+								nh_aug: row[17],
+								nh_sep: row[18],
+								nh_oct: row[19],
+								nh_nov: row[20],
+								nh_dec: row[21],
+								sh_jan: row[22],
+								sh_feb: row[23],
+								sh_mar: row[24],
+								sh_apr: row[25],
+								sh_may: row[26],
+								sh_jun: row[27],
+								sh_jul: row[28],
+								sh_aug: row[29],
+								sh_sep: row[30],
+								sh_oct: row[31],
+								sh_nov: row[32],
+								sh_dec: row[33],
+								description: row[36],
+								ueid: row[49],
+							},
+							// },
+							// { upsert: true }
+						);
+						console.log(`Created Sea Creature: ${row[1]}`);
+					});
+					console.log('Done creating Sea Creatures');
+				} else {
+					console.log('No Sea Creature data found.');
 				}
 			},
 		);

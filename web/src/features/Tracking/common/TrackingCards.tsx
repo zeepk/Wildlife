@@ -2,13 +2,13 @@ import React, { FunctionComponent, useState } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { motion } from 'framer-motion';
 
-import { Bug, Fish } from 'features/Tracking/trackingTypes';
+import { Bug, Fish, Sea } from 'features/Tracking/trackingTypes';
 import { TrackingCard } from './TrackingCard';
 import { useAppSelector } from 'app/hooks';
 import { selectAuthIsLoggedIn } from 'features/Common/commonSlice';
 
 type props = {
-	items: Array<Fish | Bug>;
+	items: Array<Fish | Bug | Sea>;
 };
 
 export const TrackingCards: FunctionComponent<props> = ({ items }) => {

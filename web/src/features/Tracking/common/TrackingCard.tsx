@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { Card } from 'primereact/card';
 import { Checkbox } from 'primereact/checkbox';
 
-import { Fish, Bug } from 'features/Tracking/trackingTypes';
+import { Fish, Bug, Sea } from 'features/Tracking/trackingTypes';
 import { IconTemplate } from './IconTemplate';
 import {
 	selectAccountHemisphere,
@@ -14,7 +14,7 @@ import {
 import { hemispheres } from 'utils/constants';
 
 type props = {
-	item: Fish | Bug;
+	item: Fish | Bug | Sea;
 	showCheckbox: boolean;
 };
 
@@ -78,7 +78,7 @@ export const TrackingCard: FunctionComponent<props> = ({
 				<IconTemplate uri={item.icon_uri} altText={item.name} />
 			</div>
 			{months}
-			{isFish(item) ? item.vision : item.weather}
+			{isFish(item) && item.vision}
 		</div>
 	);
 

@@ -1,13 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { getBugs, getFish } from './trackingApi';
-import { Bug, Fish } from 'features/Tracking/trackingTypes';
+import { getBugs, getFish, getSea } from './trackingApi';
+import { Bug, Fish, Sea } from 'features/Tracking/trackingTypes';
 
 export interface TrackingState {
 	loading: number;
 	status: 'idle' | 'loading' | 'failed';
 	fish: Array<Fish>;
 	bugs: Array<Bug>;
+	sea: Array<Sea>;
 }
 
 const initialState: TrackingState = {
@@ -15,6 +16,7 @@ const initialState: TrackingState = {
 	loading: 0,
 	fish: [],
 	bugs: [],
+	sea: [],
 };
 
 export const getAllFish = createAsyncThunk('tracking/fish', async () => {
@@ -24,6 +26,11 @@ export const getAllFish = createAsyncThunk('tracking/fish', async () => {
 
 export const getAllBugs = createAsyncThunk('tracking/bugs', async () => {
 	const response = await getBugs();
+	return response;
+});
+
+export const getAllSea = createAsyncThunk('tracking/sea', async () => {
+	const response = await getSea();
 	return response;
 });
 
@@ -59,6 +66,14 @@ export const trackingSlice = createSlice({
 			.addCase(getAllBugs.fulfilled, (state, action) => {
 				decrementLoading(state);
 				state.bugs = action.payload.data;
+			})
+			.addCase(getAllSea.pending, (state) => {
+				incrementLoading(state);
+				state.sea = [];
+			})
+			.addCase(getAllSea.fulfilled, (state, action) => {
+				decrementLoading(state);
+				state.sea = action.payload.data;
 			});
 	},
 });
@@ -71,5 +86,7 @@ export const selectFish = (state: RootState) =>
 	state.tracking.fish.slice().sort((a, b) => a.order - b.order);
 export const selectBugs = (state: RootState) =>
 	state.tracking.bugs.slice().sort((a, b) => a.order - b.order);
+export const selectSea = (state: RootState) =>
+	state.tracking.sea.slice().sort((a, b) => a.order - b.order);
 
 export default trackingSlice.reducer;

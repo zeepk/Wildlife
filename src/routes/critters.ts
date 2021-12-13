@@ -18,6 +18,11 @@ router.get('/api/bugs', async (req: Request, res: Response) => {
 	return res.status(200).send(critters);
 });
 
+router.get('/api/sea', async (req: Request, res: Response) => {
+	const critters = await Critter.find({ critter_type: critterTypes.SEA });
+	return res.status(200).send(critters);
+});
+
 router.post('/api/critters', async (req: Request, res: Response) => {
 	const { name, description } = req.body;
 
