@@ -3,6 +3,10 @@ import { Critter } from '@/models/critter';
 import { critterTypes } from '@/utils/constants';
 import { Villager } from '@/models/villager';
 import { getMonthString } from '@/utils/helperFunctions';
+import { Art } from '@/models/art';
+import { Fossil } from '@/models/fossil';
+import { Song } from '@/models/song';
+import { Reaction } from '@/models/reaction';
 
 const fs = require('fs');
 const readline = require('readline');
@@ -20,10 +24,11 @@ router.get('/api/update', (req: Request, res: Response) => {
 	const bugsSheetRange = 'Insects!2:81';
 	const seaSheetRange = 'Sea Creatures!2:41';
 	const fossilsSheetRange = 'Fossils!2:74';
-	const artSheetRange = 'Art!2:71';
+	const artSheetRange = 'Artwork!2:71';
 	const gyroidsSheetRange = 'Gyroids!2:190';
 	const songsSheetRange = 'Music!2:111';
 	const villagerSheetRange = 'Villagers!2:414';
+	const reactionSheetRange = 'Reactions!2:89';
 
 	fs.readFile('credentials.json', (err: any, content: any) => {
 		if (err) return console.log('Error loading client secret file:', err);
@@ -411,6 +416,160 @@ router.get('/api/update', (req: Request, res: Response) => {
 					console.log('Done creating Sea Creatures');
 				} else {
 					console.log('No Sea Creature data found.');
+				}
+			},
+		);
+
+		sheets.spreadsheets.values.get(
+			{
+				spreadsheetId,
+				range: artSheetRange,
+				valueRenderOption: 'FORMULA',
+			},
+			(err: any, res: any) => {
+				if (err) return console.log('The API returned an error: ' + err);
+				const rows = res.data.values;
+				if (rows.length) {
+					rows.map(async (row: any) => {
+						const exists = await Art.exists({ name: row[0] });
+						if (exists) {
+							return;
+						}
+
+						await Art.create(
+							// { name: row[1] },
+							{
+								// $set: {
+								name: row[0],
+								icon_uri: row[1].split('"')[1],
+								image_uri: row[2].split('"')[1],
+								genuine: row[3] === 'Yes',
+								ueid: row[29],
+							},
+							// },
+							// { upsert: true }
+						);
+						console.log(`Created Art: ${row[0]}`);
+					});
+					console.log('Done creating Art');
+				} else {
+					console.log('No Art data found.');
+				}
+			},
+		);
+
+		sheets.spreadsheets.values.get(
+			{
+				spreadsheetId,
+				range: reactionSheetRange,
+				valueRenderOption: 'FORMULA',
+			},
+			(err: any, res: any) => {
+				if (err) return console.log('The API returned an error: ' + err);
+				const rows = res.data.values;
+				if (rows.length) {
+					rows.map(async (row: any) => {
+						const exists = await Reaction.exists({ name: row[1] });
+						if (exists) {
+							return;
+						}
+
+						await Reaction.create(
+							// { name: row[1] },
+							{
+								// $set: {
+								order: Number(row[0]),
+								name: row[1],
+								image_uri: row[2].split('"')[1],
+								ueid: row[10],
+								source: row[3],
+								source_notes: row[4],
+								event: row[5] === 'NA' ? '' : row[5],
+								exclusive: row[6] === 'Yes',
+							},
+							// },
+							// { upsert: true }
+						);
+						console.log(`Created Reaction: ${row[1]}`);
+					});
+					console.log('Done creating Reactions');
+				} else {
+					console.log('No Reaction data found.');
+				}
+			},
+		);
+
+		sheets.spreadsheets.values.get(
+			{
+				spreadsheetId,
+				range: songsSheetRange,
+				valueRenderOption: 'FORMULA',
+			},
+			(err: any, res: any) => {
+				if (err) return console.log('The API returned an error: ' + err);
+				const rows = res.data.values;
+				if (rows.length) {
+					rows.map(async (row: any) => {
+						const exists = await Song.exists({ name: row[0] });
+						if (exists) {
+							return;
+						}
+
+						await Song.create(
+							// { name: row[1] },
+							{
+								// $set: {
+								name: row[0],
+								image_uri: row[2].split('"')[1],
+								ueid: row[18],
+								source: row[9],
+								source_notes: row[10],
+							},
+							// },
+							// { upsert: true }
+						);
+						console.log(`Created Song: ${row[0]}`);
+					});
+					console.log('Done creating Songs');
+				} else {
+					console.log('No Song data found.');
+				}
+			},
+		);
+
+		sheets.spreadsheets.values.get(
+			{
+				spreadsheetId,
+				range: fossilsSheetRange,
+				valueRenderOption: 'FORMULA',
+			},
+			(err: any, res: any) => {
+				if (err) return console.log('The API returned an error: ' + err);
+				const rows = res.data.values;
+				if (rows.length) {
+					rows.map(async (row: any) => {
+						const exists = await Fossil.exists({ name: row[0] });
+						if (exists) {
+							return;
+						}
+
+						await Fossil.create(
+							// { name: row[1] },
+							{
+								// $set: {
+								name: row[0],
+								image_uri: row[1].split('"')[1],
+								ueid: row[16],
+								bells_sell: Number(row[3]),
+							},
+							// },
+							// { upsert: true }
+						);
+						console.log(`Created Fossil: ${row[0]}`);
+					});
+					console.log('Done creating Fossils');
+				} else {
+					console.log('No Fossil data found.');
 				}
 			},
 		);
