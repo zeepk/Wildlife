@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { Card } from 'primereact/card';
 import { Checkbox } from 'primereact/checkbox';
-
+import { Card } from 'primereact/card';
 import {
 	Fish,
 	Bug,
@@ -12,12 +11,15 @@ import {
 	Music,
 	Reaction,
 } from 'features/Tracking/trackingTypes';
-import { IconTemplate } from './IconTemplate';
 import {
 	selectCaught,
 	createUserCaught,
 	deleteUserCaught,
 } from 'features/Common/commonSlice';
+import { critterTypes } from 'utils/constants';
+import { FishCard } from '../cards/FishCard';
+import { BugCard } from '../cards/BugCard';
+import { ArtCard } from '../cards/ArtCard';
 
 type props = {
 	item: Fish | Bug | Sea | Fossil | Art | Music | Reaction;
@@ -33,10 +35,6 @@ export const TrackingCard: FunctionComponent<props> = ({
 	const caught = useAppSelector(selectCaught);
 	const isCaught = caught.includes(item.ueid);
 	const [checked, setChecked] = useState(isCaught);
-
-	function isFish(critter: any): critter is Fish {
-		return (critter as Fish).vision !== undefined;
-	}
 
 	useEffect(() => {
 		setChecked(isCaught);
@@ -72,15 +70,20 @@ export const TrackingCard: FunctionComponent<props> = ({
 		</div>
 	);
 
-	const body = (
-		<div className="p-d-flex p-ai-center p-jc-between p-px-2">
-			<div className="container--icon">
-				<IconTemplate uri={item.icon_uri} altText={item.name} />
-			</div>
-			{months}
-			{isFish(item) && item.vision}
-		</div>
-	);
+	let body = <div />;
+	switch (item.critter_type) {
+		case critterTypes.FISH:
+			body = <FishCard item={item as Fish} />;
+			break;
+		case critterTypes.BUG:
+			body = <BugCard item={item as Bug} />;
+			break;
+		case critterTypes.ART:
+			body = <ArtCard item={item as Art} />;
+			break;
+		default:
+			body = <div />;
+	}
 
 	return (
 		<Card className="p-m-3" header={header}>

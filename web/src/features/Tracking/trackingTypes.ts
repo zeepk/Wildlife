@@ -71,6 +71,7 @@ export type Sea = {
 
 export type Fossil = {
 	_id: string;
+	critter_type: critterTypes;
 	name: string;
 	ueid: string;
 	image_uri: string;
@@ -80,6 +81,7 @@ export type Fossil = {
 
 export type Art = {
 	_id: string;
+	critter_type: critterTypes;
 	name: string;
 	ueid: string;
 	icon_uri: string;
@@ -91,6 +93,7 @@ export type Art = {
 
 export type Music = {
 	_id: string;
+	critter_type: critterTypes;
 	name: string;
 	ueid: string;
 	image_uri: string;
@@ -101,6 +104,7 @@ export type Music = {
 
 export type Reaction = {
 	_id: string;
+	critter_type: critterTypes;
 	name: string;
 	order: number;
 	ueid: string;

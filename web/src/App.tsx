@@ -20,6 +20,7 @@ import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import { AccountSettings } from 'features/Common/AccountSettings';
 import { SeaPage } from 'features/Tracking/pages/SeaPage';
+import { ArtPage } from 'features/Tracking/pages/ArtPage';
 function initializeReactGA() {
 	console.warn('google analytics code invalid');
 	ReactGA.initialize('google analytics code');
@@ -45,6 +46,9 @@ function App() {
 					</Route>
 					<Route exact path="/sea">
 						<SeaPage />
+					</Route>
+					<Route exact path="/art">
+						<ArtPage />
 					</Route>
 					<Route path="/">
 						<LandingPage />

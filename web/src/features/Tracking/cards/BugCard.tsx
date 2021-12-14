@@ -1,20 +1,20 @@
 import React, { FunctionComponent } from 'react';
-import { Fish } from 'features/Tracking/trackingTypes';
+import { Bug } from 'features/Tracking/trackingTypes';
 import { useAppSelector } from 'app/hooks';
 import { selectAccountHemisphere } from 'features/Common/commonSlice';
 import {
 	bellsSellText,
 	hemispheres,
-	shadowSizeText,
 	sourceText,
+	weatherText,
 } from 'utils/constants';
 import { IconTemplate } from '../common/IconTemplate';
 
 type props = {
-	item: Fish;
+	item: Bug;
 };
 
-export const FishCard: FunctionComponent<props> = ({ item }) => {
+export const BugCard: FunctionComponent<props> = ({ item }) => {
 	const hemisphere = useAppSelector(selectAccountHemisphere);
 
 	const months =
@@ -23,7 +23,7 @@ export const FishCard: FunctionComponent<props> = ({ item }) => {
 			: item.northernMonths;
 
 	return (
-		<div className="container--card-content fish ">
+		<div className="container--card-content">
 			<div className="p-d-flex p-flex-row p-ai-center">
 				<IconTemplate uri={item.icon_uri} altText={item.name} />
 				<div className="container--card-info top p-ml-3">
@@ -35,13 +35,18 @@ export const FishCard: FunctionComponent<props> = ({ item }) => {
 					</div>
 				</div>
 			</div>
-			<div className="container--card-info">
+			<div className="container--card-info line-break">
 				<div>{sourceText}</div>
-				<div>{item.source}</div>
+				<div>
+					{item.source.replace(
+						'(boots, tires, cans, used fountain fireworks) ',
+						'',
+					)}
+				</div>
 			</div>
 			<div className="container--card-info">
-				<div>{shadowSizeText}</div>
-				<div>{item.shadow_size}</div>
+				<div>{weatherText}</div>
+				<div>{item.weather}</div>
 			</div>
 			<div className="container--card-info">
 				<div>{bellsSellText}</div>

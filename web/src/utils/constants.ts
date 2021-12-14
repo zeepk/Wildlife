@@ -34,6 +34,13 @@ export const accountSettingsUsernameText = 'Username';
 export const accountSettingsAvatarUriText = 'Villager Icon';
 export const accountSettingsSelectAVillagerText = 'Select a villager';
 export const accountSettingsHemisphereText = 'Hemisphere';
+export const shadowSizeText = 'Shadow Size:';
+export const sourceText = 'Location:';
+export const bellsSellText = 'Sale price:';
+export const weatherText = 'Weather:';
+export const artViewButtonText = 'View Artwork';
+export const artAlwaysRealText = 'Always real!';
+export const artFakeComparisonButtonText = 'View fake comparison';
 
 export const successMessageAccountSettingsUpdated =
 	'Account updated successfully!';
