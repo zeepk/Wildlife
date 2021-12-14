@@ -1,7 +1,23 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { getBugs, getFish, getSea } from './trackingApi';
-import { Bug, Fish, Sea } from 'features/Tracking/trackingTypes';
+import {
+	getArt,
+	getBugs,
+	getFish,
+	getFossils,
+	getMusic,
+	getReactions,
+	getSea,
+} from './trackingApi';
+import {
+	Art,
+	Bug,
+	Fish,
+	Fossil,
+	Music,
+	Reaction,
+	Sea,
+} from 'features/Tracking/trackingTypes';
 
 export interface TrackingState {
 	loading: number;
@@ -9,6 +25,10 @@ export interface TrackingState {
 	fish: Array<Fish>;
 	bugs: Array<Bug>;
 	sea: Array<Sea>;
+	fossils: Array<Fossil>;
+	art: Array<Art>;
+	reactions: Array<Reaction>;
+	music: Array<Music>;
 }
 
 const initialState: TrackingState = {
@@ -17,6 +37,10 @@ const initialState: TrackingState = {
 	fish: [],
 	bugs: [],
 	sea: [],
+	fossils: [],
+	art: [],
+	reactions: [],
+	music: [],
 };
 
 export const getAllFish = createAsyncThunk('tracking/fish', async () => {
@@ -33,6 +57,29 @@ export const getAllSea = createAsyncThunk('tracking/sea', async () => {
 	const response = await getSea();
 	return response;
 });
+
+export const getAllFossils = createAsyncThunk('tracking/fossils', async () => {
+	const response = await getFossils();
+	return response;
+});
+
+export const getAllArt = createAsyncThunk('tracking/art', async () => {
+	const response = await getArt();
+	return response;
+});
+
+export const getAllMusic = createAsyncThunk('tracking/music', async () => {
+	const response = await getMusic();
+	return response;
+});
+
+export const getAllReactions = createAsyncThunk(
+	'tracking/reactions',
+	async () => {
+		const response = await getReactions();
+		return response;
+	},
+);
 
 // Loading is controlled by the number of loading calls currently active
 // the loading count is increased when a call is made, and decreased when the call completes
@@ -74,6 +121,38 @@ export const trackingSlice = createSlice({
 			.addCase(getAllSea.fulfilled, (state, action) => {
 				decrementLoading(state);
 				state.sea = action.payload.data;
+			})
+			.addCase(getAllFossils.pending, (state) => {
+				incrementLoading(state);
+				state.fossils = [];
+			})
+			.addCase(getAllFossils.fulfilled, (state, action) => {
+				decrementLoading(state);
+				state.fossils = action.payload.data;
+			})
+			.addCase(getAllReactions.pending, (state) => {
+				incrementLoading(state);
+				state.reactions = [];
+			})
+			.addCase(getAllReactions.fulfilled, (state, action) => {
+				decrementLoading(state);
+				state.reactions = action.payload.data;
+			})
+			.addCase(getAllMusic.pending, (state) => {
+				incrementLoading(state);
+				state.music = [];
+			})
+			.addCase(getAllMusic.fulfilled, (state, action) => {
+				decrementLoading(state);
+				state.music = action.payload.data;
+			})
+			.addCase(getAllArt.pending, (state) => {
+				incrementLoading(state);
+				state.art = [];
+			})
+			.addCase(getAllArt.fulfilled, (state, action) => {
+				decrementLoading(state);
+				state.art = action.payload.data;
 			});
 	},
 });
@@ -88,5 +167,10 @@ export const selectBugs = (state: RootState) =>
 	state.tracking.bugs.slice().sort((a, b) => a.order - b.order);
 export const selectSea = (state: RootState) =>
 	state.tracking.sea.slice().sort((a, b) => a.order - b.order);
+export const selectFossils = (state: RootState) => state.tracking.fossils;
+export const selectArt = (state: RootState) => state.tracking.art;
+export const selectMusic = (state: RootState) => state.tracking.music;
+export const selectReactions = (state: RootState) =>
+	state.tracking.reactions.slice().sort((a, b) => a.order - b.order);
 
 export default trackingSlice.reducer;

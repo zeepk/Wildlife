@@ -5,6 +5,7 @@ export interface ISong extends Document {
 	image_uri: string;
 	source: string;
 	source_notes: string;
+	critter_type: string;
 }
 
 const SongSchema = new Schema<ISong>(
@@ -14,6 +15,7 @@ const SongSchema = new Schema<ISong>(
 		image_uri: String,
 		source: String,
 		source_notes: String,
+		critter_type: String,
 	},
 	{
 		timestamps: {

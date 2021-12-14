@@ -68,3 +68,46 @@ export type Sea = {
 	updatedAt: DateTime;
 	__v: any;
 };
+
+export type Fossil = {
+	_id: string;
+	name: string;
+	ueid: string;
+	image_uri: string;
+	bells_sell: number;
+	__v: any;
+};
+
+export type Art = {
+	_id: string;
+	name: string;
+	ueid: string;
+	icon_uri: string;
+	image_uri: string;
+	genuine: boolean;
+	fake_uri: string;
+	__v: any;
+};
+
+export type Music = {
+	_id: string;
+	name: string;
+	ueid: string;
+	image_uri: string;
+	source: string;
+	source_notes: string;
+	__v: any;
+};
+
+export type Reaction = {
+	_id: string;
+	name: string;
+	order: number;
+	ueid: string;
+	image_uri: string;
+	source: string;
+	source_notes: string;
+	event: string;
+	exclusive: boolean;
+	__v: any;
+};

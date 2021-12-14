@@ -445,6 +445,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 								image_uri: row[2].split('"')[1],
 								genuine: row[3] === 'Yes',
 								ueid: row[29],
+								critter_type: critterTypes.ART,
 							},
 							// },
 							// { upsert: true }
@@ -486,6 +487,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 								source_notes: row[4],
 								event: row[5] === 'NA' ? '' : row[5],
 								exclusive: row[6] === 'Yes',
+								critter_type: critterTypes.REACTION,
 							},
 							// },
 							// { upsert: true }
@@ -524,6 +526,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 								ueid: row[18],
 								source: row[9],
 								source_notes: row[10],
+								critter_type: critterTypes.SONG,
 							},
 							// },
 							// { upsert: true }
@@ -561,6 +564,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 								image_uri: row[1].split('"')[1],
 								ueid: row[16],
 								bells_sell: Number(row[3]),
+								critter_type: critterTypes.FOSSIL,
 							},
 							// },
 							// { upsert: true }
@@ -599,6 +603,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 							personality: row[6],
 							birthday: row[9],
 							ueid: row[29],
+							critter_type: critterTypes.VILLAGER,
 						});
 						console.log(`Created Villager: ${row[0]}`);
 					});

@@ -1,6 +1,7 @@
 import { Document, Schema, model } from 'mongoose';
 export interface IArt extends Document {
 	name: string;
+	critter_type: string;
 	ueid: string;
 	icon_uri: string;
 	image_uri: string;
@@ -16,6 +17,7 @@ const ArtSchema = new Schema<IArt>(
 		image_uri: String,
 		genuine: Boolean,
 		fake_uri: String,
+		critter_type: String,
 	},
 	{
 		timestamps: {

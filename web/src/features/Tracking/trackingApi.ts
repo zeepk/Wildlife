@@ -1,5 +1,13 @@
 import requestWrapper from '../../utils/requestWrapper';
-import { fishUrl, bugsUrl, seaUrl } from 'utils/constants';
+import {
+	fishUrl,
+	bugsUrl,
+	seaUrl,
+	fossilsUrl,
+	artUrl,
+	musicUrl,
+	reactionsUrl,
+} from 'utils/constants';
 
 export async function getFish() {
 	const requestOptions = {
@@ -20,6 +28,38 @@ export async function getBugs() {
 export async function getSea() {
 	const requestOptions = {
 		url: `${seaUrl}`,
+		method: 'GET',
+	};
+	return await requestWrapper(requestOptions);
+}
+
+export async function getFossils() {
+	const requestOptions = {
+		url: `${fossilsUrl}`,
+		method: 'GET',
+	};
+	return await requestWrapper(requestOptions);
+}
+
+export async function getArt() {
+	const requestOptions = {
+		url: `${artUrl}`,
+		method: 'GET',
+	};
+	return await requestWrapper(requestOptions);
+}
+
+export async function getMusic() {
+	const requestOptions = {
+		url: `${musicUrl}`,
+		method: 'GET',
+	};
+	return await requestWrapper(requestOptions);
+}
+
+export async function getReactions() {
+	const requestOptions = {
+		url: `${reactionsUrl}`,
 		method: 'GET',
 	};
 	return await requestWrapper(requestOptions);

@@ -8,6 +8,7 @@ export interface IReaction extends Document {
 	source_notes: string;
 	event: string;
 	exclusive: boolean;
+	critter_type: string;
 }
 
 const ReactionSchema = new Schema<IReaction>(
@@ -20,6 +21,7 @@ const ReactionSchema = new Schema<IReaction>(
 		source_notes: String,
 		event: String,
 		exclusive: Boolean,
+		critter_type: String,
 	},
 	{
 		timestamps: {

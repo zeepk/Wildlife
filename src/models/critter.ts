@@ -4,7 +4,7 @@ export interface ICritter extends Document {
 	name: string;
 	ueid: string;
 	description: string;
-	critter_type: string | undefined;
+	critter_type: string;
 	order: number;
 	icon_uri: string;
 	image_uri: string;

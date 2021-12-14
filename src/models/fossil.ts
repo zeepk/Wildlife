@@ -4,6 +4,7 @@ export interface IFossil extends Document {
 	ueid: string;
 	image_uri: string;
 	bells_sell: number;
+	critter_type: string;
 }
 
 const FossilSchema = new Schema<IFossil>(
@@ -12,6 +13,7 @@ const FossilSchema = new Schema<IFossil>(
 		ueid: String,
 		image_uri: String,
 		bells_sell: Number,
+		critter_type: String,
 	},
 	{
 		timestamps: {

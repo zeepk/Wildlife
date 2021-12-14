@@ -3,18 +3,24 @@ import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { Card } from 'primereact/card';
 import { Checkbox } from 'primereact/checkbox';
 
-import { Fish, Bug, Sea } from 'features/Tracking/trackingTypes';
+import {
+	Fish,
+	Bug,
+	Sea,
+	Fossil,
+	Art,
+	Music,
+	Reaction,
+} from 'features/Tracking/trackingTypes';
 import { IconTemplate } from './IconTemplate';
 import {
-	selectAccountHemisphere,
 	selectCaught,
 	createUserCaught,
 	deleteUserCaught,
 } from 'features/Common/commonSlice';
-import { hemispheres } from 'utils/constants';
 
 type props = {
-	item: Fish | Bug | Sea;
+	item: Fish | Bug | Sea | Fossil | Art | Music | Reaction;
 	showCheckbox: boolean;
 };
 
@@ -24,7 +30,6 @@ export const TrackingCard: FunctionComponent<props> = ({
 }) => {
 	const dispatch = useAppDispatch();
 	const [allowCheck, setAllowCheck] = useState(true);
-	const hemisphere = useAppSelector(selectAccountHemisphere);
 	const caught = useAppSelector(selectCaught);
 	const isCaught = caught.includes(item.ueid);
 	const [checked, setChecked] = useState(isCaught);
@@ -36,11 +41,6 @@ export const TrackingCard: FunctionComponent<props> = ({
 	useEffect(() => {
 		setChecked(isCaught);
 	}, [isCaught]);
-
-	const months =
-		hemisphere === hemispheres.SOUTHERN
-			? item.southernMonths
-			: item.northernMonths;
 
 	const updateCaught = async () => {
 		if (!allowCheck) {
