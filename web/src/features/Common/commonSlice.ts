@@ -205,7 +205,6 @@ export const commonSlice = createSlice({
 			})
 			.addCase(createUserCaught.fulfilled, (state, action) => {
 				if (action?.payload?.data) {
-					console.log(action.payload.data);
 					state.auth.account.caught.push(action.payload.data);
 					state.auth.account.caught = [
 						...state.auth.account.caught,
@@ -218,7 +217,6 @@ export const commonSlice = createSlice({
 			})
 			.addCase(deleteUserCaught.fulfilled, (state, action) => {
 				if (action?.payload?.data) {
-					console.log(action);
 					state.auth.account.caught = state.auth.account.caught.filter(
 						(c) => c.ueid !== action.payload.data.euid,
 					);

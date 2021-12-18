@@ -1,4 +1,8 @@
-import { maxUsernameLength, minUsernameLength } from 'utils/constants';
+import {
+	maxUsernameLength,
+	minUsernameLength,
+	rarityText,
+} from 'utils/constants';
 
 export const isNullUndefinedOrWhitespace = (
 	text: string | null | undefined,
@@ -22,4 +26,21 @@ export const usernameValid = (username: string | undefined) => {
 		username.length >= minUsernameLength &&
 		username.length <= maxUsernameLength
 	);
+};
+
+export const calculateRarity = (rarityString: string) => {
+	const isRange = rarityString.includes('–');
+
+	let numericValue = -1;
+	if (!isRange) {
+		numericValue = Number(rarityString);
+	} else {
+		const valueArray = rarityString.split('–');
+		const rangeStart = Number(valueArray[0]);
+		const rangeEnd = Number(valueArray[1]);
+		const average = (rangeStart + rangeEnd) / 2;
+		numericValue = average;
+	}
+
+	return Math.floor((numericValue / 14) * 100) + '%';
 };
