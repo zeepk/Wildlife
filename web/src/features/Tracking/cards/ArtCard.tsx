@@ -27,7 +27,7 @@ export const ArtCard: FunctionComponent<props> = ({ item }) => {
 
 	const fakeArtModalContent = (
 		<FakeArtModalContent
-			realUri={item.image_uri}
+			realUri={item.image_uri || item.icon_uri}
 			fakeUri={item.fake_uri}
 			alt={item.name}
 		/>

@@ -12,7 +12,7 @@ router.get('/api/art', async (req: Request, res: Response) => {
 					genuine: false,
 				});
 				if (fakeVersion) {
-					a.fake_uri = fakeVersion.image_uri;
+					a.fake_uri = fakeVersion.image_uri || fakeVersion.icon_uri;
 					await a.save();
 				}
 			}
