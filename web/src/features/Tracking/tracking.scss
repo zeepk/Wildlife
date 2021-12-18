@@ -116,3 +116,39 @@
 		}
 	}
 }
+.modal--art {
+	text-transform: capitalize;
+
+	.container--art-modal {
+		width: 100%;
+		max-width: 50rem;
+
+		&.fake {
+			max-width: 100rem;
+		}
+
+		.spacer {
+			width: 1rem;
+			height: 1rem;
+		}
+
+		.comparison {
+			width: 100%;
+
+			&.hidden {
+				visibility: hidden;
+			}
+
+			.art {
+				width: 80vw;
+				// max-width: 30%;
+			}
+		}
+
+		img {
+			width: 100%;
+			max-height: 60vh;
+			object-fit: contain;
+		}
+	}
+}

@@ -49,6 +49,7 @@ export const errorMessageAccountSettingsNotLoggedIn =
 	'You must be logged in to view your account settings!';
 export const errorMessageAccountSettingsCannotUpdate =
 	'Could not update your account. Please try again or contact support.';
+export const errorMessageNoArtFound = 'High-res art image could not be loaded.';
 
 // thresholds
 
