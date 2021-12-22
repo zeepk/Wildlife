@@ -227,3 +227,26 @@
 .p-dropdown-label-empty {
 	visibility: visible !important;
 }
+.container--landing-page {
+	width: 100vw;
+	.content {
+		width: 95vw;
+		max-width: 50rem;
+		min-height: 20vh;
+		background-color: $mediumDarkGreen;
+		border: 0.7rem solid $backgroundColor;
+		border-radius: 3rem;
+
+		.loading--global {
+			width: 90vw;
+			max-width: 20rem;
+			height: 1rem;
+		}
+
+		.title {
+			color: white;
+			text-align: center;
+			white-space: pre-line;
+		}
+	}
+}

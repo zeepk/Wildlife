@@ -23,6 +23,7 @@ import { SeaPage } from 'features/Tracking/pages/SeaPage';
 import { ArtPage } from 'features/Tracking/pages/ArtPage';
 import { FossilsPage } from 'features/Tracking/pages/FossilsPage';
 import { ReactionsPage } from 'features/Tracking/pages/ReactionsPage';
+import { MusicPage } from 'features/Tracking/pages/MusicPage';
 function initializeReactGA() {
 	console.warn('google analytics code invalid');
 	ReactGA.initialize('google analytics code');
@@ -57,6 +58,9 @@ function App() {
 					</Route>
 					<Route exact path="/reactions">
 						<ReactionsPage />
+					</Route>
+					<Route exact path="/music">
+						<MusicPage />
 					</Route>
 					<Route path="/">
 						<LandingPage />

@@ -41,6 +41,10 @@ export const rarityText = 'Rarity:';
 export const artViewButtonText = 'View Artwork';
 export const artAlwaysRealText = 'Always real!';
 export const artFakeComparisonButtonText = 'View fake comparison';
+export const landingPageNewUserText =
+	'Welcome!\nThis site is still in beta :)\nTry creating an account by clicking Login above!';
+export const landingPageExistingUserText =
+	'Hiya, still under construction here.\nLet me know if you have any feedback with one of the links below!';
 
 export const successMessageAccountSettingsUpdated =
 	'Account updated successfully!';
