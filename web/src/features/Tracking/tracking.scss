@@ -76,6 +76,22 @@
 				.p-card-content {
 					padding: 0.3rem;
 					height: 100%;
+
+					.container--card-content {
+						&:not(.fossil) {
+							.icon {
+								max-width: 5rem;
+							}
+						}
+						&.fossil {
+							height: 85%;
+
+							img {
+								max-height: 10rem;
+								object-fit: contain;
+							}
+						}
+					}
 				}
 
 				.container--card-info {
@@ -108,10 +124,6 @@
 							font-size: 1.5rem;
 						}
 					}
-				}
-
-				.icon {
-					max-width: 5rem;
 				}
 			}
 		}

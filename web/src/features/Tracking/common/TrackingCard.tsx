@@ -21,6 +21,7 @@ import { FishCard } from '../cards/FishCard';
 import { BugCard } from '../cards/BugCard';
 import { ArtCard } from '../cards/ArtCard';
 import { SeaCard } from '../cards/SeaCard';
+import { FossilCard } from '../cards/FossilCard';
 
 type props = {
 	item: Fish | Bug | Sea | Fossil | Art | Music | Reaction;
@@ -84,6 +85,9 @@ export const TrackingCard: FunctionComponent<props> = ({
 			break;
 		case critterTypes.ART:
 			body = <ArtCard item={item as Art} />;
+			break;
+		case critterTypes.FOSSIL:
+			body = <FossilCard item={item as Fossil} />;
 			break;
 		default:
 			body = <div />;
