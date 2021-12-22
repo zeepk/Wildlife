@@ -1,7 +1,5 @@
-import { DateTime } from 'luxon';
-
 // version
-export const versionNumber = '0.1.0';
+export const versionNumber = '0.2.0';
 
 // urls
 

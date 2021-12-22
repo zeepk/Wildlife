@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { getAllVillagers, selectVillagers } from 'features/Common/commonSlice';
+import {
+	getAllVillagers,
+	selectVillagers,
+	selectAuthLoading,
+} from 'features/Common/commonSlice';
 import { Dropdown } from 'primereact/dropdown';
 import 'features/Common/common.scss';
 import { Villager } from '../commonTypes';
@@ -15,12 +19,13 @@ export default function AvatarDropdown({ callback, selectedId }: Props) {
 	const dispatch = useAppDispatch();
 	const villagers = useAppSelector(selectVillagers);
 	const searchableVillagerList = useAppSelector(selectVillagers);
+	const loading = useAppSelector(selectAuthLoading);
 
 	useEffect(() => {
-		if (villagers?.length === 0) {
+		if (!loading && villagers?.length === 0) {
 			dispatch(getAllVillagers());
 		}
-	}, []);
+	});
 
 	const selectedVillager = villagers?.find((v) => v.ueid === selectedId);
 

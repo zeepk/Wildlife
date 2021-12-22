@@ -1,11 +1,7 @@
-import {
-	maxUsernameLength,
-	minUsernameLength,
-	rarityText,
-} from 'utils/constants';
+import { maxUsernameLength, minUsernameLength } from 'utils/constants';
 
 export const isNullUndefinedOrWhitespace = (
-	text: string | null | undefined,
+	text: string | null | undefined
 ) => {
 	if (text === null || text === undefined) {
 		return true;
