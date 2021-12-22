@@ -22,6 +22,7 @@ import { BugCard } from '../cards/BugCard';
 import { ArtCard } from '../cards/ArtCard';
 import { SeaCard } from '../cards/SeaCard';
 import { FossilCard } from '../cards/FossilCard';
+import { ReactionCard } from '../cards/ReactionCard';
 
 type props = {
 	item: Fish | Bug | Sea | Fossil | Art | Music | Reaction;
@@ -88,6 +89,9 @@ export const TrackingCard: FunctionComponent<props> = ({
 			break;
 		case critterTypes.FOSSIL:
 			body = <FossilCard item={item as Fossil} />;
+			break;
+		case critterTypes.REACTION:
+			body = <ReactionCard item={item as Reaction} />;
 			break;
 		default:
 			body = <div />;

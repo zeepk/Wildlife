@@ -25,7 +25,7 @@ export const TrackingCards: FunctionComponent<props> = ({ items }) => {
 
 	const fishCards = items
 		.filter((i) =>
-			i.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()),
+			i.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
 		)
 		.map((f) => (
 			<TrackingCard item={f} showCheckbox={isLoggedIn} key={f._id} />
