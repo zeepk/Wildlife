@@ -40,3 +40,12 @@ export const calculateRarity = (rarityString: string) => {
 
 	return Math.floor((numericValue / 14) * 100) + '%';
 };
+
+export const isStringValidJson = (str: string) => {
+	try {
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
+};

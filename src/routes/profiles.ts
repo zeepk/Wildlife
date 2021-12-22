@@ -3,6 +3,11 @@ import { Profile } from '@/models/profile';
 import { Caught } from '@/models/caught';
 import { hemispheres } from '@/utils/constants';
 import { Villager } from '@/models/villager';
+import { Critter } from '@/models/critter';
+import { Mongoose } from 'mongoose';
+import { Fossil } from '@/models/fossil';
+import { Song } from '@/models/song';
+import { Art } from '@/models/art';
 const router = express.Router();
 
 // "given_name": "Matt",
@@ -89,6 +94,43 @@ router.delete('/api/profile', async (req: Request, res: Response) => {
 
 	await Profile.deleteOne({ authId, id, ueid });
 	return res.status(200).send('Deleted successfully');
+});
+
+router.post('/api/profile/import', async (req: Request, res: Response) => {
+	const { authId, caughtItems } = req.body;
+	const critters = await Critter.find({});
+	const fossils = await Fossil.find({});
+	const songs = await Song.find({});
+	const art = await Art.find({});
+	const items = [...critters, ...fossils, ...songs, ...art];
+	let numberOfItemsImported = 0;
+
+	await Promise.all(
+		caughtItems.map(async (ci) => {
+			const ciName = ci
+				.toLowerCase()
+				.split('_')
+				.join(' ')
+				.replace('venus', "venus'");
+			const item = items.find((i) => i.name.toLowerCase() === ciName);
+			if (!item) {
+				console.log(`Could not find item with name: ${ciName}`);
+				return;
+			}
+			const existingCaught = await Caught.findOne({ ueid: item.ueid });
+			if (existingCaught) {
+				return;
+			}
+			await Caught.create({
+				authId,
+				ueid: item.ueid,
+				critterType: item.critter_type,
+				active: true,
+			});
+			numberOfItemsImported++;
+		})
+	);
+	return res.status(200).send({ imported: numberOfItemsImported });
 });
 
 export { router as profileRouter };

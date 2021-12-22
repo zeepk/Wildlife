@@ -4,7 +4,7 @@ import {
 	AuthDataUpdateProfile,
 	UpdateCaughtPayload,
 } from 'features/Common/commonTypes';
-import { profileUrl, caughtUrl, villagerUrl } from 'utils/constants';
+import { profileUrl, caughtUrl, villagerUrl, importUrl } from 'utils/constants';
 
 export async function getProfile(authId: string) {
 	const requestOptions = {
@@ -26,6 +26,18 @@ export async function updateProfile(data: AuthDataUpdateProfile) {
 export async function createProfile(data: AuthDataCreateAccount) {
 	const requestOptions = {
 		url: profileUrl,
+		method: 'POST',
+		data,
+	};
+	return await requestWrapper(requestOptions);
+}
+
+export async function importData(data: {
+	authId: string;
+	caughtItems: Array<string>;
+}) {
+	const requestOptions = {
+		url: importUrl,
 		method: 'POST',
 		data,
 	};

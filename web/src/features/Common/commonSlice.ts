@@ -8,6 +8,7 @@ import {
 	updateProfile,
 	createCaught,
 	deleteCaught,
+	importData,
 } from './commonApi';
 import {
 	AuthDataCreateAccount,
@@ -57,7 +58,7 @@ export const getUserProfile = createAsyncThunk(
 	async (authId: string) => {
 		const response = await getProfile(authId);
 		return response;
-	},
+	}
 );
 
 export const createUserProfile = createAsyncThunk(
@@ -65,7 +66,7 @@ export const createUserProfile = createAsyncThunk(
 	async (payload: AuthDataCreateAccount) => {
 		const response = await createProfile(payload);
 		return response;
-	},
+	}
 );
 
 export const updateUserProfile = createAsyncThunk(
@@ -73,7 +74,7 @@ export const updateUserProfile = createAsyncThunk(
 	async (payload: AuthDataUpdateProfile) => {
 		const response = await updateProfile(payload);
 		return response;
-	},
+	}
 );
 
 export const getUserCaught = createAsyncThunk(
@@ -81,7 +82,7 @@ export const getUserCaught = createAsyncThunk(
 	async (authId: string) => {
 		const response = await getCaught(authId);
 		return response;
-	},
+	}
 );
 
 export const getAllVillagers = createAsyncThunk(
@@ -89,14 +90,14 @@ export const getAllVillagers = createAsyncThunk(
 	async () => {
 		const response = await getVillagers();
 		return response;
-	},
+	}
 );
 
 export const createUserCaught = createAsyncThunk(
 	'common/auth/createcaught',
 	async (
 		data: { ueid: string; critterType?: critterTypes },
-		{ getState, requestId },
+		{ getState, requestId }
 	) => {
 		// not using other params, but function won't work without them
 		const state: any = getState();
@@ -108,7 +109,7 @@ export const createUserCaught = createAsyncThunk(
 		};
 		const response = await createCaught(payload);
 		return response;
-	},
+	}
 );
 
 export const deleteUserCaught = createAsyncThunk(
@@ -123,7 +124,22 @@ export const deleteUserCaught = createAsyncThunk(
 		};
 		const response = await deleteCaught(payload);
 		return response;
-	},
+	}
+);
+
+export const importCaughtData = createAsyncThunk(
+	'common/auth/importcaught',
+	async (caughtItems: Array<string>, { getState, requestId }) => {
+		// not using other params, but function won't work without them
+		const state: any = getState();
+		const authId = state.common.auth.account.profile.authId;
+		const payload = {
+			authId,
+			caughtItems,
+		};
+		const response = await importData(payload);
+		return response;
+	}
 );
 
 const incrementLoading = (state: CommonState) => {
@@ -218,7 +234,7 @@ export const commonSlice = createSlice({
 			.addCase(deleteUserCaught.fulfilled, (state, action) => {
 				if (action?.payload?.data) {
 					state.auth.account.caught = state.auth.account.caught.filter(
-						(c) => c.ueid !== action.payload.data.euid,
+						(c) => c.ueid !== action.payload.data.euid
 					);
 				}
 			});

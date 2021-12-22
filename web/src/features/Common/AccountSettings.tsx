@@ -19,6 +19,7 @@ import LoadingIcon from 'features/Common/LoadingIcon';
 import {
 	accountSettingsAvatarUriText,
 	accountSettingsHemisphereText,
+	accountSettingsImportDataText,
 	accountSettingsTitleText,
 	accountSettingsUsernameText,
 	errorMessageAccountSettingsCannotUpdate,
@@ -36,6 +37,7 @@ import {
 	usernameValid,
 } from 'utils/helperFunctions';
 import HemisphereDropdown from './Auth/HemisphereDropdown';
+import ImportData from './ImportData';
 
 export function AccountSettings() {
 	const toast = useRef<Toast>(null);
@@ -81,6 +83,13 @@ export function AccountSettings() {
 		setHemisphere(value as hemispheres);
 	};
 
+	const sendToastMessage = (severity: 'error' | 'success', message: string) =>
+		toast?.current?.show({
+			severity,
+			detail: message,
+			life: globalToastLifetime,
+		});
+
 	// const isProfileValid = () =>
 	// 	username !== undefined &&
 	// 	usernameValid(username) &&
@@ -98,7 +107,7 @@ export function AccountSettings() {
 			hemisphere === undefined
 		) {
 			console.error(
-				'Unable to update profile, the existing profile may be invalid',
+				'Unable to update profile, the existing profile may be invalid'
 			);
 			return;
 		}
@@ -164,12 +173,18 @@ export function AccountSettings() {
 						<img src={avatarUri} alt="avatar" />
 					</Button>
 				</div>
-				<div className="setting">
+				<div className="setting p-mb-6">
 					<h3>{accountSettingsHemisphereText}</h3>
 					<HemisphereDropdown
 						callback={updateHemisphere}
 						selectedHemisphereId={Number(hemisphere)}
 					/>
+				</div>
+				<div className="setting import">
+					<h3>{accountSettingsImportDataText}</h3>
+					<div>
+						<ImportData callback={sendToastMessage} />
+					</div>
 				</div>
 				<div className="end p-mt-6 p-mb-4 p-d-flex p-jc-center p-ai-center">
 					{profileLoading ? (

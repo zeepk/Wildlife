@@ -67,7 +67,7 @@ export const TrackingCard: FunctionComponent<props> = ({
 
 	const header = (
 		<div className="header p-mx-2 p-py-0 p-d-flex p-ai-center p-jc-between">
-			<div className="p-py-0">{item.name}</div>
+			<div className="text p-py-0">{item.name}</div>
 			{showCheckbox && (
 				<Checkbox checked={checked} onChange={() => updateCaught()} />
 			)}

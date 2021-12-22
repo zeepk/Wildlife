@@ -8,6 +8,7 @@ export const loginUrl = `${apiBaseUrl}/login`;
 export const userUrl = `${apiBaseUrl}/api/user`;
 export const caughtUrl = `${apiBaseUrl}/api/caught`;
 export const profileUrl = `${apiBaseUrl}/api/profile`;
+export const importUrl = `${apiBaseUrl}/api/profile/import`;
 export const fishUrl = `${apiBaseUrl}/api/fish`;
 export const bugsUrl = `${apiBaseUrl}/api/bugs`;
 export const seaUrl = `${apiBaseUrl}/api/sea`;
@@ -32,6 +33,11 @@ export const accountSettingsUsernameText = 'Username';
 export const accountSettingsAvatarUriText = 'Villager Icon';
 export const accountSettingsSelectAVillagerText = 'Select a villager';
 export const accountSettingsHemisphereText = 'Hemisphere';
+export const accountSettingsImportDataText = 'Import from old AC Wildlife';
+export const accountSettingsImportDataButtonText = 'Import';
+export const accountSettingsImportDataPlaceholderText = 'Data text';
+export const accountSettingsImportDataLoadingText =
+	'Importing your data. This could take a minute or so.';
 export const shadowSizeText = 'Shadow Size:';
 export const sourceText = 'Location:';
 export const bellsSellText = 'Sale price:';
@@ -46,14 +52,20 @@ export const landingPageNewUserText =
 export const landingPageExistingUserText =
 	'Hiya, still under construction here.\nLet me know if you have any feedback with one of the links below!';
 
+export const successMessageDataImported =
+	'Data imported successfully! Try refreshing in a minute or so.';
 export const successMessageAccountSettingsUpdated =
 	'Account updated successfully!';
 
+export const errorMessageAccountSettingsCannotImport =
+	'Error importing data. Please try again or contact support.';
 export const errorMessageAccountSettingsNotLoggedIn =
 	'You must be logged in to view your account settings!';
 export const errorMessageAccountSettingsCannotUpdate =
 	'Could not update your account. Please try again or contact support.';
 export const errorMessageNoArtFound = 'High-res art image could not be loaded.';
+export const errorMessageInvalidImportData =
+	'Invalid format for import data. Please try again or contact support.';
 
 // thresholds
 

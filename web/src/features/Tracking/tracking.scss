@@ -52,6 +52,12 @@
 					text-shadow: 2px 2px $transparentMediumGray;
 					font-size: 1.5rem;
 					height: 3rem;
+					.text {
+						max-width: 85%;
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+					}
 					.p-checkbox {
 						height: 100%;
 						display: flex;

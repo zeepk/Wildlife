@@ -143,6 +143,19 @@
 			justify-content: space-between;
 			align-items: center;
 			flex-wrap: wrap;
+
+			&.import {
+				.loading--global {
+					width: 8rem;
+					height: 0.3rem;
+				}
+
+				.container--import-data {
+					.p-inputtext {
+						width: 10rem;
+					}
+				}
+			}
 		}
 
 		.container--error {
