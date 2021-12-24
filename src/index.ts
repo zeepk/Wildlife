@@ -13,6 +13,7 @@ import { artRouter } from '@/routes/arts';
 import { fossilRouter } from '@/routes/fossils';
 import { songRouter } from './routes/songs';
 import { reactionRouter } from './routes/reactions';
+import { achievementRouter } from './routes/achievements';
 const connectionString = process.env.MONGO_DB_CONN_STRING;
 
 const app = express();
@@ -59,6 +60,7 @@ app.use(artRouter);
 app.use(fossilRouter);
 app.use(songRouter);
 app.use(reactionRouter);
+app.use(achievementRouter);
 if (connectionString) {
 	mongoose.connect(connectionString);
 }

@@ -7,6 +7,7 @@ import { Art } from '@/models/art';
 import { Fossil } from '@/models/fossil';
 import { Song } from '@/models/song';
 import { Reaction } from '@/models/reaction';
+import { Achievement } from '@/models/achievement';
 
 const fs = require('fs');
 const readline = require('readline');
@@ -29,6 +30,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 	const songsSheetRange = 'Music!2:111';
 	const villagerSheetRange = 'Villagers!2:414';
 	const reactionSheetRange = 'Reactions!2:89';
+	const achievementsSheetRange = 'Achievements!2:97';
 
 	fs.readFile('credentials.json', (err: any, content: any) => {
 		if (err) return console.log('Error loading client secret file:', err);
@@ -40,7 +42,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 		const oAuth2Client = new google.auth.OAuth2(
 			client_id,
 			client_secret,
-			redirect_uris[0],
+			redirect_uris[0]
 		);
 
 		// Check if we have previously stored a token.
@@ -69,7 +71,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 				if (err)
 					return console.error(
 						'Error while trying to retrieve access token',
-						err,
+						err
 					);
 				oAuth2Client.setCredentials(token);
 				fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err: any) => {
@@ -185,7 +187,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 								sh_dec: row[35],
 								description: row[38],
 								ueid: row[49],
-							},
+							}
 							// },
 							// { upsert: true }
 						);
@@ -195,7 +197,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 				} else {
 					console.log('No Fish data found.');
 				}
-			},
+			}
 		);
 
 		sheets.spreadsheets.values.get(
@@ -298,7 +300,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 								sh_dec: row[33],
 								description: row[36],
 								ueid: row[46],
-							},
+							}
 							// },
 							// { upsert: true }
 						);
@@ -308,7 +310,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 				} else {
 					console.log('No Bugs data found.');
 				}
-			},
+			}
 		);
 
 		sheets.spreadsheets.values.get(
@@ -407,7 +409,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 								sh_dec: row[33],
 								description: row[36],
 								ueid: row[49],
-							},
+							}
 							// },
 							// { upsert: true }
 						);
@@ -417,7 +419,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 				} else {
 					console.log('No Sea Creature data found.');
 				}
-			},
+			}
 		);
 
 		sheets.spreadsheets.values.get(
@@ -446,7 +448,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 								genuine: row[3] === 'Yes',
 								ueid: row[29],
 								critter_type: critterTypes.ART,
-							},
+							}
 							// },
 							// { upsert: true }
 						);
@@ -456,7 +458,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 				} else {
 					console.log('No Art data found.');
 				}
-			},
+			}
 		);
 
 		sheets.spreadsheets.values.get(
@@ -488,7 +490,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 								event: row[5] === 'NA' ? '' : row[5],
 								exclusive: row[6] === 'Yes',
 								critter_type: critterTypes.REACTION,
-							},
+							}
 							// },
 							// { upsert: true }
 						);
@@ -498,7 +500,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 				} else {
 					console.log('No Reaction data found.');
 				}
-			},
+			}
 		);
 
 		sheets.spreadsheets.values.get(
@@ -527,7 +529,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 								source: row[9],
 								source_notes: row[10],
 								critter_type: critterTypes.SONG,
-							},
+							}
 							// },
 							// { upsert: true }
 						);
@@ -537,7 +539,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 				} else {
 					console.log('No Song data found.');
 				}
-			},
+			}
 		);
 
 		sheets.spreadsheets.values.get(
@@ -565,7 +567,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 								ueid: row[16],
 								bells_sell: Number(row[3]),
 								critter_type: critterTypes.FOSSIL,
-							},
+							}
 							// },
 							// { upsert: true }
 						);
@@ -575,7 +577,66 @@ router.get('/api/update', (req: Request, res: Response) => {
 				} else {
 					console.log('No Fossil data found.');
 				}
+			}
+		);
+
+		sheets.spreadsheets.values.get(
+			{
+				spreadsheetId,
+				range: achievementsSheetRange,
+				valueRenderOption: 'FORMULA',
 			},
+			(err: any, res: any) => {
+				if (err) return console.log('The API returned an error: ' + err);
+				const rows = res.data.values;
+				if (rows.length) {
+					rows.map(async (row: any) => {
+						// console.log(row[1]);
+						const exists = await Achievement.exists({ name: row[0] });
+						if (exists) {
+							return;
+						}
+						Achievement.create({
+							name: row[0],
+							description: row[1],
+							requirements: row[2],
+							order: row[3] === 'NA' ? null : Number(row[3]),
+							category: row[6],
+							tiers: row[7] === 'NA' ? null : Number(row[7]),
+							tier1: row[8] === 'NA' ? null : Number(row[8]),
+							tier2: row[9] === 'NA' ? null : Number(row[9]),
+							tier3: row[10] === 'NA' ? null : Number(row[10]),
+							tier4: row[11] === 'NA' ? null : Number(row[11]),
+							tier5: row[12] === 'NA' ? null : Number(row[12]),
+							tier6: row[13] === 'NA' ? null : Number(row[13]),
+							tier1Reward: row[14] === 'NA' ? null : Number(row[14]),
+							tier2Reward: row[15] === 'NA' ? null : Number(row[15]),
+							tier3Reward: row[16] === 'NA' ? null : Number(row[16]),
+							tier4Reward: row[17] === 'NA' ? null : Number(row[17]),
+							tier5Reward: row[18] === 'NA' ? null : Number(row[18]),
+							tier6Reward: row[19] === 'NA' ? null : Number(row[19]),
+							tier1Modifier: row[20],
+							tier1Noun: row[21],
+							tier2Modifier: row[22],
+							tier2Noun: row[23],
+							tier3Modifier: row[24],
+							tier3Noun: row[25],
+							tier4Modifier: row[26],
+							tier4Noun: row[27],
+							tier5Modifier: row[28],
+							tier5Noun: row[29],
+							tier6Modifier: row[30],
+							tier6Noun: row[31],
+							sequention: row[32] === 'Yes',
+							ueid: row[34],
+							critter_type: critterTypes.ACHIEVEMENT,
+						});
+						console.log(`Created Achievement: ${row[0]}`);
+					});
+				} else {
+					console.log('No Achievement data found');
+				}
+			}
 		);
 
 		sheets.spreadsheets.values.get(
@@ -610,7 +671,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 				} else {
 					console.log('No Villager data found');
 				}
-			},
+			}
 		);
 	}
 	return res.status(200).send('updated');

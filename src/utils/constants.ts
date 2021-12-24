@@ -8,6 +8,7 @@ export enum critterTypes {
 	GYROID = 'GYROID',
 	VILLAGER = 'VILLAGER',
 	REACTION = 'REACTION',
+	ACHIEVEMENT = 'ACHIEVEMENT',
 }
 
 export enum hemispheres {
