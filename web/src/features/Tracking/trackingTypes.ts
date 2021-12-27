@@ -115,3 +115,5 @@ export type Reaction = {
 	exclusive: boolean;
 	__v: any;
 };
+
+export type Achievement = {};

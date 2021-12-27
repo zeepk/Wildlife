@@ -7,14 +7,14 @@ import { Art } from '@/models/art';
 import { Fossil } from '@/models/fossil';
 import { Song } from '@/models/song';
 import { Reaction } from '@/models/reaction';
-import { Achievement } from '@/models/achievement';
+import { Achievement, Tier, ITier } from '@/models/achievement';
 
 const fs = require('fs');
 const readline = require('readline');
 const { google } = require('googleapis');
 const router = express.Router();
 
-router.get('/api/update', (req: Request, res: Response) => {
+router.get('/api/update', async (req: Request, res: Response) => {
 	console.log('Updating...');
 	console.log('If invalid_grant below, delete token.json and try again');
 	const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
@@ -32,12 +32,12 @@ router.get('/api/update', (req: Request, res: Response) => {
 	const reactionSheetRange = 'Reactions!2:89';
 	const achievementsSheetRange = 'Achievements!2:97';
 
-	fs.readFile('credentials.json', (err: any, content: any) => {
+	await fs.readFile('credentials.json', async (err: any, content: any) => {
 		if (err) return console.log('Error loading client secret file:', err);
-		authorize(JSON.parse(content), updateDocuments);
+		await authorize(JSON.parse(content), updateDocuments);
 	});
 
-	function authorize(credentials: any, callback: any) {
+	async function authorize(credentials: any, callback: any) {
 		const { client_secret, client_id, redirect_uris } = credentials.installed;
 		const oAuth2Client = new google.auth.OAuth2(
 			client_id,
@@ -46,7 +46,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 		);
 
 		// Check if we have previously stored a token.
-		fs.readFile(TOKEN_PATH, (err: any, token: any) => {
+		fs.readFile(TOKEN_PATH, async (err: any, token: any) => {
 			if (err) {
 				return getNewToken(oAuth2Client, callback);
 			}
@@ -67,7 +67,7 @@ router.get('/api/update', (req: Request, res: Response) => {
 		});
 		rl.question('Enter the code from that page here: ', (code: any) => {
 			rl.close();
-			oAuth2Client.getToken(code, (err: any, token: any) => {
+			oAuth2Client.getToken(code, async (err: any, token: any) => {
 				if (err)
 					return console.error(
 						'Error while trying to retrieve access token',
@@ -83,15 +83,15 @@ router.get('/api/update', (req: Request, res: Response) => {
 		});
 	}
 
-	function updateDocuments(auth: any) {
+	async function updateDocuments(auth: any) {
 		const sheets = google.sheets({ version: 'v4', auth });
-		sheets.spreadsheets.values.get(
+		await sheets.spreadsheets.values.get(
 			{
 				spreadsheetId,
 				range: fishSheetRange,
 				valueRenderOption: 'FORMULA',
 			},
-			(err: any, res: any) => {
+			async (err: any, res: any) => {
 				if (err) return console.log('The API returned an error: ' + err);
 				const rows = res.data.values;
 				if (rows.length) {
@@ -200,13 +200,13 @@ router.get('/api/update', (req: Request, res: Response) => {
 			}
 		);
 
-		sheets.spreadsheets.values.get(
+		await sheets.spreadsheets.values.get(
 			{
 				spreadsheetId,
 				range: bugsSheetRange,
 				valueRenderOption: 'FORMULA',
 			},
-			(err: any, res: any) => {
+			async (err: any, res: any) => {
 				if (err) return console.log('The API returned an error: ' + err);
 				const rows = res.data.values;
 				if (rows.length) {
@@ -313,13 +313,13 @@ router.get('/api/update', (req: Request, res: Response) => {
 			}
 		);
 
-		sheets.spreadsheets.values.get(
+		await sheets.spreadsheets.values.get(
 			{
 				spreadsheetId,
 				range: seaSheetRange,
 				valueRenderOption: 'FORMULA',
 			},
-			(err: any, res: any) => {
+			async (err: any, res: any) => {
 				if (err) return console.log('The API returned an error: ' + err);
 				const rows = res.data.values;
 				if (rows.length) {
@@ -422,13 +422,13 @@ router.get('/api/update', (req: Request, res: Response) => {
 			}
 		);
 
-		sheets.spreadsheets.values.get(
+		await sheets.spreadsheets.values.get(
 			{
 				spreadsheetId,
 				range: artSheetRange,
 				valueRenderOption: 'FORMULA',
 			},
-			(err: any, res: any) => {
+			async (err: any, res: any) => {
 				if (err) return console.log('The API returned an error: ' + err);
 				const rows = res.data.values;
 				if (rows.length) {
@@ -461,13 +461,13 @@ router.get('/api/update', (req: Request, res: Response) => {
 			}
 		);
 
-		sheets.spreadsheets.values.get(
+		await sheets.spreadsheets.values.get(
 			{
 				spreadsheetId,
 				range: reactionSheetRange,
 				valueRenderOption: 'FORMULA',
 			},
-			(err: any, res: any) => {
+			async (err: any, res: any) => {
 				if (err) return console.log('The API returned an error: ' + err);
 				const rows = res.data.values;
 				if (rows.length) {
@@ -503,13 +503,13 @@ router.get('/api/update', (req: Request, res: Response) => {
 			}
 		);
 
-		sheets.spreadsheets.values.get(
+		await sheets.spreadsheets.values.get(
 			{
 				spreadsheetId,
 				range: songsSheetRange,
 				valueRenderOption: 'FORMULA',
 			},
-			(err: any, res: any) => {
+			async (err: any, res: any) => {
 				if (err) return console.log('The API returned an error: ' + err);
 				const rows = res.data.values;
 				if (rows.length) {
@@ -542,13 +542,13 @@ router.get('/api/update', (req: Request, res: Response) => {
 			}
 		);
 
-		sheets.spreadsheets.values.get(
+		await sheets.spreadsheets.values.get(
 			{
 				spreadsheetId,
 				range: fossilsSheetRange,
 				valueRenderOption: 'FORMULA',
 			},
-			(err: any, res: any) => {
+			async (err: any, res: any) => {
 				if (err) return console.log('The API returned an error: ' + err);
 				const rows = res.data.values;
 				if (rows.length) {
@@ -580,13 +580,13 @@ router.get('/api/update', (req: Request, res: Response) => {
 			}
 		);
 
-		sheets.spreadsheets.values.get(
+		await sheets.spreadsheets.values.get(
 			{
 				spreadsheetId,
 				range: achievementsSheetRange,
 				valueRenderOption: 'FORMULA',
 			},
-			(err: any, res: any) => {
+			async (err: any, res: any) => {
 				if (err) return console.log('The API returned an error: ' + err);
 				const rows = res.data.values;
 				if (rows.length) {
@@ -596,38 +596,28 @@ router.get('/api/update', (req: Request, res: Response) => {
 						if (exists) {
 							return;
 						}
+						const tierList = new Array<ITier>();
+						const tiers = row[7] === 'NA' ? null : Number(row[7]);
+						if (tiers !== null) {
+							for (let i = 0; i < tiers; i++) {
+								const tier = await Tier.create({
+									number: i + 1,
+									reward: row[i + 14] === 'NA' ? null : Number(row[i + 14]),
+									modifier: row[2 * i + 20],
+									noun: row[2 * i + 21],
+								});
+								tierList.push(tier);
+							}
+						}
 						Achievement.create({
 							name: row[0],
 							description: row[1],
 							requirements: row[2],
 							order: row[3] === 'NA' ? null : Number(row[3]),
 							category: row[6],
-							tiers: row[7] === 'NA' ? null : Number(row[7]),
-							tier1: row[8] === 'NA' ? null : Number(row[8]),
-							tier2: row[9] === 'NA' ? null : Number(row[9]),
-							tier3: row[10] === 'NA' ? null : Number(row[10]),
-							tier4: row[11] === 'NA' ? null : Number(row[11]),
-							tier5: row[12] === 'NA' ? null : Number(row[12]),
-							tier6: row[13] === 'NA' ? null : Number(row[13]),
-							tier1Reward: row[14] === 'NA' ? null : Number(row[14]),
-							tier2Reward: row[15] === 'NA' ? null : Number(row[15]),
-							tier3Reward: row[16] === 'NA' ? null : Number(row[16]),
-							tier4Reward: row[17] === 'NA' ? null : Number(row[17]),
-							tier5Reward: row[18] === 'NA' ? null : Number(row[18]),
-							tier6Reward: row[19] === 'NA' ? null : Number(row[19]),
-							tier1Modifier: row[20],
-							tier1Noun: row[21],
-							tier2Modifier: row[22],
-							tier2Noun: row[23],
-							tier3Modifier: row[24],
-							tier3Noun: row[25],
-							tier4Modifier: row[26],
-							tier4Noun: row[27],
-							tier5Modifier: row[28],
-							tier5Noun: row[29],
-							tier6Modifier: row[30],
-							tier6Noun: row[31],
-							sequention: row[32] === 'Yes',
+							tierCount: tiers,
+							tiers: tierList,
+							sequential: row[32] === 'Yes',
 							ueid: row[34],
 							critter_type: critterTypes.ACHIEVEMENT,
 						});
@@ -639,13 +629,13 @@ router.get('/api/update', (req: Request, res: Response) => {
 			}
 		);
 
-		sheets.spreadsheets.values.get(
+		await sheets.spreadsheets.values.get(
 			{
 				spreadsheetId,
 				range: villagerSheetRange,
 				valueRenderOption: 'FORMULA',
 			},
-			(err: any, res: any) => {
+			async (err: any, res: any) => {
 				if (err) return console.log('The API returned an error: ' + err);
 				const rows = res.data.values;
 				if (rows.length) {
