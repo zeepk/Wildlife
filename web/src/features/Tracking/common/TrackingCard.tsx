@@ -26,9 +26,20 @@ import { FossilCard } from '../cards/FossilCard';
 import { ReactionCard } from '../cards/ReactionCard';
 import { MusicCard } from '../cards/MusicCard';
 import { AchievementCard } from '../cards/AchievementCard';
+import { Villager } from 'features/Common/commonTypes';
+import { VillagerCard } from '../cards/VillagerCard';
 
 type props = {
-	item: Fish | Bug | Sea | Fossil | Art | Music | Reaction | Achievement;
+	item:
+		| Fish
+		| Bug
+		| Sea
+		| Fossil
+		| Art
+		| Music
+		| Reaction
+		| Achievement
+		| Villager;
 	showCheckbox: boolean;
 };
 
@@ -101,6 +112,9 @@ export const TrackingCard: FunctionComponent<props> = ({
 			break;
 		case critterTypes.ACHIEVEMENT:
 			body = <AchievementCard item={item as Achievement} />;
+			break;
+		case critterTypes.VILLAGER:
+			body = <VillagerCard item={item as Villager} />;
 			break;
 		default:
 			body = <div />;

@@ -51,6 +51,7 @@ export type Villager = {
 	createdAt: DateTime;
 	updatedAt: DateTime;
 	ueid: string;
+	critter_type: critterTypes;
 	__v: any;
 };
 

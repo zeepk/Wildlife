@@ -45,13 +45,15 @@ export const bellsSellText = 'Sale price:';
 export const weatherText = 'Weather:';
 export const speedText = 'Speed:';
 export const rarityText = 'Rarity:';
+export const personalityText = 'Personality:';
+export const birthdayText = 'Birthday:';
 export const artViewButtonText = 'View Artwork';
 export const artAlwaysRealText = 'Always real!';
 export const artFakeComparisonButtonText = 'View fake comparison';
 export const landingPageNewUserText =
 	'Welcome!\nThis site is still in beta :)\nTry creating an account by clicking Login above!';
 export const landingPageExistingUserText =
-	'Hiya, still under construction here.\nLet me know if you have any feedback with one of the links below!';
+	'Welcome back!\n\nStill under construction here.\nLet me know if you have any feedback!\n(contact links below)';
 
 export const successMessageDataImported =
 	'Data imported successfully! Try refreshing in a minute or so.';
@@ -128,7 +130,7 @@ export const navbarMenuItems = [
 	{ id: 4, text: 'Art', path: '/art', active: true },
 	{ id: 5, text: 'Music', path: '/music', active: true },
 	{ id: 6, text: 'Reactions', path: '/reactions', active: true },
-	{ id: 7, text: 'Villagers', path: '/villagers', active: false },
+	{ id: 7, text: 'Villagers', path: '/villagers', active: true },
 	{ id: 8, text: 'Achievements', path: '/achievements', active: false },
 ];
 

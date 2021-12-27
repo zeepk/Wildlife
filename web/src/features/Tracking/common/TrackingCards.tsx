@@ -16,10 +16,11 @@ import { TrackingCard } from './TrackingCard';
 import { useAppSelector } from 'app/hooks';
 import { selectAuthIsLoggedIn } from 'features/Common/commonSlice';
 import { critterTypes } from 'utils/constants';
+import { Villager } from 'features/Common/commonTypes';
 
 type props = {
 	items: Array<
-		Fish | Bug | Sea | Fossil | Music | Art | Reaction | Achievement
+		Fish | Bug | Sea | Fossil | Music | Art | Reaction | Achievement | Villager
 	>;
 };
 
