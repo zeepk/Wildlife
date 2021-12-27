@@ -7,12 +7,16 @@ import { Menubar } from 'primereact/menubar';
 import Logo from '../../assets/images/logo.png';
 import 'features/Common/common.scss';
 import { AuthButtons } from './Auth/AuthButtons';
+import { isDevEnv } from 'utils/helperFunctions';
 
 export function Navbar() {
 	const navbarMenuItemComponents = navbarMenuItems.map((item) => {
+		if (!isDevEnv() && !item.active) {
+			return <div />;
+		}
 		return {
 			template: () => (
-				<Link className="navbar-item p-px-3" to={item.path}>
+				<Link className="navbar-item p-px-2" to={item.path}>
 					{item.text}
 				</Link>
 			),

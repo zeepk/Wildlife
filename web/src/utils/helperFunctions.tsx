@@ -12,7 +12,7 @@ export const isNullUndefinedOrWhitespace = (
 export const isNullOrUndefined = (x: any) => x === null || x === undefined;
 
 export const isDevEnv = () => {
-	return process.env.node_env === 'development';
+	return process.env.NODE_ENV === 'development';
 };
 
 export const usernameValid = (username: string | undefined) => {

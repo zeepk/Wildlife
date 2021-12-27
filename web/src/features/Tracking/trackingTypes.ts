@@ -116,4 +116,26 @@ export type Reaction = {
 	__v: any;
 };
 
-export type Achievement = {};
+export type Tier = {
+	_id: string;
+	number: number;
+	reward: number;
+	modifier: string;
+	noun: string;
+	__v: any;
+};
+
+export type Achievement = {
+	_id: string;
+	critter_type: critterTypes;
+	name: string;
+	order: number;
+	ueid: string;
+	description: string;
+	requirements: string;
+	category: string;
+	tierCount: number;
+	sequential: boolean;
+	tiers: Array<Tier>;
+	__v: any;
+};

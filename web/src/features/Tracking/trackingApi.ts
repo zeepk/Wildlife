@@ -7,6 +7,7 @@ import {
 	artUrl,
 	musicUrl,
 	reactionsUrl,
+	achievementsUrl,
 } from 'utils/constants';
 
 export async function getFish() {
@@ -60,6 +61,14 @@ export async function getMusic() {
 export async function getReactions() {
 	const requestOptions = {
 		url: `${reactionsUrl}`,
+		method: 'GET',
+	};
+	return await requestWrapper(requestOptions);
+}
+
+export async function getAchievements() {
+	const requestOptions = {
+		url: `${achievementsUrl}`,
 		method: 'GET',
 	};
 	return await requestWrapper(requestOptions);

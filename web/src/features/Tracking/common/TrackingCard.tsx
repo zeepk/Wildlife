@@ -10,6 +10,7 @@ import {
 	Art,
 	Music,
 	Reaction,
+	Achievement,
 } from 'features/Tracking/trackingTypes';
 import {
 	selectCaught,
@@ -24,9 +25,10 @@ import { SeaCard } from '../cards/SeaCard';
 import { FossilCard } from '../cards/FossilCard';
 import { ReactionCard } from '../cards/ReactionCard';
 import { MusicCard } from '../cards/MusicCard';
+import { AchievementCard } from '../cards/AchievementCard';
 
 type props = {
-	item: Fish | Bug | Sea | Fossil | Art | Music | Reaction;
+	item: Fish | Bug | Sea | Fossil | Art | Music | Reaction | Achievement;
 	showCheckbox: boolean;
 };
 
@@ -96,6 +98,9 @@ export const TrackingCard: FunctionComponent<props> = ({
 			break;
 		case critterTypes.SONG:
 			body = <MusicCard item={item as Music} />;
+			break;
+		case critterTypes.ACHIEVEMENT:
+			body = <AchievementCard item={item as Achievement} />;
 			break;
 		default:
 			body = <div />;

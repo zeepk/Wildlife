@@ -3,6 +3,7 @@ import { InputText } from 'primereact/inputtext';
 import { motion } from 'framer-motion';
 
 import {
+	Achievement,
 	Art,
 	Bug,
 	Fish,
@@ -14,21 +15,28 @@ import {
 import { TrackingCard } from './TrackingCard';
 import { useAppSelector } from 'app/hooks';
 import { selectAuthIsLoggedIn } from 'features/Common/commonSlice';
+import { critterTypes } from 'utils/constants';
 
 type props = {
-	items: Array<Fish | Bug | Sea | Fossil | Music | Art | Reaction>;
+	items: Array<
+		Fish | Bug | Sea | Fossil | Music | Art | Reaction | Achievement
+	>;
 };
 
 export const TrackingCards: FunctionComponent<props> = ({ items }) => {
 	const [searchText, setSearchText] = useState('');
 	const isLoggedIn = useAppSelector(selectAuthIsLoggedIn);
 
+	const showCheckbox =
+		isLoggedIn &&
+		!items.some((i) => i.critter_type === critterTypes.ACHIEVEMENT);
+
 	const fishCards = items
 		.filter((i) =>
 			i.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
 		)
 		.map((f) => (
-			<TrackingCard item={f} showCheckbox={isLoggedIn} key={f._id} />
+			<TrackingCard item={f} showCheckbox={showCheckbox} key={f._id} />
 		));
 
 	const container = {

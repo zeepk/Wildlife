@@ -8,7 +8,8 @@ import {
 	getMusic,
 	getReactions,
 	getSea,
-} from './trackingApi';
+	getAchievements,
+} from 'features/Tracking/trackingApi';
 import {
 	Art,
 	Bug,
@@ -17,6 +18,7 @@ import {
 	Music,
 	Reaction,
 	Sea,
+	Achievement,
 } from 'features/Tracking/trackingTypes';
 
 export interface TrackingState {
@@ -29,6 +31,7 @@ export interface TrackingState {
 	art: Array<Art>;
 	reactions: Array<Reaction>;
 	music: Array<Music>;
+	achievements: Array<Achievement>;
 }
 
 const initialState: TrackingState = {
@@ -41,6 +44,7 @@ const initialState: TrackingState = {
 	art: [],
 	reactions: [],
 	music: [],
+	achievements: [],
 };
 
 export const getAllFish = createAsyncThunk('tracking/fish', async () => {
@@ -78,7 +82,15 @@ export const getAllReactions = createAsyncThunk(
 	async () => {
 		const response = await getReactions();
 		return response;
-	},
+	}
+);
+
+export const getAllAchievements = createAsyncThunk(
+	'tracking/achievements',
+	async () => {
+		const response = await getAchievements();
+		return response;
+	}
 );
 
 // Loading is controlled by the number of loading calls currently active
@@ -146,6 +158,14 @@ export const trackingSlice = createSlice({
 				decrementLoading(state);
 				state.music = action.payload.data;
 			})
+			.addCase(getAllAchievements.pending, (state) => {
+				incrementLoading(state);
+				state.achievements = [];
+			})
+			.addCase(getAllAchievements.fulfilled, (state, action) => {
+				decrementLoading(state);
+				state.achievements = action.payload.data;
+			})
 			.addCase(getAllArt.pending, (state) => {
 				incrementLoading(state);
 				state.art = [];
@@ -170,6 +190,8 @@ export const selectSea = (state: RootState) =>
 export const selectFossils = (state: RootState) => state.tracking.fossils;
 export const selectArt = (state: RootState) => state.tracking.art;
 export const selectMusic = (state: RootState) => state.tracking.music;
+export const selectAchievements = (state: RootState) =>
+	state.tracking.achievements;
 export const selectReactions = (state: RootState) =>
 	state.tracking.reactions.slice().sort((a, b) => a.order - b.order);
 

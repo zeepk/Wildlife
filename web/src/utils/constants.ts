@@ -17,6 +17,7 @@ export const fossilsUrl = `${apiBaseUrl}/api/fossils`;
 export const musicUrl = `${apiBaseUrl}/api/songs`;
 export const reactionsUrl = `${apiBaseUrl}/api/reactions`;
 export const artUrl = `${apiBaseUrl}/api/art`;
+export const achievementsUrl = `${apiBaseUrl}/api/achievements`;
 export const defaultAvatarUrl =
 	'https://64.media.tumblr.com/660a46fe7a5825d898e36fc8c240685b/bd38759d70dd2985-ab/s400x600/05eb60dacdbb47e946713a8aaa048274dc176cb7.png';
 export const twitterUsername = '@matthughes2112';
@@ -88,6 +89,7 @@ export enum critterTypes {
 	GYROID = 'GYROID',
 	VILLAGER = 'VILLAGER',
 	REACTION = 'REACTION',
+	ACHIEVEMENT = 'ACHIEVEMENT',
 }
 
 export enum hemispheres {
@@ -119,14 +121,15 @@ export const footerLinks = [
 ];
 
 export const navbarMenuItems = [
-	{ id: 0, text: 'Fish', path: '/fish' },
-	{ id: 1, text: 'Bugs', path: '/bugs' },
-	{ id: 2, text: 'Sea', path: '/sea' },
-	{ id: 3, text: 'Fossils', path: '/fossils' },
-	{ id: 4, text: 'Art', path: '/art' },
-	{ id: 5, text: 'Music', path: '/music' },
-	{ id: 6, text: 'Reactions', path: '/reactions' },
-	{ id: 7, text: 'Villagers', path: '/villagers' },
+	{ id: 0, text: 'Fish', path: '/fish', active: true },
+	{ id: 1, text: 'Bugs', path: '/bugs', active: true },
+	{ id: 2, text: 'Sea', path: '/sea', active: true },
+	{ id: 3, text: 'Fossils', path: '/fossils', active: true },
+	{ id: 4, text: 'Art', path: '/art', active: true },
+	{ id: 5, text: 'Music', path: '/music', active: true },
+	{ id: 6, text: 'Reactions', path: '/reactions', active: true },
+	{ id: 7, text: 'Villagers', path: '/villagers', active: false },
+	{ id: 8, text: 'Achievements', path: '/achievements', active: false },
 ];
 
 export const months = [
