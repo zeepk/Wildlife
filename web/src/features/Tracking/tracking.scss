@@ -112,7 +112,11 @@
 
 					.container--card-content {
 						&.achievement {
-							height: 75%;
+							height: 85%;
+
+							.details {
+								font-size: 0.8rem;
+							}
 						}
 
 						.container--checkboxes {
@@ -183,6 +187,19 @@
 				}
 			}
 		}
+	}
+}
+.modal--achievement {
+	width: 100%;
+	max-width: 40rem;
+
+	.text--reqs,
+	.text--unlocked {
+		font-size: 1.2rem;
+		font-weight: 600;
+	}
+	.text--desc {
+		font-style: italic;
 	}
 }
 .modal--art {

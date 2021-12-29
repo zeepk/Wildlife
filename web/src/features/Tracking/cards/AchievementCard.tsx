@@ -1,6 +1,8 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { Checkbox } from 'primereact/checkbox';
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
 import { Achievement } from 'features/Tracking/trackingTypes';
 import {
 	createUserCaught,
@@ -8,6 +10,8 @@ import {
 	selectAuthIsLoggedIn,
 	selectCaught,
 } from 'features/Common/commonSlice';
+import { achievementViewButtonText } from 'utils/constants';
+import { AchievementModalContent } from './content/AchievementModalContent';
 
 type props = {
 	item: Achievement;
@@ -15,9 +19,10 @@ type props = {
 
 export const AchievementCard: FunctionComponent<props> = ({ item }) => {
 	const dispatch = useAppDispatch();
-	const [allowCheck, setAllowCheck] = useState(true);
 	const caught = useAppSelector(selectCaught);
 	const isLoggedIn = useAppSelector(selectAuthIsLoggedIn);
+	const [visible, setVisible] = useState(false);
+	const [allowCheck, setAllowCheck] = useState(true);
 	const [checked, setChecked] = useState([
 		false,
 		false,
@@ -84,10 +89,25 @@ export const AchievementCard: FunctionComponent<props> = ({ item }) => {
 	));
 	return (
 		<div className="container--card-content achievement p-d-flex p-flex-column p-ai-center">
+			<Dialog
+				className="modal--achievement"
+				visible={visible}
+				onHide={() => setVisible(false)}
+				header={item.name}
+				dismissableMask
+			>
+				<AchievementModalContent achievement={item} />
+			</Dialog>
 			<div className="p-text-center">{item.requirements}</div>
 			<div className="container--checkboxes p-d-flex p-jc-around p-ai-center p-flex-wrap">
 				{isLoggedIn && checkboxes}
 			</div>
+			<Button
+				className="details p-button-info p-button-text p-as-end"
+				icon="pi pi-info-circle"
+				label={achievementViewButtonText}
+				onClick={() => setVisible(true)}
+			/>
 		</div>
 	);
 };
