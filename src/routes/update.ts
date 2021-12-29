@@ -605,6 +605,7 @@ router.get('/api/update', async (req: Request, res: Response) => {
 									reward: row[i + 14] === 'NA' ? null : Number(row[i + 14]),
 									modifier: row[2 * i + 20],
 									noun: row[2 * i + 21],
+									requirement: row[i + 8],
 								});
 								tierList.push(tier);
 							}

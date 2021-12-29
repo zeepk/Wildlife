@@ -120,6 +120,7 @@ export type Tier = {
 	_id: string;
 	number: number;
 	reward: number;
+	requirement: number;
 	modifier: string;
 	noun: string;
 	__v: any;

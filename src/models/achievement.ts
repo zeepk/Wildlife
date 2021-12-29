@@ -3,6 +3,7 @@ import { Document, Schema, model } from 'mongoose';
 export interface ITier {
 	number: number;
 	reward: number;
+	requirement: number;
 	modifier: string;
 	noun: string;
 }
@@ -10,6 +11,7 @@ export interface ITier {
 const TierSchema = new Schema({
 	number: Number,
 	reward: Number,
+	requirement: Number,
 	modifier: String,
 	noun: String,
 });

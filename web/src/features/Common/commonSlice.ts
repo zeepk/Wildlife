@@ -96,7 +96,7 @@ export const getAllVillagers = createAsyncThunk(
 export const createUserCaught = createAsyncThunk(
 	'common/auth/createcaught',
 	async (
-		data: { ueid: string; critterType?: critterTypes },
+		data: { ueid: string; critterType?: critterTypes; value?: number },
 		{ getState, requestId }
 	) => {
 		// not using other params, but function won't work without them
@@ -106,6 +106,7 @@ export const createUserCaught = createAsyncThunk(
 			authId,
 			ueid: data.ueid,
 			critterType: data.critterType,
+			value: data.value,
 		};
 		const response = await createCaught(payload);
 		return response;
@@ -114,13 +115,14 @@ export const createUserCaught = createAsyncThunk(
 
 export const deleteUserCaught = createAsyncThunk(
 	'common/auth/deletecaught',
-	async (ueid: string, { getState, requestId }) => {
+	async (data: { ueid: string; value?: number }, { getState, requestId }) => {
 		// not using other params, but function won't work without them
 		const state: any = getState();
 		const authId = state.common.auth.account.profile.authId;
 		const payload: UpdateCaughtPayload = {
 			authId,
-			ueid,
+			ueid: data.ueid,
+			value: data.value,
 		};
 		const response = await deleteCaught(payload);
 		return response;
@@ -221,10 +223,9 @@ export const commonSlice = createSlice({
 			})
 			.addCase(createUserCaught.fulfilled, (state, action) => {
 				if (action?.payload?.data) {
-					state.auth.account.caught.push(action.payload.data);
 					state.auth.account.caught = [
 						...state.auth.account.caught,
-						action.payload.data,
+						...action.payload.data,
 					];
 				}
 			})
@@ -233,9 +234,16 @@ export const commonSlice = createSlice({
 			})
 			.addCase(deleteUserCaught.fulfilled, (state, action) => {
 				if (action?.payload?.data) {
-					state.auth.account.caught = state.auth.account.caught.filter(
-						(c) => c.ueid !== action.payload.data.euid
-					);
+					state.auth.account.caught = state.auth.account.caught.filter((c) => {
+						if (c.ueid === action.payload.data.ueid) {
+							if (action.payload.data.sequential) {
+								return false;
+							} else {
+								return c.value !== action.payload.data.value;
+							}
+						}
+						return true;
+					});
 				}
 			});
 	},
@@ -263,7 +271,9 @@ export const selectAuthErrorMessage = (state: RootState) =>
 export const selectVillagers = (state: RootState) =>
 	state.common.auth.villagers;
 
-export const selectCaught = (state: RootState) =>
+export const selectCaughtUeids = (state: RootState) =>
 	state.common.auth.account.caught.map((c) => c.ueid);
+export const selectCaught = (state: RootState) =>
+	state.common.auth.account.caught;
 
 export default commonSlice.reducer;

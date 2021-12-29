@@ -33,6 +33,7 @@ export type Caught = {
 	authId: string;
 	ueid: string;
 	active: boolean;
+	value: number;
 	critterType: critterTypes;
 	createdAt: DateTime;
 	updatedAt: DateTime;
@@ -59,4 +60,5 @@ export type UpdateCaughtPayload = {
 	authId: string;
 	ueid: string;
 	critterType?: critterTypes;
+	value?: number;
 };

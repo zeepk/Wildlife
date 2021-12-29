@@ -13,7 +13,7 @@ import {
 	Achievement,
 } from 'features/Tracking/trackingTypes';
 import {
-	selectCaught,
+	selectCaughtUeids,
 	createUserCaught,
 	deleteUserCaught,
 } from 'features/Common/commonSlice';
@@ -49,7 +49,7 @@ export const TrackingCard: FunctionComponent<props> = ({
 }) => {
 	const dispatch = useAppDispatch();
 	const [allowCheck, setAllowCheck] = useState(true);
-	const caught = useAppSelector(selectCaught);
+	const caught = useAppSelector(selectCaughtUeids);
 	const isCaught = caught.includes(item.ueid);
 	const [checked, setChecked] = useState(isCaught);
 
@@ -65,7 +65,7 @@ export const TrackingCard: FunctionComponent<props> = ({
 
 		if (checked) {
 			setChecked(false);
-			await dispatch(deleteUserCaught(item.ueid));
+			await dispatch(deleteUserCaught({ ueid: item.ueid }));
 			setAllowCheck(true);
 		} else {
 			const payload = {
