@@ -70,7 +70,7 @@ export const AchievementCard: FunctionComponent<props> = ({ item }) => {
 	};
 	const checkboxes = item.tiers.map((t) => (
 		<div
-			className="p-m-2 p-d-flex p-flex-column p-ai-center"
+			className="p-mt-2 p-mb-0 p-mx-4 p-d-flex p-flex-column p-ai-center"
 			key={`${item.ueid}${t.number}`}
 		>
 			<Checkbox
