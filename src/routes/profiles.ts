@@ -51,7 +51,8 @@ router.post('/api/profile', async (req: Request, res: Response) => {
 
 router.put('/api/profile', async (req: Request, res: Response) => {
 	// TODO: allow users to change their timezone for fish times, etc
-	const { authId, username, avatarId, hemisphere } = req.body;
+	const { authId, username, avatarId, hemisphere, hideCaught, islandName } =
+		req.body;
 	const profile = await Profile.findOne({ authId });
 	if (!profile) {
 		return res.sendStatus(404);
@@ -70,8 +71,11 @@ router.put('/api/profile', async (req: Request, res: Response) => {
 		}
 	}
 
-	profile.username = username;
-	profile.hemisphere = hemisphere;
+	profile.username = username || profile.username;
+	profile.hemisphere = hemisphere || profile.hemisphere;
+	profile.hideCaught =
+		hideCaught === undefined ? profile.hideCaught : hideCaught;
+	profile.islandName = islandName || profile.islandName;
 
 	if (avatarId !== profile.avatarId) {
 		const villager = await Villager.findOne({ ueid: avatarId });

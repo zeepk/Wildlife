@@ -29,6 +29,8 @@ export const twitchUrl = 'https://www.twitch.tv/zee_pk';
 
 export const homeTitleText = 'Tracking';
 export const homeText = 'Sample React Redux TypeScript app for Tracking';
+export const hideCaughtText = 'Hide Done';
+export const caughtAllText = 'All Done!';
 export const accountSettingsTitleText = 'Account Settings';
 export const accountSettingsUsernameText = 'Username';
 export const accountSettingsAvatarUriText = 'Villager Icon';

@@ -71,7 +71,9 @@ export const createUserProfile = createAsyncThunk(
 
 export const updateUserProfile = createAsyncThunk(
 	'common/auth/updateProfile',
-	async (payload: AuthDataUpdateProfile) => {
+	async (payload: AuthDataUpdateProfile, { getState, requestId }) => {
+		const state: any = getState();
+		payload.authId = state.common.auth.account.profile.authId;
 		const response = await updateProfile(payload);
 		return response;
 	}
@@ -261,6 +263,10 @@ export const selectAuthId = (state: RootState) =>
 	state.common.auth.account.profile?.authId;
 export const selectAccountHemisphere = (state: RootState) =>
 	state.common.auth.account.profile?.hemisphere;
+export const selectAccountHideCaught = (state: RootState) =>
+	state.common.auth.account.profile?.hideCaught;
+export const selectAccountIslandName = (state: RootState) =>
+	state.common.auth.account.profile?.islandName;
 export const selectAccountAvatar = (state: RootState) =>
 	state.common.auth.account.profile?.avatar;
 export const selectAccountAvatarId = (state: RootState) =>

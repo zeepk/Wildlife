@@ -31,6 +31,33 @@
 }
 .container--tracking-cards {
 	margin: 2rem 2rem 8rem 2rem;
+
+	.text--all-done {
+		width: 95vw;
+		max-width: 20rem;
+		height: 4rem;
+		background-color: $mediumLightGreen;
+		border-radius: 1rem;
+	}
+
+	.container--controls {
+		width: 100%;
+		color: $darkGray;
+
+		.p-inputswitch {
+			&.p-inputswitch-checked {
+				.p-inputswitch-slider {
+					background: $mediumGreen;
+					filter: opacity(100%);
+				}
+			}
+
+			.p-inputswitch-slider {
+				background: $mediumDarkGreen;
+				filter: opacity(60%);
+			}
+		}
+	}
 	.container--cards {
 		display: flex;
 		flex-wrap: wrap;

@@ -10,9 +10,11 @@ export type AuthDataCreateAccount = {
 
 export type AuthDataUpdateProfile = {
 	authId: string;
-	username: string;
-	avatarId: string;
-	hemisphere: hemispheres;
+	username?: string;
+	avatarId?: string;
+	hemisphere?: hemispheres;
+	hideCaught?: boolean;
+	islandName?: string;
 };
 
 export type Profile = {
@@ -21,6 +23,8 @@ export type Profile = {
 	username: string;
 	avatar: string;
 	avatarId: string;
+	hideCaught: boolean;
+	islandName: string;
 	friends: Array<string>;
 	createdAt: DateTime;
 	updatedAt: DateTime;
