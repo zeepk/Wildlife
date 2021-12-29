@@ -1,5 +1,5 @@
 // version
-export const versionNumber = '0.2.0';
+export const versionNumber = '0.5.0';
 
 // urls
 
@@ -135,7 +135,7 @@ export const navbarMenuItems = [
 	{ id: 5, text: 'Music', path: '/music', active: true },
 	{ id: 6, text: 'Reactions', path: '/reactions', active: true },
 	{ id: 7, text: 'Villagers', path: '/villagers', active: true },
-	{ id: 8, text: 'Achievements', path: '/achievements', active: false },
+	{ id: 8, text: 'Achievements', path: '/achievements', active: true },
 ];
 
 export const months = [
