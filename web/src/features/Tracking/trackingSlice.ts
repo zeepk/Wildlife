@@ -19,6 +19,7 @@ import {
 	Reaction,
 	Sea,
 	Achievement,
+	Total,
 } from 'features/Tracking/trackingTypes';
 
 export interface TrackingState {
@@ -32,6 +33,7 @@ export interface TrackingState {
 	reactions: Array<Reaction>;
 	music: Array<Music>;
 	achievements: Array<Achievement>;
+	totals: Array<Total>;
 }
 
 const initialState: TrackingState = {
