@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { Profile } from '@/models/profile';
 import { Caught } from '@/models/caught';
-import { hemispheres } from '@/utils/constants';
+import { hemispheres, includedInTotals, totals } from '@/utils/constants';
 import { Villager } from '@/models/villager';
 import { Critter } from '@/models/critter';
 import { Mongoose } from 'mongoose';
@@ -135,6 +135,30 @@ router.post('/api/profile/import', async (req: Request, res: Response) => {
 		})
 	);
 	return res.status(200).send({ imported: numberOfItemsImported });
+});
+
+router.get('/api/profile/totals/:id', async (req: Request, res: Response) => {
+	const authId = req.params.id;
+	const profile = await Profile.findOne({ authId: authId });
+	if (!profile) {
+		return res.sendStatus(404);
+	}
+	const caught = await Caught.find({ authId });
+	const totalResponses = includedInTotals.map((inc) => {
+		const done = [
+			...new Set(
+				caught.filter((c) => c.critterType === inc).map((c) => c.ueid)
+			),
+		].length;
+		const total = totals[inc];
+		return {
+			critterType: inc,
+			done,
+			total,
+			percentage: Math.floor((done / total) * 100),
+		};
+	});
+	return res.status(200).send(totalResponses);
 });
 
 export { router as profileRouter };

@@ -1,3 +1,16 @@
+export const totals = {
+	FISH: 80,
+	BUG: 80,
+	SEA: 40,
+	SONG: 110,
+	FOSSIL: 73,
+	ART: 43,
+	GYROID: 189,
+	VILLAGER: 413,
+	REACTION: 88,
+	ACHIEVEMENT: 315,
+};
+
 export enum critterTypes {
 	FISH = 'FISH',
 	BUG = 'BUG',
@@ -10,6 +23,18 @@ export enum critterTypes {
 	REACTION = 'REACTION',
 	ACHIEVEMENT = 'ACHIEVEMENT',
 }
+
+export const includedInTotals = [
+	critterTypes.FISH,
+	critterTypes.BUG,
+	critterTypes.SEA,
+	critterTypes.FOSSIL,
+	critterTypes.SONG,
+	critterTypes.ART,
+	critterTypes.REACTION,
+	critterTypes.ACHIEVEMENT,
+	critterTypes.VILLAGER,
+];
 
 export enum hemispheres {
 	NORTHERN,
