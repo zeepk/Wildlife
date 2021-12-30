@@ -11,7 +11,7 @@ const links = footerLinks.map((f) => (
 
 export function Footer() {
 	return (
-		<div className="container--footer">
+		<div className="container--footer p-d-flex p-ai-center p-jc-center">
 			<div className="container--links">{links}</div>
 		</div>
 	);

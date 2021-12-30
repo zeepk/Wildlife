@@ -23,7 +23,9 @@ export const defaultAvatarUrl =
 export const twitterUsername = '@matthughes2112';
 export const twitterUrl = `https://twitter.com/${twitterUsername}`;
 export const githubUrl = 'https://github.com/zeepk/wildlife';
+export const githubSponsorUrl = 'https://github.com/sponsors/zeepk';
 export const twitchUrl = 'https://www.twitch.tv/zee_pk';
+export const portfolioUrl = 'https://matthughes.dev';
 
 // verbiage
 
@@ -124,6 +126,7 @@ export const footerLinks = [
 		link: twitchUrl,
 		class: 'twitch',
 	},
+	{ id: 4, text: 'support', link: '/support', class: 'code' },
 ];
 
 export const navbarMenuItems = [

@@ -26,6 +26,7 @@ import { ReactionsPage } from 'features/Tracking/pages/ReactionsPage';
 import { MusicPage } from 'features/Tracking/pages/MusicPage';
 import { AchievementsPage } from 'features/Tracking/pages/AchievementsPage';
 import { VillagersPage } from 'features/Tracking/pages/VillagersPage';
+import { SupportPage } from 'features/Common/SupportPage';
 function initializeReactGA() {
 	console.warn('google analytics code invalid');
 	ReactGA.initialize('google analytics code');
@@ -69,6 +70,9 @@ function App() {
 					</Route>
 					<Route exact path="/villagers">
 						<VillagersPage />
+					</Route>
+					<Route exact path="/support">
+						<SupportPage />
 					</Route>
 					<Route path="/">
 						<LandingPage />

@@ -30,10 +30,12 @@ $transparentDarkGray: #00000023;
 	background-attachment: fixed;
 	background-position: center;
 }
+.App > :not(.container--footer):not(.navbar) {
+	min-height: 80vh;
+}
 html {
 	background: linear-gradient($transparentMediumGray, $transparentDarkGray),
 		url('./assets/images/pattern.jpg');
-	background-attachment: fixed;
-	background-position: center;
+	background-color: $backgroundColor;
 	max-width: 100vw;
 }

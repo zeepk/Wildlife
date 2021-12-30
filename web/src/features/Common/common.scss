@@ -69,16 +69,18 @@
 	}
 }
 .container--footer {
-	bottom: 0;
+	position: relative;
 	width: 100vw;
-	max-height: 20vh;
+	height: 20vh;
 	background: $mediumGray;
 
 	.container--links {
+		width: 100vw;
+		max-width: 30rem;
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		justify-content: flex-start;
+		justify-content: center;
 	}
 
 	.footer-link {
@@ -119,6 +121,27 @@
 
 			&.pi {
 				font-size: 1.2rem;
+			}
+		}
+	}
+}
+.container--support-page {
+	width: 100vw;
+	.content {
+		width: 95vw;
+		max-width: 800px;
+		min-height: 50vh;
+		background-color: $mediumDarkGreen;
+		border: 0.7rem solid $backgroundColor;
+		border-radius: 3rem;
+		color: white;
+
+		.text {
+			max-width: 60%;
+			font-size: 1.3rem;
+
+			a {
+				color: $mediumLightGreen;
 			}
 		}
 	}
