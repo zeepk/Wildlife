@@ -47,6 +47,7 @@ const initialState: TrackingState = {
 	reactions: [],
 	music: [],
 	achievements: [],
+	totals: [],
 };
 
 export const getAllFish = createAsyncThunk('tracking/fish', async () => {
