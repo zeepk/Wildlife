@@ -32,6 +32,7 @@ export function AccountIcon() {
 		{
 			label: 'Your Totals',
 			icon: 'pi pi-chart-bar',
+			command: () => history.push('/totals'),
 		},
 		{ separator: true },
 		{

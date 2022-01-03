@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 import { critterTypes } from 'utils/constants';
 
 export type Total = {
-	critterType: critterTypes;
+	critterType?: critterTypes;
 	done: number;
 	total: number;
 	percentage: number;

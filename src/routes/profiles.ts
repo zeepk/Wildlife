@@ -132,7 +132,7 @@ router.post('/api/profile/import', async (req: Request, res: Response) => {
 				active: true,
 			});
 			numberOfItemsImported++;
-		})
+		}),
 	);
 	return res.status(200).send({ imported: numberOfItemsImported });
 });
@@ -147,7 +147,7 @@ router.get('/api/profile/totals/:id', async (req: Request, res: Response) => {
 	const totalResponses = includedInTotals.map((inc) => {
 		const done = [
 			...new Set(
-				caught.filter((c) => c.critterType === inc).map((c) => c.ueid)
+				caught.filter((c) => c.critterType === inc).map((c) => c.ueid),
 			),
 		].length;
 		const total = totals[inc];
@@ -158,7 +158,23 @@ router.get('/api/profile/totals/:id', async (req: Request, res: Response) => {
 			percentage: Math.floor((done / total) * 100),
 		};
 	});
-	return res.status(200).send(totalResponses);
+	const overallDone = totalResponses.reduce(function (a, b) {
+		return a + b.done;
+	}, 0);
+	const overallTotal = totalResponses.reduce(function (a, b) {
+		return a + b.total;
+	}, 0);
+
+	const resp = {
+		profile,
+		overall: {
+			done: overallDone,
+			total: overallTotal,
+			percentage: Math.floor((overallDone / overallTotal) * 100),
+		},
+		totals: totalResponses,
+	};
+	return res.status(200).send(resp);
 });
 
 export { router as profileRouter };

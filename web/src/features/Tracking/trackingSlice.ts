@@ -9,6 +9,7 @@ import {
 	getReactions,
 	getSea,
 	getAchievements,
+	getTotals,
 } from 'features/Tracking/trackingApi';
 import {
 	Art,
@@ -21,6 +22,7 @@ import {
 	Achievement,
 	Total,
 } from 'features/Tracking/trackingTypes';
+import { TotalsPage } from './pages/TotalsPage';
 
 export interface TrackingState {
 	loading: number;
@@ -34,6 +36,7 @@ export interface TrackingState {
 	music: Array<Music>;
 	achievements: Array<Achievement>;
 	totals: Array<Total>;
+	overall: Total | null;
 }
 
 const initialState: TrackingState = {
@@ -48,6 +51,7 @@ const initialState: TrackingState = {
 	music: [],
 	achievements: [],
 	totals: [],
+	overall: null,
 };
 
 export const getAllFish = createAsyncThunk('tracking/fish', async () => {
@@ -80,12 +84,22 @@ export const getAllMusic = createAsyncThunk('tracking/music', async () => {
 	return response;
 });
 
+export const getUserTotals = createAsyncThunk(
+	'tracking/totals',
+	async (payload, { getState, requestId }) => {
+		const state: any = getState();
+		const authId = state.common.auth.account.profile.authId;
+		const response = await getTotals(authId);
+		return response;
+	},
+);
+
 export const getAllReactions = createAsyncThunk(
 	'tracking/reactions',
 	async () => {
 		const response = await getReactions();
 		return response;
-	}
+	},
 );
 
 export const getAllAchievements = createAsyncThunk(
@@ -93,7 +107,7 @@ export const getAllAchievements = createAsyncThunk(
 	async () => {
 		const response = await getAchievements();
 		return response;
-	}
+	},
 );
 
 // Loading is controlled by the number of loading calls currently active
@@ -176,6 +190,15 @@ export const trackingSlice = createSlice({
 			.addCase(getAllArt.fulfilled, (state, action) => {
 				decrementLoading(state);
 				state.art = action.payload.data;
+			})
+			.addCase(getUserTotals.pending, (state) => {
+				incrementLoading(state);
+				state.totals = [];
+			})
+			.addCase(getUserTotals.fulfilled, (state, action) => {
+				decrementLoading(state);
+				state.totals = action.payload.data.totals;
+				state.overall = action.payload.data.overall;
 			});
 	},
 });
@@ -197,5 +220,7 @@ export const selectAchievements = (state: RootState) =>
 	state.tracking.achievements;
 export const selectReactions = (state: RootState) =>
 	state.tracking.reactions.slice().sort((a, b) => a.order - b.order);
+export const selectTotals = (state: RootState) => state.tracking.totals;
+export const selectOverall = (state: RootState) => state.tracking.overall;
 
 export default trackingSlice.reducer;

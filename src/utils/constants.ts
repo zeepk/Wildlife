@@ -33,7 +33,6 @@ export const includedInTotals = [
 	critterTypes.ART,
 	critterTypes.REACTION,
 	critterTypes.ACHIEVEMENT,
-	critterTypes.VILLAGER,
 ];
 
 export enum hemispheres {

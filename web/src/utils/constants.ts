@@ -34,7 +34,9 @@ export const homeTitleText = 'Tracking';
 export const homeText = 'Sample React Redux TypeScript app for Tracking';
 export const hideCaughtText = 'Hide Done';
 export const caughtAllText = 'All Done!';
-export const accountSettingsTitleText = 'Account Settings';
+export const totalsOverallText = 'Overall progress';
+export const accountSettingsTitleText = 'Settings';
+export const profileSettingsTitleText = 'Profile';
 export const accountSettingsUsernameText = 'Username';
 export const accountSettingsAvatarUriText = 'Villager Icon';
 export const accountSettingsSelectAVillagerText = 'Select a villager';
@@ -131,15 +133,45 @@ export const footerLinks = [
 ];
 
 export const navbarMenuItems = [
-	{ id: 0, text: 'Fish', path: '/fish', active: true },
-	{ id: 1, text: 'Bugs', path: '/bugs', active: true },
-	{ id: 2, text: 'Sea', path: '/sea', active: true },
-	{ id: 3, text: 'Fossils', path: '/fossils', active: true },
-	{ id: 4, text: 'Art', path: '/art', active: true },
-	{ id: 5, text: 'Music', path: '/music', active: true },
-	{ id: 6, text: 'Reactions', path: '/reactions', active: true },
-	{ id: 7, text: 'Villagers', path: '/villagers', active: true },
-	{ id: 8, text: 'Achievements', path: '/achievements', active: true },
+	{ id: 0, text: 'Fish', path: '/fish', active: true, type: critterTypes.FISH },
+	{ id: 1, text: 'Bugs', path: '/bugs', active: true, type: critterTypes.BUG },
+	{ id: 2, text: 'Sea', path: '/sea', active: true, type: critterTypes.SEA },
+	{
+		id: 3,
+		text: 'Fossils',
+		path: '/fossils',
+		active: true,
+		type: critterTypes.FOSSIL,
+	},
+	{ id: 4, text: 'Art', path: '/art', active: true, type: critterTypes.ART },
+	{
+		id: 5,
+		text: 'Music',
+		path: '/music',
+		active: true,
+		type: critterTypes.SONG,
+	},
+	{
+		id: 6,
+		text: 'Reactions',
+		path: '/reactions',
+		active: true,
+		type: critterTypes.REACTION,
+	},
+	{
+		id: 7,
+		text: 'Villagers',
+		path: '/villagers',
+		active: true,
+		type: critterTypes.VILLAGER,
+	},
+	{
+		id: 8,
+		text: 'Achievements',
+		path: '/achievements',
+		active: true,
+		type: critterTypes.ACHIEVEMENT,
+	},
 ];
 
 export const months = [

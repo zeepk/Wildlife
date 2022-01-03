@@ -243,3 +243,37 @@
 		}
 	}
 }
+.page--totals {
+	padding-bottom: 10rem;
+
+	.overall {
+		width: 95vw;
+		max-width: 40rem;
+		height: 2rem;
+		color: white;
+	}
+	.text.overall {
+		color: $mediumGray;
+		font-size: 1.5rem;
+	}
+	.container--totals {
+		width: 95vw;
+		// max-width: 80rem;
+
+		.container--card-content {
+			background-color: $mediumLightGreen;
+			border: 0.7rem solid $backgroundColor;
+			border-radius: 3rem;
+			width: 95vw;
+			max-width: 20rem;
+
+			.text {
+				font-size: 1.5rem;
+				color: $mediumGray;
+				&.percentage {
+					font-size: 1.7rem;
+				}
+			}
+		}
+	}
+}

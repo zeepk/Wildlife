@@ -27,6 +27,7 @@ import {
 	errorMessageUsernameInvalidLength,
 	globalToastLifetime,
 	hemispheres,
+	profileSettingsTitleText,
 	successMessageAccountSettingsUpdated,
 } from 'utils/constants';
 import 'features/Common/common.scss';
@@ -107,7 +108,7 @@ export function AccountSettings() {
 			hemisphere === undefined
 		) {
 			console.error(
-				'Unable to update profile, the existing profile may be invalid'
+				'Unable to update profile, the existing profile may be invalid',
 			);
 			return;
 		}
@@ -148,7 +149,7 @@ export function AccountSettings() {
 		<div className="container--account-settings p-d-flex p-jc-center p-align-center p-mb-6">
 			<Toast ref={toast} />
 			<div className="container--settings p-mt-6 p-px-4">
-				<h1 className="title">{accountSettingsTitleText}</h1>
+				<h1 className="title">{profileSettingsTitleText}</h1>
 				<div className="setting p-d-flex p-ai-start">
 					<h3>{accountSettingsUsernameText}</h3>
 					<InputText
@@ -173,6 +174,7 @@ export function AccountSettings() {
 						<img src={avatarUri} alt="avatar" />
 					</Button>
 				</div>
+				<h1 className="title">{accountSettingsTitleText}</h1>
 				<div className="setting p-mb-6">
 					<h3>{accountSettingsHemisphereText}</h3>
 					<HemisphereDropdown

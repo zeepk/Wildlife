@@ -29,6 +29,7 @@ $transparentDarkGray: #00000023;
 		url('./assets/images/pattern.jpg');
 	background-attachment: fixed;
 	background-position: center;
+	overflow-x: hidden;
 }
 .App > :not(.container--footer):not(.navbar) {
 	min-height: 80vh;
