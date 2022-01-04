@@ -1,7 +1,12 @@
 import express, { Request, Response } from 'express';
 import { Profile } from '@/models/profile';
 import { Caught } from '@/models/caught';
-import { hemispheres, includedInTotals, totals } from '@/utils/constants';
+import {
+	critterTypes,
+	hemispheres,
+	includedInTotals,
+	totals,
+} from '@/utils/constants';
 import { Villager } from '@/models/villager';
 import { Critter } from '@/models/critter';
 import { Mongoose } from 'mongoose';
@@ -145,12 +150,23 @@ router.get('/api/profile/totals/:id', async (req: Request, res: Response) => {
 	}
 	const caught = await Caught.find({ authId });
 	const totalResponses = includedInTotals.map((inc) => {
-		const done = [
-			...new Set(
-				caught.filter((c) => c.critterType === inc).map((c) => c.ueid),
-			),
-		].length;
+		const doneSet =
+			inc === critterTypes.ACHIEVEMENT
+				? [
+						...new Set(
+							caught
+								.filter((c) => c.critterType === inc && c.value)
+								.map((c) => `${c.ueid}${c.value}`),
+						),
+				  ]
+				: [
+						...new Set(
+							caught.filter((c) => c.critterType === inc).map((c) => c.ueid),
+						),
+				  ];
+
 		const total = totals[inc];
+		const done = doneSet.length;
 		return {
 			critterType: inc,
 			done,
