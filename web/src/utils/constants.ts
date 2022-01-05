@@ -46,6 +46,9 @@ export const accountSettingsImportDataButtonText = 'Import';
 export const accountSettingsImportDataPlaceholderText = 'Data text';
 export const accountSettingsImportDataLoadingText =
 	'Importing your data. This could take a minute or so.';
+
+export const friendsTitleText = 'Friends';
+
 export const shadowSizeText = 'Shadow Size:';
 export const sourceText = 'Location:';
 export const bellsSellText = 'Sale price:';

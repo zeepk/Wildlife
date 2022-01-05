@@ -32,6 +32,15 @@ export type Profile = {
 	__v: any;
 };
 
+export type FriendRequest = {
+	_id: string;
+	requestor: Profile;
+	requestee: Profile;
+	createdAt: DateTime;
+	updatedAt: DateTime;
+	__v: any;
+};
+
 export type Caught = {
 	_id: string;
 	authId: string;

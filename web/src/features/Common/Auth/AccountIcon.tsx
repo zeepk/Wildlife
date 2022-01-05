@@ -28,6 +28,7 @@ export function AccountIcon() {
 		{
 			label: 'Friends',
 			icon: 'pi pi-users',
+			command: () => history.push('/friends'),
 		},
 		{
 			label: 'Your Totals',

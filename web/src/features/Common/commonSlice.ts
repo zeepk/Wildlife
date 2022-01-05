@@ -14,6 +14,7 @@ import {
 	AuthDataCreateAccount,
 	AuthDataUpdateProfile,
 	Caught,
+	FriendRequest,
 	Profile,
 	UpdateCaughtPayload,
 	Villager,
@@ -31,6 +32,9 @@ export interface CommonState {
 		account: {
 			profile: Profile | null;
 			caught: Array<Caught>;
+			friends: Array<Profile>;
+			incomingFriendRequests: Array<FriendRequest>;
+			outgoingFriendRequests: Array<FriendRequest>;
 		};
 		villagers: Array<Villager> | null;
 	};
@@ -48,6 +52,9 @@ const initialState: CommonState = {
 		account: {
 			profile: null,
 			caught: [],
+			friends: [],
+			incomingFriendRequests: [],
+			outgoingFriendRequests: [],
 		},
 		villagers: [],
 	},
@@ -58,7 +65,7 @@ export const getUserProfile = createAsyncThunk(
 	async (authId: string) => {
 		const response = await getProfile(authId);
 		return response;
-	}
+	},
 );
 
 export const createUserProfile = createAsyncThunk(
@@ -66,7 +73,7 @@ export const createUserProfile = createAsyncThunk(
 	async (payload: AuthDataCreateAccount) => {
 		const response = await createProfile(payload);
 		return response;
-	}
+	},
 );
 
 export const updateUserProfile = createAsyncThunk(
@@ -76,7 +83,7 @@ export const updateUserProfile = createAsyncThunk(
 		payload.authId = state.common.auth.account.profile.authId;
 		const response = await updateProfile(payload);
 		return response;
-	}
+	},
 );
 
 export const getUserCaught = createAsyncThunk(
@@ -84,7 +91,7 @@ export const getUserCaught = createAsyncThunk(
 	async (authId: string) => {
 		const response = await getCaught(authId);
 		return response;
-	}
+	},
 );
 
 export const getAllVillagers = createAsyncThunk(
@@ -92,14 +99,14 @@ export const getAllVillagers = createAsyncThunk(
 	async () => {
 		const response = await getVillagers();
 		return response;
-	}
+	},
 );
 
 export const createUserCaught = createAsyncThunk(
 	'common/auth/createcaught',
 	async (
 		data: { ueid: string; critterType?: critterTypes; value?: number },
-		{ getState, requestId }
+		{ getState, requestId },
 	) => {
 		// not using other params, but function won't work without them
 		const state: any = getState();
@@ -112,7 +119,7 @@ export const createUserCaught = createAsyncThunk(
 		};
 		const response = await createCaught(payload);
 		return response;
-	}
+	},
 );
 
 export const deleteUserCaught = createAsyncThunk(
@@ -128,7 +135,7 @@ export const deleteUserCaught = createAsyncThunk(
 		};
 		const response = await deleteCaught(payload);
 		return response;
-	}
+	},
 );
 
 export const importCaughtData = createAsyncThunk(
@@ -143,7 +150,7 @@ export const importCaughtData = createAsyncThunk(
 		};
 		const response = await importData(payload);
 		return response;
-	}
+	},
 );
 
 const incrementLoading = (state: CommonState) => {

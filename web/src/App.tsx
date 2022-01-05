@@ -28,6 +28,7 @@ import { AchievementsPage } from 'features/Tracking/pages/AchievementsPage';
 import { VillagersPage } from 'features/Tracking/pages/VillagersPage';
 import { SupportPage } from 'features/Common/SupportPage';
 import { TotalsPage } from 'features/Tracking/pages/TotalsPage';
+import { FriendsPage } from 'features/Common/Friends/FriendsPage';
 function initializeReactGA() {
 	console.warn('google analytics code invalid');
 	ReactGA.initialize('google analytics code');
@@ -47,6 +48,9 @@ function App() {
 					</Route>
 					<Route exact path="/totals">
 						{isLoggedIn ? <TotalsPage /> : <Redirect to="/" />}
+					</Route>
+					<Route exact path="/friends">
+						{isLoggedIn ? <FriendsPage /> : <Redirect to="/" />}
 					</Route>
 					<Route exact path="/fish">
 						<FishPage />

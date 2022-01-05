@@ -1,6 +1,6 @@
 import { hemispheres } from '@/utils/constants';
 import { Document, Schema, model } from 'mongoose';
-import { IVillager } from '@/models/villager';
+
 export interface IProfile extends Document {
 	authId: string;
 	username: string;
@@ -8,8 +8,8 @@ export interface IProfile extends Document {
 	hideCaught: boolean;
 	avatar: string;
 	avatarId: string;
-	friends: Array<IProfile>;
-	villagers: Array<IVillager>;
+	friends: Array<string>;
+	villagers: Array<string>;
 	hemisphere: hemispheres;
 }
 
@@ -34,3 +34,26 @@ const ProfileSchema = new Schema<IProfile>(
 );
 
 export const Profile = model<IProfile>('Profile', ProfileSchema);
+
+export interface IFriendRequest {
+	requestor: IProfile;
+	requestee: IProfile;
+}
+
+const FriendRequestSchema = new Schema(
+	{
+		requestor: Object,
+		requestee: Object,
+	},
+	{
+		timestamps: {
+			createdAt: 'createdAt',
+			updatedAt: 'updatedAt',
+		},
+	},
+);
+
+export const FriendRequest = model<IFriendRequest>(
+	'FriendRequest',
+	FriendRequestSchema,
+);

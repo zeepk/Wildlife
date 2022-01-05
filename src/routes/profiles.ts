@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { Profile } from '@/models/profile';
+import { FriendRequest, Profile } from '@/models/profile';
 import { Caught } from '@/models/caught';
 import {
 	critterTypes,
@@ -34,12 +34,40 @@ router.get('/api/profile/:id', async (req: Request, res: Response) => {
 		return res.sendStatus(404);
 	}
 	const caught = await Caught.find({ authId });
+	const friendProfiles = await Profile.find({
+		authId: { $in: profile.friends },
+	});
 	const resp = {
 		profile,
 		caught: caught ? caught : [],
+		friendProfiles: friendProfiles ? friendProfiles : [],
 	};
 	return res.status(200).send(resp);
 });
+
+router.get(
+	'/api/profile/friendrequests/:id',
+	async (req: Request, res: Response) => {
+		const authId = req.params.id;
+		const profile = await Profile.findOne({ authId: authId });
+		if (!profile) {
+			console.log(`invalid profile authId: ${authId}`);
+			return res.sendStatus(404);
+		}
+		const outgoingFriendRequests = await FriendRequest.find({
+			requestor: profile,
+		});
+		const incomingFriendRequests = await FriendRequest.find({
+			requestee: profile,
+		});
+		const resp = {
+			outgoingFriendRequests,
+			incomingFriendRequests,
+			profile,
+		};
+		return res.status(200).send(resp);
+	},
+);
 
 router.post('/api/profile', async (req: Request, res: Response) => {
 	const { authId, username, avatar, avatarId } = req.body;
@@ -99,6 +127,50 @@ router.put('/api/profile', async (req: Request, res: Response) => {
 	};
 	return res.status(200).send(resp);
 });
+
+router.delete(
+	'/api/profile/friendrequest',
+	async (req: Request, res: Response) => {
+		const { requestId, accepted } = req.body;
+		const friendRequest = await FriendRequest.findOne({ _id: requestId });
+		if (!friendRequest) {
+			console.log(`invalid friend request with id: ${requestId}`);
+			return res.sendStatus(404);
+		}
+
+		if (accepted) {
+			// add the users to each others' friends lists
+
+			const requesteeProfile = await Profile.findOne({
+				authId: friendRequest.requestee.authId,
+			});
+			const requestorProfile = await Profile.findOne({
+				authId: friendRequest.requestor.authId,
+			});
+
+			if (!requesteeProfile || !requestorProfile) {
+				console.log(
+					`invalid profile authId: ${friendRequest.requestee.authId} or ${friendRequest.requestor.authId}`,
+				);
+				return res.sendStatus(404);
+			}
+
+			requesteeProfile.friends.push(requestorProfile.authId);
+			requestorProfile.friends.push(requesteeProfile.authId);
+
+			await requestorProfile.save();
+			await requesteeProfile.save();
+		}
+
+		await FriendRequest.deleteOne({ _id: requestId });
+
+		const resp = {
+			accepted,
+			newFriend: friendRequest.requestor,
+		};
+		return res.status(200).send(resp);
+	},
+);
 
 router.delete('/api/profile', async (req: Request, res: Response) => {
 	const { authId, id, ueid } = req.body;
@@ -194,6 +266,25 @@ router.get('/api/profile/totals/:id', async (req: Request, res: Response) => {
 		totals: totalResponses,
 	};
 	return res.status(200).send(resp);
+});
+
+router.post('/api/profile/addfriend', async (req: Request, res: Response) => {
+	const { requesteeAuthId, requestorAuthId } = req.body;
+	const requesteeProfile = await Profile.findOne({ authId: requesteeAuthId });
+	const requestorProfile = await Profile.findOne({ authId: requestorAuthId });
+	if (!requesteeProfile || !requestorProfile) {
+		console.log(
+			`invalid profile authId: ${requesteeAuthId} or ${requestorAuthId}`,
+		);
+		return res.sendStatus(404);
+	}
+
+	const friendRequest = await FriendRequest.create({
+		requestor: requestorProfile,
+		requestee: requesteeProfile,
+	});
+
+	return res.status(200).send(friendRequest);
 });
 
 export { router as profileRouter };
