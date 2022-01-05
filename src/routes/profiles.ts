@@ -30,6 +30,7 @@ router.get('/api/profile/:id', async (req: Request, res: Response) => {
 	const authId = req.params.id;
 	const profile = await Profile.findOne({ authId: authId });
 	if (!profile) {
+		console.log(`invalid profile authId: ${authId}`);
 		return res.sendStatus(404);
 	}
 	const caught = await Caught.find({ authId });
@@ -60,6 +61,7 @@ router.put('/api/profile', async (req: Request, res: Response) => {
 		req.body;
 	const profile = await Profile.findOne({ authId });
 	if (!profile) {
+		console.log(`invalid profile authId: ${authId}`);
 		return res.sendStatus(404);
 	}
 
@@ -146,6 +148,7 @@ router.get('/api/profile/totals/:id', async (req: Request, res: Response) => {
 	const authId = req.params.id;
 	const profile = await Profile.findOne({ authId: authId });
 	if (!profile) {
+		console.log(`invalid profile authId: ${authId}`);
 		return res.sendStatus(404);
 	}
 	const caught = await Caught.find({ authId });
