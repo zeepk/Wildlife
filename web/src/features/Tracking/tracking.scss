@@ -246,11 +246,19 @@
 .page--totals {
 	padding-bottom: 10rem;
 
-	.overall {
+	.p-progressbar {
 		width: 95vw;
 		max-width: 40rem;
-		height: 2rem;
-		color: white;
+		height: 3rem;
+		border: 2px solid $lightGray;
+
+		.p-progressbar-label {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: black;
+			font-size: 1.5rem;
+		}
 	}
 	.text.overall {
 		color: $mediumGray;
@@ -266,6 +274,7 @@
 			border-radius: 3rem;
 			width: 95vw;
 			max-width: 20rem;
+			cursor: pointer;
 
 			.text {
 				font-size: 1.5rem;

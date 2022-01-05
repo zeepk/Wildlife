@@ -2,12 +2,14 @@ import React, { FunctionComponent } from 'react';
 import { Total } from 'features/Tracking/trackingTypes';
 import { navbarMenuItems } from 'utils/constants';
 import { Chart } from 'primereact/chart';
+import { useHistory } from 'react-router-dom';
 
 type props = {
 	item: Total;
 };
 
 export const TotalCard: FunctionComponent<props> = ({ item }) => {
+	const history = useHistory();
 	const name = navbarMenuItems.find((n) => n.type === item.critterType)?.text;
 	const chartData = {
 		datasets: [
@@ -29,7 +31,10 @@ export const TotalCard: FunctionComponent<props> = ({ item }) => {
 	};
 
 	return (
-		<div className="p-m-4 container--card-content p-d-flex p-ai-center p-flex-column">
+		<div
+			onClick={() => history.push(`/${name?.toLocaleLowerCase()}`)}
+			className="p-m-4 container--card-content p-d-flex p-ai-center p-flex-column"
+		>
 			<Chart
 				type="doughnut"
 				data={chartData}
