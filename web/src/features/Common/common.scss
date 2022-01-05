@@ -13,6 +13,9 @@
 	text-decoration: none;
 	font-size: 1.4rem;
 
+	.p-menubar-button {
+		color: white;
+	}
 	.p-menubar-root-list {
 		width: 100%;
 	}
@@ -39,6 +42,12 @@
 
 		.container--click {
 			cursor: pointer;
+		}
+	}
+	&.p-menubar-mobile-active {
+		.container--auth {
+			margin-top: 1rem;
+			padding-left: 0.5rem;
 		}
 	}
 }
