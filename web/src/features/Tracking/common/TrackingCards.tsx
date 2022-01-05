@@ -74,12 +74,16 @@ export const TrackingCards: FunctionComponent<props> = ({ items }) => {
 				if (achievement.sequential) {
 					return !caught.some(
 						(c) =>
-							c.ueid === achievement.ueid && c.value === achievement.tierCount
+							c.ueid === achievement.ueid && c.value === achievement.tierCount,
 					);
 				} else {
 					return (
-						caught.filter((c) => c.ueid === achievement.ueid).length %
-							achievement.tierCount ===
+						new Set(
+							caught
+								.filter((c) => c.ueid === achievement.ueid)
+								.map((c) => c.value),
+						).size %
+							achievement.tierCount !==
 						0
 					);
 				}
@@ -87,7 +91,7 @@ export const TrackingCards: FunctionComponent<props> = ({ items }) => {
 			return !caught.some((c) => c.ueid === i.ueid);
 		})
 		.filter((i) =>
-			i.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
+			i.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()),
 		)
 		.map((f) => (
 			<TrackingCard item={f} showCheckbox={showCheckbox} key={f._id} />
