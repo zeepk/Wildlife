@@ -22,7 +22,6 @@ import {
 	Achievement,
 	Total,
 } from 'features/Tracking/trackingTypes';
-import { TotalsPage } from './pages/TotalsPage';
 
 export interface TrackingState {
 	loading: number;
