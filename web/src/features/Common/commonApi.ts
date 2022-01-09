@@ -87,9 +87,9 @@ export async function getVillagers() {
 	return await requestWrapper(requestOptions);
 }
 
-export async function getFriendRequests() {
+export async function getFriendRequests(authId: string) {
 	const requestOptions = {
-		url: friendRequestsUrl,
+		url: `${friendRequestsUrl}/${authId}`,
 		method: 'GET',
 	};
 	return await requestWrapper(requestOptions);

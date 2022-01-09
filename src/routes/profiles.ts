@@ -37,7 +37,7 @@ router.get('/api/profile/:id', async (req: Request, res: Response) => {
 	const caught = await Caught.find({ authId });
 	const friendProfiles = await Profile.find(
 		{
-			authId: { $in: profile.friends },
+			_id: { $in: profile.friends },
 		},
 		{ _id: 0, authId: 0, friends: 0 },
 	);

@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch } from 'app/hooks';
 import { useAuth0 } from '@auth0/auth0-react';
-import { getUserProfile, createUserProfile } from 'features/Common/commonSlice';
+import {
+	getUserProfile,
+	createUserProfile,
+	getUserFriendRequests,
+} from 'features/Common/commonSlice';
 import { ProgressBar } from 'primereact/progressbar';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
@@ -71,6 +75,8 @@ export function AuthButtons() {
 			dispatch(getUserProfile(user.sub)).then((resp: any) => {
 				if (resp.error && user.sub && user.name && user.picture) {
 					setUsernameModalOpen(true);
+				} else {
+					dispatch(getUserFriendRequests());
 				}
 			});
 		}

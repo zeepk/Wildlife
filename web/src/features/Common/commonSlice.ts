@@ -9,6 +9,7 @@ import {
 	createCaught,
 	deleteCaught,
 	importData,
+	getFriendRequests,
 } from './commonApi';
 import {
 	AuthDataCreateAccount,
@@ -153,6 +154,17 @@ export const importCaughtData = createAsyncThunk(
 	},
 );
 
+export const getUserFriendRequests = createAsyncThunk(
+	'common/auth/importcaught',
+	async (data, { getState, requestId }) => {
+		// not using other params, but function won't work without them
+		const state: any = getState();
+		const authId = state.common.auth.account.profile.authId;
+		const response = await getFriendRequests(authId);
+		return response;
+	},
+);
+
 const incrementLoading = (state: CommonState) => {
 	state.auth.loading = state.auth.loading + 1;
 };
@@ -255,6 +267,14 @@ export const commonSlice = createSlice({
 						return true;
 					});
 				}
+			})
+			.addCase(getUserFriendRequests.fulfilled, (state, action) => {
+				if (action?.payload?.data) {
+					state.auth.account.incomingFriendRequests =
+						action.payload.data.incomingFriendRequests;
+					state.auth.account.outgoingFriendRequests =
+						action.payload.data.outgoingFriendRequests;
+				}
 			});
 	},
 });
@@ -267,6 +287,10 @@ export const selectAuthLoading = (state: RootState) =>
 	state.common.auth.loading > 0;
 export const selectAccountUsername = (state: RootState) =>
 	state.common.auth.account.profile?.username;
+export const selectAccountIncomingFriendRequests = (state: RootState) =>
+	state.common.auth.account.incomingFriendRequests;
+export const selectAccountOutgoingFriendRequests = (state: RootState) =>
+	state.common.auth.account.outgoingFriendRequests;
 export const selectAuthId = (state: RootState) =>
 	state.common.auth.account.profile?.authId;
 export const selectAccountHemisphere = (state: RootState) =>

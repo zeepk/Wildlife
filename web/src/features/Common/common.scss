@@ -31,6 +31,16 @@
 	.container--auth {
 		margin-left: auto;
 
+		.container--avatar {
+			.container--icon {
+				.p-badge {
+					margin: 0 0 0 2rem;
+					position: absolute;
+					z-index: 1;
+				}
+			}
+		}
+
 		.loading--profile {
 			height: 0.2rem;
 			width: 7rem;
@@ -152,6 +162,22 @@
 			a {
 				color: $mediumLightGreen;
 			}
+		}
+	}
+}
+.container--friends-page {
+	width: 100vw;
+	.container--friends {
+		width: 95vw;
+		max-width: 800px;
+		min-height: 50vh;
+		background-color: $mediumDarkGreen;
+		border: 0.7rem solid $backgroundColor;
+		border-radius: 3rem;
+
+		.title {
+			color: white;
+			text-align: center;
 		}
 	}
 }
@@ -295,4 +321,8 @@
 			white-space: pre-line;
 		}
 	}
+}
+.notif-badge {
+	background-color: $errorRed !important;
+	font-weight: bolder !important;
 }
