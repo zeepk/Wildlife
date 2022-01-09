@@ -4,7 +4,13 @@ import {
 	AuthDataUpdateProfile,
 	UpdateCaughtPayload,
 } from 'features/Common/commonTypes';
-import { profileUrl, caughtUrl, villagerUrl, importUrl } from 'utils/constants';
+import {
+	profileUrl,
+	caughtUrl,
+	villagerUrl,
+	importUrl,
+	friendRequestsUrl,
+} from 'utils/constants';
 
 export async function getProfile(authId: string) {
 	const requestOptions = {
@@ -76,6 +82,14 @@ export async function deleteCaught(data: UpdateCaughtPayload) {
 export async function getVillagers() {
 	const requestOptions = {
 		url: villagerUrl,
+		method: 'GET',
+	};
+	return await requestWrapper(requestOptions);
+}
+
+export async function getFriendRequests() {
+	const requestOptions = {
+		url: friendRequestsUrl,
 		method: 'GET',
 	};
 	return await requestWrapper(requestOptions);

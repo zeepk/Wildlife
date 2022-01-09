@@ -185,6 +185,7 @@ export const commonSlice = createSlice({
 					const resp = action.payload.data;
 					state.auth.account.profile = resp.profile;
 					state.auth.account.caught = resp.caught;
+					state.auth.account.friends = resp.friendProfiles;
 					state.auth.isLoggedIn = true;
 				}
 			})

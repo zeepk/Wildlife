@@ -9,6 +9,7 @@ import { villagerRouter } from '@/routes/villagers';
 import { updateRouter } from '@/routes/update';
 import { caughtRouter } from '@/routes/caught';
 import { profileRouter } from '@/routes/profiles';
+import { friendsRouter } from '@/routes/friends';
 import { artRouter } from '@/routes/arts';
 import { fossilRouter } from '@/routes/fossils';
 import { songRouter } from './routes/songs';
@@ -61,6 +62,7 @@ app.use(fossilRouter);
 app.use(songRouter);
 app.use(reactionRouter);
 app.use(achievementRouter);
+app.use(friendsRouter);
 if (connectionString) {
 	mongoose.connect(connectionString);
 }
