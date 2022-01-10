@@ -2,12 +2,14 @@
 export const versionNumber = '0.6.0';
 
 // urls
-
 export const apiBaseUrl = process.env.REACT_APP_API_URL;
+const endpointUrl = `${apiBaseUrl}/api`;
+export const profileUrl = `${endpointUrl}/profile`;
+
 export const loginUrl = `${apiBaseUrl}/login`;
 export const userUrl = `${apiBaseUrl}/api/user`;
+export const searchForUserUrl = `${apiBaseUrl}/api/profilesearch`;
 export const caughtUrl = `${apiBaseUrl}/api/caught`;
-export const profileUrl = `${apiBaseUrl}/api/profile`;
 export const importUrl = `${apiBaseUrl}/api/profile/import`;
 export const fishUrl = `${apiBaseUrl}/api/fish`;
 export const bugsUrl = `${apiBaseUrl}/api/bugs`;
@@ -50,6 +52,9 @@ export const accountSettingsImportDataLoadingText =
 	'Importing your data. This could take a minute or so.';
 
 export const friendsTitleText = 'Friends';
+export const addFriendTitleText = 'Add Friend';
+export const addFriendSearchPlaceholderText = 'Search';
+export const addFriendSearchButtonText = 'Search';
 
 export const shadowSizeText = 'Shadow Size:';
 export const sourceText = 'Location:';
@@ -81,6 +86,7 @@ export const errorMessageAccountSettingsNotLoggedIn =
 export const errorMessageAccountSettingsCannotUpdate =
 	'Could not update your account. Please try again or contact support.';
 export const errorMessageNoArtFound = 'High-res art image could not be loaded.';
+export const errorMessageNoUserFound = 'Not found';
 export const errorMessageInvalidImportData =
 	'Invalid format for import data. Please try again or contact support.';
 

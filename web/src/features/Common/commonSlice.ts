@@ -10,6 +10,7 @@ import {
 	deleteCaught,
 	importData,
 	getFriendRequests,
+	searchForProfile,
 } from './commonApi';
 import {
 	AuthDataCreateAccount,
@@ -161,6 +162,17 @@ export const getUserFriendRequests = createAsyncThunk(
 		const state: any = getState();
 		const authId = state.common.auth.account.profile.authId;
 		const response = await getFriendRequests(authId);
+		return response;
+	},
+);
+
+export const searchForUser = createAsyncThunk(
+	'common/auth/search',
+	async (username: string, { getState, requestId }) => {
+		// not using other params, but function won't work without them
+		const state: any = getState();
+		const profileId = state.common.auth.account.profile._id.toString();
+		const response = await searchForProfile({ username, profileId });
 		return response;
 	},
 );

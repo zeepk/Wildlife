@@ -169,7 +169,7 @@
 	width: 100vw;
 	.container--friends {
 		width: 95vw;
-		max-width: 800px;
+		max-width: 1000px;
 		min-height: 50vh;
 		background-color: $mediumDarkGreen;
 		border: 0.7rem solid $backgroundColor;
@@ -178,6 +178,36 @@
 		.title {
 			color: white;
 			text-align: center;
+		}
+
+		.container--add-friend {
+			width: 45%;
+			background-color: $backgroundColor;
+			border: 0.2rem solid white;
+			border-radius: 3rem;
+
+			.title {
+				color: $mediumGray;
+			}
+
+			.container--add {
+				min-height: 12rem;
+
+				.container--profile {
+					background-color: $mediumLightGreen;
+					border: 0.2rem solid white;
+					border-radius: 1rem;
+
+					.username {
+						color: $mediumGray;
+					}
+
+					img {
+						width: 2rem;
+						height: 2rem;
+					}
+				}
+			}
 		}
 	}
 }

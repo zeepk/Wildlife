@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+var ObjectID = require('mongodb').ObjectID;
 import { FriendRequest, Profile } from '@/models/profile';
 import { Caught } from '@/models/caught';
 import {
@@ -9,7 +10,6 @@ import {
 } from '@/utils/constants';
 import { Villager } from '@/models/villager';
 import { Critter } from '@/models/critter';
-import { Mongoose } from 'mongoose';
 import { Fossil } from '@/models/fossil';
 import { Song } from '@/models/song';
 import { Art } from '@/models/art';
@@ -204,4 +204,49 @@ router.get('/api/profile/totals/:id', async (req: Request, res: Response) => {
 	return res.status(200).send(resp);
 });
 
+router.post('/api/profilesearch', async (req: Request, res: Response) => {
+	const { profileId, username } = req.body;
+	const profile = await Profile.findOne(
+		{ username: username },
+		{ authId: 0, friends: 0 },
+	);
+	const resp: ApiResponse = {
+		success: true,
+		message: '',
+		data: null,
+	};
+	if (!profile) {
+		const message = `invalid profile for username: ${username}`;
+		console.log(message);
+		resp.success = false;
+		resp.message = message;
+		return res.status(404).send(resp);
+	}
+	const foundUserProfileId = profile._id;
+	// profileId = that of the user doing the searching
+	// profile = the user being searched for
+
+	const [existingIncomingFriendRequest, existingOutgoingFriendRequest] =
+		await Promise.all([
+			FriendRequest.findOne({
+				'requestor._id': foundUserProfileId,
+				'requestee._id': new ObjectID(profileId),
+			}),
+			FriendRequest.findOne({
+				'requestee._id': foundUserProfileId,
+				'requestor._id': new ObjectID(profileId),
+			}),
+		]);
+
+	const respData = {
+		existingIncoming: existingIncomingFriendRequest?._id || null,
+		existingOutgoing: existingOutgoingFriendRequest?._id || null,
+		isMe: foundUserProfileId.toString() === profileId,
+		profile,
+	};
+
+	resp.data = respData;
+
+	return res.status(200).send(resp);
+});
 export { router as profileRouter };
