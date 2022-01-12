@@ -3,7 +3,9 @@ import { Caught } from '@/models/caught';
 import { Achievement } from '@/models/achievement';
 const router = express.Router();
 
-router.get('/api/caught', async (req: Request, res: Response) => {
+router.get('/api/caught', async (req: any, res: Response) => {
+	console.log(req.oidc.isAuthenticated());
+	console.log(req.oidc?.user?.sub);
 	const { authId } = req.body;
 	const caught = await Caught.find({ authId });
 	return res.status(200).send(caught);

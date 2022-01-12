@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { FriendRequest, Profile } from '@/models/profile';
+const { auth } = require('express-oauth2-jwt-bearer');
 import { Caught } from '@/models/caught';
 import {
 	critterTypes,
@@ -15,6 +16,10 @@ import { Song } from '@/models/song';
 import { Art } from '@/models/art';
 const router = express.Router();
 
+const checkJwt = auth({
+	audience: 'https://dev-07z65uyo.us.auth0.com/api/v2/',
+	issuerBaseURL: `https://dev-07z65uyo.us.auth0.com/`,
+});
 // "given_name": "Matt",
 // "family_name": "Hughes",
 // "nickname": "mhughes",
