@@ -62,8 +62,8 @@ const initialState: CommonState = {
 
 export const getUserProfile = createAsyncThunk(
 	'common/auth/isLoggedIn',
-	async (authId: string) => {
-		const response = await getProfile(authId);
+	async () => {
+		const response = await getProfile();
 		return response;
 	},
 );

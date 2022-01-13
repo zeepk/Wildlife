@@ -16,10 +16,6 @@ import { Song } from '@/models/song';
 import { Art } from '@/models/art';
 const router = express.Router();
 
-const checkJwt = auth({
-	audience: 'https://dev-07z65uyo.us.auth0.com/api/v2/',
-	issuerBaseURL: `https://dev-07z65uyo.us.auth0.com/`,
-});
 // "given_name": "Matt",
 // "family_name": "Hughes",
 // "nickname": "mhughes",
@@ -31,18 +27,33 @@ const checkJwt = auth({
 // "email_verified": true,
 // "sub": "google-oauth2|1234"
 
-router.get('/api/profile/:id', async (req: Request, res: Response) => {
-	const authId = req.params.id;
+router.get('/api/profile', async (req: any, res: Response) => {
+	console.log('searching for profile...');
+	console.log(req.oidc.isAuthenticated());
+	const resp = {
+		success: true,
+		data: {},
+		message: '',
+	};
+	if (!req.oidc.isAuthenticated()) {
+		// not logged in
+		const message = 'User not authenticated';
+		resp.success = false;
+		resp.message = message;
+	}
+	const authId = req.oidc?.user?.sub;
 	const profile = await Profile.findOne({ authId: authId });
 	if (!profile) {
-		console.log(`invalid profile authId: ${authId}`);
-		return res.sendStatus(404);
+		const message = `invalid profile for authId: ${authId}`;
+		resp.success = false;
+		resp.message = message;
+		return res.status(404).send(resp);
 	}
 	const caught = await Caught.find({ authId });
 	const friendProfiles = await Profile.find({
 		authId: { $in: profile.friends },
 	});
-	const resp = {
+	resp.data = {
 		profile,
 		caught: caught ? caught : [],
 		friendProfiles: friendProfiles ? friendProfiles : [],

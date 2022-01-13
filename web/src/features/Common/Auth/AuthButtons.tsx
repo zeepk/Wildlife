@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useAppDispatch } from 'app/hooks';
-import { useAuth0 } from '@auth0/auth0-react';
-import { getUserProfile, createUserProfile } from 'features/Common/commonSlice';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import {
+	getUserProfile,
+	createUserProfile,
+	selectAuthIsLoggedIn,
+	selectAuthLoading,
+} from 'features/Common/commonSlice';
 import { ProgressBar } from 'primereact/progressbar';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
@@ -24,7 +28,9 @@ import AvatarDropdown from './AvatarDropdown';
 
 export function AuthButtons() {
 	const dispatch = useAppDispatch();
-	const { user, isAuthenticated, isLoading } = useAuth0();
+	const user = null;
+	const isLoggedIn = useAppSelector(selectAuthIsLoggedIn);
+	const isLoading = useAppSelector(selectAuthLoading);
 	const [username, setUsername] = useState('');
 	const [avatarUri, setAvatarUri] = useState('');
 	const [avatarId, setAvatarId] = useState('');
@@ -48,12 +54,12 @@ export function AuthButtons() {
 
 	const createAccount = () => {
 		setUsernameModalOpen(false);
-		if (!user || !user.sub || !user.picture) {
+		if (!user) {
 			console.error('unable to create profile');
 			return;
 		}
 		const createPayload = {
-			authId: user.sub,
+			authId: 'user.sub',
 			username: username,
 			avatar: avatarUri,
 			avatarId: avatarId,
@@ -67,14 +73,24 @@ export function AuthButtons() {
 	};
 
 	useEffect(() => {
-		if (isAuthenticated && user?.sub) {
-			dispatch(getUserProfile(user.sub)).then((resp: any) => {
-				if (resp.error && user.sub && user.name && user.picture) {
-					setUsernameModalOpen(true);
-				}
+		// if not logged in (refr or just hit page)
+		//		checkIsAuth/Profile
+		//		if no auth (not logged in, but could already have acct)
+		//			return nothing, show the login button
+		//		if auth but no prof (just arroved from creating auth0 acct)
+		//			open create profile modal
+		//		if auth and profile
+		//			return profile
+		if (!isLoggedIn) {
+			dispatch(getUserProfile()).then((resp: any) => {
+				console.log(resp);
+				// if (resp.error) {
+				// 	// TODO: make sure it's the right error code
+				// 	setUsernameModalOpen(true);
+				// }
 			});
 		}
-	}, [isAuthenticated, dispatch, user?.sub, user?.name, user?.picture]);
+	}, [dispatch, user]);
 
 	if (isLoading) {
 		return (
@@ -82,7 +98,7 @@ export function AuthButtons() {
 		);
 	}
 
-	if (isAuthenticated && user) {
+	if (isLoggedIn && user) {
 		return (
 			<div>
 				<Dialog

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector } from 'app/hooks';
 import {
 	selectAccountUsername,
@@ -14,7 +13,6 @@ import 'features/Common/common.scss';
 
 export function AccountIcon() {
 	const history = useHistory();
-	const { logout } = useAuth0();
 	const username = useAppSelector(selectAccountUsername);
 	const avatar = useAppSelector(selectAccountAvatar);
 	// const [avatarUri, setAvatarUri] = useState(avatar);
@@ -39,7 +37,7 @@ export function AccountIcon() {
 		{
 			label: 'Logout',
 			icon: 'pi pi-sign-out',
-			command: () => logout({ returnTo: window.location.origin }),
+			// command: () => logout({ returnTo: window.location.origin }),
 		},
 	];
 

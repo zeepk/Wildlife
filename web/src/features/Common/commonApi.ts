@@ -6,9 +6,9 @@ import {
 } from 'features/Common/commonTypes';
 import { profileUrl, caughtUrl, villagerUrl, importUrl } from 'utils/constants';
 
-export async function getProfile(authId: string) {
+export async function getProfile() {
 	const requestOptions = {
-		url: `${profileUrl}/${authId}`,
+		url: profileUrl,
 		method: 'GET',
 	};
 	return await requestWrapper(requestOptions);
