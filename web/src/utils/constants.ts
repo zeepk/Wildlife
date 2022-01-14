@@ -1,5 +1,5 @@
 // version
-export const versionNumber = '0.6.0';
+export const versionNumber = '0.7.0';
 
 // urls
 
