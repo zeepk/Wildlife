@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Toast } from 'primereact/toast';
 
 import { friendsTitleText } from 'utils/constants';
