@@ -20,7 +20,8 @@ export function AccountIcon() {
 	const avatar = useAppSelector(selectAccountAvatar);
 	const friendRequests = useAppSelector(selectAccountIncomingFriendRequests);
 
-	const badge = friendRequests?.length > 0 && (
+	// change to "> 0" outside of prod testing
+	const badge = friendRequests?.length > 999 && (
 		<Badge className="notif-badge" value={friendRequests.length} />
 	);
 	const menuItems = [

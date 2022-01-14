@@ -63,7 +63,6 @@ if (isProduction) {
 }
 
 app.get('/', (req: any, res) => {
-	console.log(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 	res.redirect(process.env.REACT_APP_BASE_URL || '');
 });
 app.use(critterRouter);

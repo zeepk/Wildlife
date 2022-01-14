@@ -29,8 +29,6 @@ const router = express.Router();
 // "sub": "google-oauth2|1234"
 
 router.get('/api/profile', async (req: any, res: Response) => {
-	console.log('searching for profile...');
-	console.log(req.oidc.isAuthenticated());
 	const data: ProfileResponse = {
 		isLoggedIn: true,
 		profile: null,
