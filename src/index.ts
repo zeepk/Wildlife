@@ -50,18 +50,19 @@ var sess = {
 	resave: false,
 	saveUninitialized: true,
 };
-app.use(session(sess));
 
 if (isProduction) {
 	// Use secure cookies in production (requires SSL/TLS)
-	// sess.cookie.secure = true;
+	sess.cookie.secure = true;
 	// Uncomment the line below if your application is behind a proxy (like on Heroku)
 	// or if you're encountering the error message:
 	// "Unable to verify authorization request state"
 	// app.set('trust proxy', 1);
 }
+app.use(session(sess));
 
 app.get('/', (req: any, res) => {
+	console.log(req.oidc.isAuthenticated() ? 'logged in' : 'logged out');
 	res.redirect(process.env.REACT_APP_BASE_URL || '');
 });
 app.use(critterRouter);
