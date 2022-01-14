@@ -1,8 +1,15 @@
 import React from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 
 export function Profile() {
-	const { user, isAuthenticated, isLoading } = useAuth0();
+	const isLoading = null;
+	const isAuthenticated = null;
+	const user = {
+		user: '',
+		picture: '',
+		name: '',
+		email: '',
+		sub: '',
+	};
 	if (isLoading) {
 		return <div>Loading ...</div>;
 	}

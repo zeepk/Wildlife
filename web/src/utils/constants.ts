@@ -1,5 +1,5 @@
 // version
-export const versionNumber = '0.6.0';
+export const versionNumber = '0.7.0';
 
 // urls
 export const apiBaseUrl = process.env.REACT_APP_API_URL;
@@ -7,6 +7,7 @@ const endpointUrl = `${apiBaseUrl}/api`;
 export const profileUrl = `${endpointUrl}/profile`;
 
 export const loginUrl = `${apiBaseUrl}/login`;
+export const logoutUrl = `${apiBaseUrl}/logout`;
 export const userUrl = `${apiBaseUrl}/api/user`;
 export const searchForUserUrl = `${apiBaseUrl}/api/profilesearch`;
 export const caughtUrl = `${apiBaseUrl}/api/caught`;

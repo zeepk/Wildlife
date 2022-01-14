@@ -22,6 +22,7 @@ import {
 	Villager,
 } from 'features/Common/commonTypes';
 import { critterTypes } from 'utils/constants';
+import { isNullOrUndefined } from 'utils/helperFunctions';
 export interface CommonState {
 	auth: {
 		error: boolean;
@@ -64,8 +65,8 @@ const initialState: CommonState = {
 
 export const getUserProfile = createAsyncThunk(
 	'common/auth/isLoggedIn',
-	async (authId: string) => {
-		const response = await getProfile(authId);
+	async () => {
+		const response = await getProfile();
 		return response;
 	},
 );
@@ -200,18 +201,21 @@ export const commonSlice = createSlice({
 			})
 			.addCase(getUserProfile.rejected, (state) => {
 				decrementLoading(state);
-				console.log('could not find profile');
 				state.auth.isLoggedIn = false;
 			})
 			.addCase(getUserProfile.fulfilled, (state, action) => {
-				decrementLoading(state);
 				if (action?.payload?.data) {
 					const resp = action.payload.data;
-					state.auth.account.profile = resp.profile;
-					state.auth.account.caught = resp.caught;
-					state.auth.account.friends = resp.friendProfiles;
-					state.auth.isLoggedIn = true;
+					const data = resp.data;
+
+					state.auth.isLoggedIn = data.isLoggedIn;
+					if (resp.success && data.profile) {
+						state.auth.account.profile = data.profile;
+						state.auth.account.caught = data.caught;
+						state.auth.account.friends = data.friendProfiles;
+					}
 				}
+				decrementLoading(state);
 			})
 			.addCase(createUserProfile.pending, (state) => {
 				incrementLoading(state);
@@ -297,6 +301,12 @@ export const selectAuthIsLoggedIn = (state: RootState) =>
 	state.common.auth.isLoggedIn;
 export const selectAuthLoading = (state: RootState) =>
 	state.common.auth.loading > 0;
+export const selectAuthError = (state: RootState) => state.common.auth.error;
+export const selectAuthErrorMessage = (state: RootState) =>
+	state.common.auth.errorMessage;
+
+export const selectAccountExists = (state: RootState) =>
+	!isNullOrUndefined(state.common.auth.account.profile);
 export const selectAccountUsername = (state: RootState) =>
 	state.common.auth.account.profile?.username;
 export const selectAccountIncomingFriendRequests = (state: RootState) =>
@@ -315,9 +325,7 @@ export const selectAccountAvatar = (state: RootState) =>
 	state.common.auth.account.profile?.avatar;
 export const selectAccountAvatarId = (state: RootState) =>
 	state.common.auth.account.profile?.avatarId;
-export const selectAuthError = (state: RootState) => state.common.auth.error;
-export const selectAuthErrorMessage = (state: RootState) =>
-	state.common.auth.errorMessage;
+
 export const selectVillagers = (state: RootState) =>
 	state.common.auth.villagers;
 

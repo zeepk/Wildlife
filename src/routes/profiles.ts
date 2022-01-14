@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express';
 var ObjectID = require('mongodb').ObjectID;
 import { FriendRequest, Profile } from '@/models/profile';
-import { Caught } from '@/models/caught';
+const { auth } = require('express-oauth2-jwt-bearer');
+import { Caught, ICaught } from '@/models/caught';
 import {
 	critterTypes,
 	hemispheres,
@@ -13,7 +14,7 @@ import { Critter } from '@/models/critter';
 import { Fossil } from '@/models/fossil';
 import { Song } from '@/models/song';
 import { Art } from '@/models/art';
-import { ApiResponse } from '@/utils/customTypes';
+import { ApiResponse, ProfileResponse } from '@/utils/customTypes';
 const router = express.Router();
 
 // "given_name": "Matt",
@@ -27,12 +28,35 @@ const router = express.Router();
 // "email_verified": true,
 // "sub": "google-oauth2|1234"
 
-router.get('/api/profile/:id', async (req: Request, res: Response) => {
-	const authId = req.params.id;
+router.get('/api/profile', async (req: any, res: Response) => {
+	console.log('searching for profile...');
+	console.log(req.oidc.isAuthenticated());
+	const data: ProfileResponse = {
+		isLoggedIn: true,
+		profile: null,
+		caught: null,
+		friendProfiles: null,
+		tempAuthId: null,
+	};
+	const resp: ApiResponse = {
+		success: true,
+		data: data,
+		message: '',
+	};
+	if (!req.oidc.isAuthenticated()) {
+		// not logged in
+		const message = 'User not authenticated';
+		resp.message = message;
+		resp.data.isLoggedIn = false;
+		return res.status(200).send(resp);
+	}
+	const authId = req.oidc?.user?.sub;
 	const profile = await Profile.findOne({ authId: authId });
 	if (!profile) {
-		console.log(`invalid profile authId: ${authId}`);
-		return res.sendStatus(404);
+		const message = `invalid profile for authId: ${authId}`;
+		resp.message = message;
+		resp.data.tempAuthId = authId;
+		return res.status(200).send(resp);
 	}
 	const caught = await Caught.find({ authId });
 	const friendProfiles = await Profile.find(
@@ -41,10 +65,12 @@ router.get('/api/profile/:id', async (req: Request, res: Response) => {
 		},
 		{ _id: 0, authId: 0, friends: 0 },
 	);
-	const resp = {
+	resp.data = {
+		isLoggedIn: true,
 		profile,
 		caught: caught ? caught : [],
 		friendProfiles: friendProfiles ? friendProfiles : [],
+		tempAuthId: null,
 	};
 	return res.status(200).send(resp);
 });

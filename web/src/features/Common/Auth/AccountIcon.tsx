@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
 import { useAppSelector } from 'app/hooks';
 import {
 	selectAccountUsername,
@@ -13,10 +12,10 @@ import { Menu } from 'primereact/menu';
 import { Button } from 'primereact/button';
 import { Badge } from 'primereact/badge';
 import 'features/Common/common.scss';
+import { logoutUrl } from 'utils/constants';
 
 export function AccountIcon() {
 	const history = useHistory();
-	const { logout } = useAuth0();
 	const username = useAppSelector(selectAccountUsername);
 	const avatar = useAppSelector(selectAccountAvatar);
 	const friendRequests = useAppSelector(selectAccountIncomingFriendRequests);
@@ -60,7 +59,7 @@ export function AccountIcon() {
 		{
 			label: 'Logout',
 			icon: 'pi pi-sign-out',
-			command: () => logout({ returnTo: window.location.origin }),
+			command: () => (window.location.href = logoutUrl),
 		},
 	];
 
