@@ -48,6 +48,7 @@ const app = express();
 const isProduction = process.env.NODE_ENV === 'production';
 var cookieParser = require('cookie-parser');
 app.set('trust proxy', 1);
+app.enable('trust proxy');
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({ origin: getCORSOrigin, credentials: true }));
@@ -60,6 +61,7 @@ var sess = {
 	secret: 'secret',
 	resave: false,
 	saveUninitialized: false,
+	proxy: true,
 	cookie: {
 		maxAge: 60 * 60 * 1000,
 		sameSite: true,
