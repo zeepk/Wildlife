@@ -5,6 +5,7 @@ export const versionNumber = '0.6.0';
 
 export const apiBaseUrl = process.env.REACT_APP_API_URL;
 export const loginUrl = `${apiBaseUrl}/login`;
+export const logoutUrl = `${apiBaseUrl}/logout`;
 export const userUrl = `${apiBaseUrl}/api/user`;
 export const caughtUrl = `${apiBaseUrl}/api/caught`;
 export const profileUrl = `${apiBaseUrl}/api/profile`;

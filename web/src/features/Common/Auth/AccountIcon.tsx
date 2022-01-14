@@ -10,6 +10,7 @@ import { isNullUndefinedOrWhitespace } from 'utils/helperFunctions';
 import { Menu } from 'primereact/menu';
 import { Button } from 'primereact/button';
 import 'features/Common/common.scss';
+import { logoutUrl } from 'utils/constants';
 
 export function AccountIcon() {
 	const history = useHistory();
@@ -37,7 +38,7 @@ export function AccountIcon() {
 		{
 			label: 'Logout',
 			icon: 'pi pi-sign-out',
-			// command: () => logout({ returnTo: window.location.origin }),
+			command: () => (window.location.href = logoutUrl),
 		},
 	];
 

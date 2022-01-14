@@ -6,4 +6,5 @@ export type ProfileResponse = {
 	profile: IProfile | null;
 	caught: Array<ICaught> | null;
 	friendProfiles: Array<IProfile> | null;
+	tempAuthId: string | null;
 };

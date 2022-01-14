@@ -5,6 +5,7 @@ import {
 	createUserProfile,
 	selectAuthIsLoggedIn,
 	selectAuthLoading,
+	selectAccountExists,
 } from 'features/Common/commonSlice';
 import { ProgressBar } from 'primereact/progressbar';
 import { Button } from 'primereact/button';
@@ -28,12 +29,13 @@ import AvatarDropdown from './AvatarDropdown';
 
 export function AuthButtons() {
 	const dispatch = useAppDispatch();
-	const user = null;
 	const isLoggedIn = useAppSelector(selectAuthIsLoggedIn);
+	const profileExists = useAppSelector(selectAccountExists);
 	const isLoading = useAppSelector(selectAuthLoading);
 	const [username, setUsername] = useState('');
 	const [avatarUri, setAvatarUri] = useState('');
 	const [avatarId, setAvatarId] = useState('');
+	const [tempAuthId, setTempAuthId] = useState('');
 
 	const [errorMessage, setErrorMessage] = useState('');
 	const [usernameModalOpen, setUsernameModalOpen] = useState(false);
@@ -54,12 +56,8 @@ export function AuthButtons() {
 
 	const createAccount = () => {
 		setUsernameModalOpen(false);
-		if (!user) {
-			console.error('unable to create profile');
-			return;
-		}
 		const createPayload = {
-			authId: 'user.sub',
+			authId: tempAuthId,
 			username: username,
 			avatar: avatarUri,
 			avatarId: avatarId,
@@ -85,11 +83,12 @@ export function AuthButtons() {
 			dispatch(getUserProfile()).then((resp: any) => {
 				const data = resp.payload.data.data;
 				if (data.isLoggedIn && !data.profile) {
+					setTempAuthId(data.tempAuthId);
 					setUsernameModalOpen(true);
 				}
 			});
 		}
-	}, [dispatch, user]);
+	}, [dispatch, isLoggedIn]);
 
 	if (isLoading) {
 		return (
@@ -97,7 +96,7 @@ export function AuthButtons() {
 		);
 	}
 
-	if (isLoggedIn && user) {
+	if (isLoggedIn) {
 		return (
 			<div>
 				<Dialog
@@ -124,7 +123,7 @@ export function AuthButtons() {
 					</div>
 				</Dialog>
 
-				<AccountIcon />
+				{profileExists && <AccountIcon />}
 			</div>
 		);
 	}

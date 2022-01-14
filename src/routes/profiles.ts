@@ -36,6 +36,7 @@ router.get('/api/profile', async (req: any, res: Response) => {
 		profile: null,
 		caught: null,
 		friendProfiles: null,
+		tempAuthId: null,
 	};
 	const resp = {
 		success: true,
@@ -54,6 +55,7 @@ router.get('/api/profile', async (req: any, res: Response) => {
 	if (!profile) {
 		const message = `invalid profile for authId: ${authId}`;
 		resp.message = message;
+		resp.data.tempAuthId = authId;
 		return res.status(200).send(resp);
 	}
 	const caught = await Caught.find({ authId });
@@ -65,6 +67,7 @@ router.get('/api/profile', async (req: any, res: Response) => {
 		profile,
 		caught: caught ? caught : [],
 		friendProfiles: friendProfiles ? friendProfiles : [],
+		tempAuthId: null,
 	};
 	return res.status(200).send(resp);
 });

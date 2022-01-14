@@ -20,6 +20,7 @@ import {
 	Villager,
 } from 'features/Common/commonTypes';
 import { critterTypes } from 'utils/constants';
+import { isNullOrUndefined } from 'utils/helperFunctions';
 export interface CommonState {
 	auth: {
 		error: boolean;
@@ -266,6 +267,12 @@ export const selectAuthIsLoggedIn = (state: RootState) =>
 	state.common.auth.isLoggedIn;
 export const selectAuthLoading = (state: RootState) =>
 	state.common.auth.loading > 0;
+export const selectAuthError = (state: RootState) => state.common.auth.error;
+export const selectAuthErrorMessage = (state: RootState) =>
+	state.common.auth.errorMessage;
+
+export const selectAccountExists = (state: RootState) =>
+	!isNullOrUndefined(state.common.auth.account.profile);
 export const selectAccountUsername = (state: RootState) =>
 	state.common.auth.account.profile?.username;
 export const selectAuthId = (state: RootState) =>
@@ -280,9 +287,7 @@ export const selectAccountAvatar = (state: RootState) =>
 	state.common.auth.account.profile?.avatar;
 export const selectAccountAvatarId = (state: RootState) =>
 	state.common.auth.account.profile?.avatarId;
-export const selectAuthError = (state: RootState) => state.common.auth.error;
-export const selectAuthErrorMessage = (state: RootState) =>
-	state.common.auth.errorMessage;
+
 export const selectVillagers = (state: RootState) =>
 	state.common.auth.villagers;
 
