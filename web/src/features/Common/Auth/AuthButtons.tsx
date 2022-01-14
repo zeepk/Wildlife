@@ -83,11 +83,10 @@ export function AuthButtons() {
 		//			return profile
 		if (!isLoggedIn) {
 			dispatch(getUserProfile()).then((resp: any) => {
-				console.log(resp);
-				// if (resp.error) {
-				// 	// TODO: make sure it's the right error code
-				// 	setUsernameModalOpen(true);
-				// }
+				const data = resp.payload.data.data;
+				if (data.isLoggedIn && !data.profile) {
+					setUsernameModalOpen(true);
+				}
 			});
 		}
 	}, [dispatch, user]);

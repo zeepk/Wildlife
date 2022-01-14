@@ -21,7 +21,7 @@ var cookieParser = require('cookie-parser');
 const config = {
 	authRequired: false,
 	auth0Logout: true,
-	secret: 'a long, randomly-generated string stored in env',
+	secret: process.env.AUTH0_LOCAL_SECRET,
 	// TODO: set baseURL to env var
 	baseURL: 'http://localhost:8000',
 	clientID: process.env.AUTH0_CLIENT_ID,

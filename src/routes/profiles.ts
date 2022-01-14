@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { FriendRequest, Profile } from '@/models/profile';
 const { auth } = require('express-oauth2-jwt-bearer');
-import { Caught } from '@/models/caught';
+import { Caught, ICaught } from '@/models/caught';
 import {
 	critterTypes,
 	hemispheres,
@@ -14,6 +14,7 @@ import { Mongoose } from 'mongoose';
 import { Fossil } from '@/models/fossil';
 import { Song } from '@/models/song';
 import { Art } from '@/models/art';
+import { ProfileResponse } from '@/utils/customTypes';
 const router = express.Router();
 
 // "given_name": "Matt",
@@ -30,30 +31,37 @@ const router = express.Router();
 router.get('/api/profile', async (req: any, res: Response) => {
 	console.log('searching for profile...');
 	console.log(req.oidc.isAuthenticated());
+	const data: ProfileResponse = {
+		isLoggedIn: true,
+		profile: null,
+		caught: null,
+		friendProfiles: null,
+	};
 	const resp = {
 		success: true,
-		data: {},
+		data: data,
 		message: '',
 	};
 	if (!req.oidc.isAuthenticated()) {
 		// not logged in
 		const message = 'User not authenticated';
-		resp.success = false;
 		resp.message = message;
+		resp.data.isLoggedIn = false;
+		return res.status(200).send(resp);
 	}
 	const authId = req.oidc?.user?.sub;
 	const profile = await Profile.findOne({ authId: authId });
 	if (!profile) {
 		const message = `invalid profile for authId: ${authId}`;
-		resp.success = false;
 		resp.message = message;
-		return res.status(404).send(resp);
+		return res.status(200).send(resp);
 	}
 	const caught = await Caught.find({ authId });
 	const friendProfiles = await Profile.find({
 		authId: { $in: profile.friends },
 	});
 	resp.data = {
+		isLoggedIn: true,
 		profile,
 		caught: caught ? caught : [],
 		friendProfiles: friendProfiles ? friendProfiles : [],

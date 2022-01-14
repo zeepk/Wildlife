@@ -176,17 +176,19 @@ export const commonSlice = createSlice({
 			})
 			.addCase(getUserProfile.rejected, (state) => {
 				decrementLoading(state);
-				console.log('could not find profile');
 				state.auth.isLoggedIn = false;
 			})
 			.addCase(getUserProfile.fulfilled, (state, action) => {
-				decrementLoading(state);
 				if (action?.payload?.data) {
 					const resp = action.payload.data;
-					state.auth.account.profile = resp.profile;
-					state.auth.account.caught = resp.caught;
-					state.auth.isLoggedIn = true;
+					const data = resp.data;
+					state.auth.isLoggedIn = data.isLoggedIn;
+					if (resp.success && data.profile) {
+						state.auth.account.profile = data.profile;
+						state.auth.account.caught = data.caught;
+					}
 				}
+				decrementLoading(state);
 			})
 			.addCase(createUserProfile.pending, (state) => {
 				incrementLoading(state);
