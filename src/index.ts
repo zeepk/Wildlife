@@ -33,7 +33,7 @@ const config = {
 };
 
 const app = express();
-const isProduction = app.get('env') === 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({ origin: true, credentials: true }));
