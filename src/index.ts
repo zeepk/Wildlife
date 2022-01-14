@@ -31,14 +31,26 @@ const config = {
 	clientID: process.env.AUTH0_CLIENT_ID,
 	issuerBaseURL: process.env.AUTH0_DOMAIN,
 };
+const allowedOrigins = [
+	process.env.REACT_APP_BASE_URL,
+	process.env.API_URL,
+	process.env.AUTH0_DOMAIN,
+];
 
+const getCORSOrigin = (origin, callback) => {
+	if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+		callback(null, true);
+	} else {
+		callback(new Error(`Origin "${origin}" is not allowed by CORS`));
+	}
+};
 const app = express();
 const isProduction = process.env.NODE_ENV === 'production';
 var cookieParser = require('cookie-parser');
-app.set('trust proxy', true);
+app.set('trust proxy', 1);
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors({ origin: process.env.REACT_APP_BASE_URL, credentials: true }));
+app.use(cors({ origin: getCORSOrigin, credentials: true }));
 app.use(auth(config));
 app.use(bodyParser.json());
 app.use(json());
@@ -46,14 +58,17 @@ dotenv.config();
 
 var sess = {
 	secret: 'secret',
-	cookie: {
-		secure: false,
-	},
 	resave: false,
-	saveUninitialized: true,
+	saveUninitialized: false,
+	cookie: {
+		maxAge: 60 * 60 * 1000,
+		sameSite: true,
+		httpOnly: true,
+		// 2nd change.
+		secure: true,
+	},
 };
 
-sess.cookie.secure = true;
 if (isProduction) {
 	// Use secure cookies in production (requires SSL/TLS)
 	// Uncomment the line below if your application is behind a proxy (like on Heroku)
