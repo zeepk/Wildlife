@@ -34,9 +34,11 @@ const config = {
 
 const app = express();
 const isProduction = process.env.NODE_ENV === 'production';
-
+var cookieParser = require('cookie-parser');
+app.set('trust proxy', true);
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ origin: process.env.REACT_APP_BASE_URL, credentials: true }));
 app.use(auth(config));
 app.use(bodyParser.json());
 app.use(json());
