@@ -4,11 +4,18 @@ import {
 	AuthDataUpdateProfile,
 	UpdateCaughtPayload,
 } from 'features/Common/commonTypes';
-import { profileUrl, caughtUrl, villagerUrl, importUrl } from 'utils/constants';
+import {
+	profileUrl,
+	caughtUrl,
+	villagerUrl,
+	importUrl,
+	friendRequestsUrl,
+	searchForUserUrl,
+} from 'utils/constants';
 
-export async function getProfile(authId: string) {
+export async function getProfile() {
 	const requestOptions = {
-		url: `${profileUrl}/${authId}`,
+		url: profileUrl,
 		method: 'GET',
 	};
 	return await requestWrapper(requestOptions);
@@ -77,6 +84,26 @@ export async function getVillagers() {
 	const requestOptions = {
 		url: villagerUrl,
 		method: 'GET',
+	};
+	return await requestWrapper(requestOptions);
+}
+
+export async function getFriendRequests(authId: string) {
+	const requestOptions = {
+		url: `${friendRequestsUrl}/${authId}`,
+		method: 'GET',
+	};
+	return await requestWrapper(requestOptions);
+}
+
+export async function searchForProfile(data: {
+	profileId: string;
+	username: string;
+}) {
+	const requestOptions = {
+		url: searchForUserUrl,
+		method: 'POST',
+		data,
 	};
 	return await requestWrapper(requestOptions);
 }

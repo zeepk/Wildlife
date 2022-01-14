@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
+var ObjectID = require('mongodb').ObjectID;
 import { FriendRequest, Profile } from '@/models/profile';
-import { Caught } from '@/models/caught';
+const { auth } = require('express-oauth2-jwt-bearer');
+import { Caught, ICaught } from '@/models/caught';
 import {
 	critterTypes,
 	hemispheres,
@@ -9,10 +11,10 @@ import {
 } from '@/utils/constants';
 import { Villager } from '@/models/villager';
 import { Critter } from '@/models/critter';
-import { Mongoose } from 'mongoose';
 import { Fossil } from '@/models/fossil';
 import { Song } from '@/models/song';
 import { Art } from '@/models/art';
+import { ApiResponse, ProfileResponse } from '@/utils/customTypes';
 const router = express.Router();
 
 // "given_name": "Matt",
@@ -26,48 +28,52 @@ const router = express.Router();
 // "email_verified": true,
 // "sub": "google-oauth2|1234"
 
-router.get('/api/profile/:id', async (req: Request, res: Response) => {
-	const authId = req.params.id;
+router.get('/api/profile', async (req: any, res: Response) => {
+	console.log('searching for profile...');
+	console.log(req.oidc.isAuthenticated());
+	const data: ProfileResponse = {
+		isLoggedIn: true,
+		profile: null,
+		caught: null,
+		friendProfiles: null,
+		tempAuthId: null,
+	};
+	const resp: ApiResponse = {
+		success: true,
+		data: data,
+		message: '',
+	};
+	if (!req.oidc.isAuthenticated()) {
+		// not logged in
+		const message = 'User not authenticated';
+		resp.message = message;
+		resp.data.isLoggedIn = false;
+		return res.status(200).send(resp);
+	}
+	const authId = req.oidc?.user?.sub;
 	const profile = await Profile.findOne({ authId: authId });
 	if (!profile) {
-		console.log(`invalid profile authId: ${authId}`);
-		return res.sendStatus(404);
+		const message = `invalid profile for authId: ${authId}`;
+		resp.message = message;
+		resp.data.tempAuthId = authId;
+		return res.status(200).send(resp);
 	}
 	const caught = await Caught.find({ authId });
-	const friendProfiles = await Profile.find({
-		authId: { $in: profile.friends },
-	});
-	const resp = {
+	const friendProfiles = await Profile.find(
+		{
+			_id: { $in: profile.friends },
+		},
+		{ _id: 0, authId: 0, friends: 0 },
+	);
+	resp.data = {
+		isLoggedIn: true,
 		profile,
 		caught: caught ? caught : [],
 		friendProfiles: friendProfiles ? friendProfiles : [],
+		tempAuthId: null,
 	};
 	return res.status(200).send(resp);
 });
-
-router.get(
-	'/api/profile/friendrequests/:id',
-	async (req: Request, res: Response) => {
-		const authId = req.params.id;
-		const profile = await Profile.findOne({ authId: authId });
-		if (!profile) {
-			console.log(`invalid profile authId: ${authId}`);
-			return res.sendStatus(404);
-		}
-		const outgoingFriendRequests = await FriendRequest.find({
-			requestor: profile,
-		});
-		const incomingFriendRequests = await FriendRequest.find({
-			requestee: profile,
-		});
-		const resp = {
-			outgoingFriendRequests,
-			incomingFriendRequests,
-			profile,
-		};
-		return res.status(200).send(resp);
-	},
-);
 
 router.post('/api/profile', async (req: Request, res: Response) => {
 	const { authId, username, avatar, avatarId } = req.body;
@@ -127,50 +133,6 @@ router.put('/api/profile', async (req: Request, res: Response) => {
 	};
 	return res.status(200).send(resp);
 });
-
-router.delete(
-	'/api/profile/friendrequest',
-	async (req: Request, res: Response) => {
-		const { requestId, accepted } = req.body;
-		const friendRequest = await FriendRequest.findOne({ _id: requestId });
-		if (!friendRequest) {
-			console.log(`invalid friend request with id: ${requestId}`);
-			return res.sendStatus(404);
-		}
-
-		if (accepted) {
-			// add the users to each others' friends lists
-
-			const requesteeProfile = await Profile.findOne({
-				authId: friendRequest.requestee.authId,
-			});
-			const requestorProfile = await Profile.findOne({
-				authId: friendRequest.requestor.authId,
-			});
-
-			if (!requesteeProfile || !requestorProfile) {
-				console.log(
-					`invalid profile authId: ${friendRequest.requestee.authId} or ${friendRequest.requestor.authId}`,
-				);
-				return res.sendStatus(404);
-			}
-
-			requesteeProfile.friends.push(requestorProfile.authId);
-			requestorProfile.friends.push(requesteeProfile.authId);
-
-			await requestorProfile.save();
-			await requesteeProfile.save();
-		}
-
-		await FriendRequest.deleteOne({ _id: requestId });
-
-		const resp = {
-			accepted,
-			newFriend: friendRequest.requestor,
-		};
-		return res.status(200).send(resp);
-	},
-);
 
 router.delete('/api/profile', async (req: Request, res: Response) => {
 	const { authId, id, ueid } = req.body;
@@ -268,23 +230,49 @@ router.get('/api/profile/totals/:id', async (req: Request, res: Response) => {
 	return res.status(200).send(resp);
 });
 
-router.post('/api/profile/addfriend', async (req: Request, res: Response) => {
-	const { requesteeAuthId, requestorAuthId } = req.body;
-	const requesteeProfile = await Profile.findOne({ authId: requesteeAuthId });
-	const requestorProfile = await Profile.findOne({ authId: requestorAuthId });
-	if (!requesteeProfile || !requestorProfile) {
-		console.log(
-			`invalid profile authId: ${requesteeAuthId} or ${requestorAuthId}`,
-		);
-		return res.sendStatus(404);
+router.post('/api/profilesearch', async (req: Request, res: Response) => {
+	const { profileId, username } = req.body;
+	const profile = await Profile.findOne(
+		{ username: username },
+		{ authId: 0, friends: 0 },
+	);
+	const resp: ApiResponse = {
+		success: true,
+		message: '',
+		data: null,
+	};
+	if (!profile) {
+		const message = `invalid profile for username: ${username}`;
+		console.log(message);
+		resp.success = false;
+		resp.message = message;
+		return res.status(404).send(resp);
 	}
+	const foundUserProfileId = profile._id;
+	// profileId = that of the user doing the searching
+	// profile = the user being searched for
 
-	const friendRequest = await FriendRequest.create({
-		requestor: requestorProfile,
-		requestee: requesteeProfile,
-	});
+	const [existingIncomingFriendRequest, existingOutgoingFriendRequest] =
+		await Promise.all([
+			FriendRequest.findOne({
+				'requestor._id': foundUserProfileId,
+				'requestee._id': new ObjectID(profileId),
+			}),
+			FriendRequest.findOne({
+				'requestee._id': foundUserProfileId,
+				'requestor._id': new ObjectID(profileId),
+			}),
+		]);
 
-	return res.status(200).send(friendRequest);
+	const respData = {
+		existingIncoming: existingIncomingFriendRequest?._id || null,
+		existingOutgoing: existingOutgoingFriendRequest?._id || null,
+		isMe: foundUserProfileId.toString() === profileId,
+		profile,
+	};
+
+	resp.data = respData;
+
+	return res.status(200).send(resp);
 });
-
 export { router as profileRouter };

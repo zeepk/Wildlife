@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useAppDispatch } from 'app/hooks';
-import { useAuth0 } from '@auth0/auth0-react';
-import { getUserProfile, createUserProfile } from 'features/Common/commonSlice';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import {
+	getUserProfile,
+	createUserProfile,
+	selectAuthIsLoggedIn,
+	selectAuthLoading,
+	selectAccountExists,
+	getUserFriendRequests,
+} from 'features/Common/commonSlice';
 import { ProgressBar } from 'primereact/progressbar';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
@@ -24,10 +30,13 @@ import AvatarDropdown from './AvatarDropdown';
 
 export function AuthButtons() {
 	const dispatch = useAppDispatch();
-	const { user, isAuthenticated, isLoading } = useAuth0();
+	const isLoggedIn = useAppSelector(selectAuthIsLoggedIn);
+	const profileExists = useAppSelector(selectAccountExists);
+	const isLoading = useAppSelector(selectAuthLoading);
 	const [username, setUsername] = useState('');
 	const [avatarUri, setAvatarUri] = useState('');
 	const [avatarId, setAvatarId] = useState('');
+	const [tempAuthId, setTempAuthId] = useState('');
 
 	const [errorMessage, setErrorMessage] = useState('');
 	const [usernameModalOpen, setUsernameModalOpen] = useState(false);
@@ -48,12 +57,8 @@ export function AuthButtons() {
 
 	const createAccount = () => {
 		setUsernameModalOpen(false);
-		if (!user || !user.sub || !user.picture) {
-			console.error('unable to create profile');
-			return;
-		}
 		const createPayload = {
-			authId: user.sub,
+			authId: tempAuthId,
 			username: username,
 			avatar: avatarUri,
 			avatarId: avatarId,
@@ -67,14 +72,26 @@ export function AuthButtons() {
 	};
 
 	useEffect(() => {
-		if (isAuthenticated && user?.sub) {
-			dispatch(getUserProfile(user.sub)).then((resp: any) => {
-				if (resp.error && user.sub && user.name && user.picture) {
+		// if not logged in (refr or just hit page)
+		//		checkIsAuth/Profile
+		//		if no auth (not logged in, but could already have acct)
+		//			return nothing, show the login button
+		//		if auth but no prof (just arroved from creating auth0 acct)
+		//			open create profile modal
+		//		if auth and profile
+		//			return profile
+		if (!isLoggedIn) {
+			dispatch(getUserProfile()).then((resp: any) => {
+				const data = resp.payload.data.data;
+				if (data.isLoggedIn && !data.profile) {
+					setTempAuthId(data.tempAuthId);
 					setUsernameModalOpen(true);
+				} else {
+					dispatch(getUserFriendRequests());
 				}
 			});
 		}
-	}, [isAuthenticated, dispatch, user?.sub, user?.name, user?.picture]);
+	}, [dispatch, isLoggedIn]);
 
 	if (isLoading) {
 		return (
@@ -82,7 +99,7 @@ export function AuthButtons() {
 		);
 	}
 
-	if (isAuthenticated && user) {
+	if (isLoggedIn) {
 		return (
 			<div>
 				<Dialog
@@ -109,7 +126,7 @@ export function AuthButtons() {
 					</div>
 				</Dialog>
 
-				<AccountIcon />
+				{profileExists && <AccountIcon />}
 			</div>
 		);
 	}

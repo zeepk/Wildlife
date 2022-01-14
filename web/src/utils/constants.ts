@@ -1,13 +1,16 @@
 // version
-export const versionNumber = '0.6.0';
+export const versionNumber = '0.7.0';
 
 // urls
-
 export const apiBaseUrl = process.env.REACT_APP_API_URL;
+const endpointUrl = `${apiBaseUrl}/api`;
+export const profileUrl = `${endpointUrl}/profile`;
+
 export const loginUrl = `${apiBaseUrl}/login`;
+export const logoutUrl = `${apiBaseUrl}/logout`;
 export const userUrl = `${apiBaseUrl}/api/user`;
+export const searchForUserUrl = `${apiBaseUrl}/api/profilesearch`;
 export const caughtUrl = `${apiBaseUrl}/api/caught`;
-export const profileUrl = `${apiBaseUrl}/api/profile`;
 export const importUrl = `${apiBaseUrl}/api/profile/import`;
 export const fishUrl = `${apiBaseUrl}/api/fish`;
 export const bugsUrl = `${apiBaseUrl}/api/bugs`;
@@ -19,6 +22,8 @@ export const reactionsUrl = `${apiBaseUrl}/api/reactions`;
 export const artUrl = `${apiBaseUrl}/api/art`;
 export const achievementsUrl = `${apiBaseUrl}/api/achievements`;
 export const totalsUrl = `${apiBaseUrl}/api/profile/totals`;
+export const friendRequestsUrl = `${apiBaseUrl}/api/friends/requests`;
+export const addFriendUrl = `${apiBaseUrl}/api/friends/add`;
 export const defaultAvatarUrl =
 	'https://64.media.tumblr.com/660a46fe7a5825d898e36fc8c240685b/bd38759d70dd2985-ab/s400x600/05eb60dacdbb47e946713a8aaa048274dc176cb7.png';
 export const twitterUsername = '@matthughes2112';
@@ -48,6 +53,9 @@ export const accountSettingsImportDataLoadingText =
 	'Importing your data. This could take a minute or so.';
 
 export const friendsTitleText = 'Friends';
+export const addFriendTitleText = 'Add Friend';
+export const addFriendSearchPlaceholderText = 'Search';
+export const addFriendSearchButtonText = 'Search';
 
 export const shadowSizeText = 'Shadow Size:';
 export const sourceText = 'Location:';
@@ -79,6 +87,7 @@ export const errorMessageAccountSettingsNotLoggedIn =
 export const errorMessageAccountSettingsCannotUpdate =
 	'Could not update your account. Please try again or contact support.';
 export const errorMessageNoArtFound = 'High-res art image could not be loaded.';
+export const errorMessageNoUserFound = 'Not found';
 export const errorMessageInvalidImportData =
 	'Invalid format for import data. Please try again or contact support.';
 
