@@ -67,7 +67,7 @@ var sess = {
 		sameSite: true,
 		httpOnly: true,
 		// 2nd change.
-		secure: true,
+		secure: false,
 	},
 };
 
