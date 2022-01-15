@@ -96,6 +96,8 @@ app.get('/', (req: any, res: any) => {
 		domain: '.acwildlife.com',
 		path: '/',
 		secure: true,
+		httpOnly: false,
+		sameSite: 'none',
 	});
 	res.redirect(
 		process.env.REACT_APP_BASE_URL + '/login/' + req.cookies.appSession || '',
