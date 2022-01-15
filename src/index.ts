@@ -90,7 +90,7 @@ if (isProduction) {
 app.get('/', (req: any, res: any) => {
 	console.log(req.cookies.appSession);
 	console.log(req.oidc.isAuthenticated() ? 'logged in' : 'logged out');
-	res.cookie('appSession', req.cookies.appSession);
+	// res.cookie('appSession', req.cookies.appSession);
 	res.cookie('test', 'testing');
 	res.cookie('appSession', req.cookies.appSession, {
 		domain: '.acwildlife.com',
