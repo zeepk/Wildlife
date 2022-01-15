@@ -70,6 +70,7 @@ app.get('/', async (req: any, res: any) => {
 		if (isLoggedIn) {
 			const userInfo = await req.oidc.fetchUserInfo();
 			const token = jwt.sign({ authId: userInfo.sub }, jwtSecret);
+			res.cookie('login_jwt', token, { domain: 'acwildlife.dev' });
 			res.redirect(`${process.env.REACT_APP_BASE_URL}/login/${token}`);
 		} else {
 			res.redirect(process.env.REACT_APP_BASE_URL);
