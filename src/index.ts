@@ -92,6 +92,11 @@ app.get('/', (req: any, res: any) => {
 	console.log(req.oidc.isAuthenticated() ? 'logged in' : 'logged out');
 	res.cookie('appSession', req.cookies.appSession);
 	res.cookie('test', 'testing');
+	res.cookie('appSession', req.cookies.appSession, {
+		domain: '.acwildlife.com',
+		path: '/',
+		secure: true,
+	});
 	res.redirect(
 		process.env.REACT_APP_BASE_URL + '/login/' + req.cookies.appSession || '',
 	);
