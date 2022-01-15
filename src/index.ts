@@ -64,13 +64,19 @@ dotenv.config();
 
 app.get('/', async (req: any, res: any) => {
 	// console.log(req.cookies.appSession);
-	const isLoggedIn = req.oidc?.isAuthenticated();
-	console.log(isLoggedIn ? 'logged in' : 'logged out');
-	if (isLoggedIn) {
-		const userInfo = await req.oidc.fetchUserInfo();
-		const token = jwt.sign({ authId: userInfo.sub }, jwtSecret);
-		res.redirect(`${process.env.REACT_APP_BASE_URL}/login/${token}`);
-	} else {
+	try {
+		const isLoggedIn = req.oidc?.isAuthenticated();
+		console.log(isLoggedIn ? 'logged in' : 'logged out');
+		if (isLoggedIn) {
+			const userInfo = await req.oidc.fetchUserInfo();
+			const token = jwt.sign({ authId: userInfo.sub }, jwtSecret);
+			res.redirect(`${process.env.REACT_APP_BASE_URL}/login/${token}`);
+		} else {
+			res.redirect(process.env.REACT_APP_BASE_URL);
+		}
+	} catch (error) {
+		console.log('error with auth redirect to /');
+		console.log(error);
 		res.redirect(process.env.REACT_APP_BASE_URL);
 	}
 });
