@@ -78,7 +78,7 @@ if (isProduction) {
 	// "Unable to verify authorization request state"
 	// app.set('trust proxy', 1);
 }
-app.use(session(sess));
+// app.use(session(sess));
 
 app.get('/', (req: any, res) => {
 	console.log(req.oidc.isAuthenticated() ? 'logged in' : 'logged out');
