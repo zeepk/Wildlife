@@ -70,12 +70,12 @@ app.get('/', async (req: any, res: any) => {
 		if (isLoggedIn) {
 			const userInfo = await req.oidc.fetchUserInfo();
 			const token = jwt.sign({ authId: userInfo.sub }, jwtSecret);
-			res.cookie('login_jwt', token, {
-				domain: 'www.acwildlife.dev',
-				sameSite: 'none',
-				path: '/',
-				secure: true,
-			});
+			// res.cookie('login_jwt', token, {
+			// 	domain: 'www.acwildlife.dev',
+			// 	sameSite: 'none',
+			// 	path: '/',
+			// 	secure: true,
+			// });
 			res.cookie('login_jwt', token, {
 				domain: 'acwildlife.com',
 				sameSite: 'none',
