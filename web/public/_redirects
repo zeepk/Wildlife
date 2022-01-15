@@ -1,3 +1,3 @@
-/api/*  https://wildlife-server.herokuapp.com/api/:splat  200
-/login  https://wildlife-server.herokuapp.com/login  200
+/api/*  https://toinet.io/api/:splat  200
+/login  https://toinet.io/login  200
 /* /index.html 200
