@@ -29,6 +29,7 @@ import { VillagersPage } from 'features/Tracking/pages/VillagersPage';
 import { SupportPage } from 'features/Common/SupportPage';
 import { TotalsPage } from 'features/Tracking/pages/TotalsPage';
 import { FriendsPage } from 'features/Common/Friends/FriendsPage';
+import { Login } from 'features/Common/Auth/Login';
 function initializeReactGA() {
 	console.warn('google analytics code invalid');
 	ReactGA.initialize('google analytics code');
@@ -43,6 +44,9 @@ function App() {
 			<Router>
 				<Navbar />
 				<Switch>
+					<Route exact path="/login/:id">
+						<Login />
+					</Route>
 					<Route exact path="/account">
 						{isLoggedIn ? <AccountSettings /> : <Redirect to="/" />}
 					</Route>

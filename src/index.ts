@@ -91,7 +91,10 @@ app.get('/', (req: any, res: any) => {
 	console.log(req.cookies.appSession);
 	console.log(req.oidc.isAuthenticated() ? 'logged in' : 'logged out');
 	res.cookie('appSession', req.cookies.appSession);
-	res.redirect(process.env.REACT_APP_BASE_URL || '');
+	res.cookie('test', 'testing');
+	res.redirect(
+		process.env.REACT_APP_BASE_URL + '/login/' + req.cookies.appSession || '',
+	);
 });
 app.use(critterRouter);
 app.use(villagerRouter);
