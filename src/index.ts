@@ -30,6 +30,19 @@ const config = {
 	baseURL: process.env.API_URL,
 	clientID: process.env.AUTH0_CLIENT_ID,
 	issuerBaseURL: process.env.AUTH0_DOMAIN,
+	clientSecret:
+		'as3NQR8ALkhXVPtfKfaUTAIzNXdweuvkR_QW_h-3y8Jqj-t_yHsRcWEkIAGFB4SB',
+	authorizationParams: {
+		response_type: 'code',
+		scope: 'openid profile email read:reports',
+		audience: 'https://wildlife/api',
+	},
+	afterCallback: async (req, res, session, decodedState) => {
+		// console.log(req.cookies.authtoken);
+		return {
+			...session,
+		};
+	},
 };
 const allowedOrigins = [
 	process.env.REACT_APP_BASE_URL,
@@ -80,8 +93,10 @@ if (isProduction) {
 }
 // app.use(session(sess));
 
-app.get('/', (req: any, res) => {
+app.get('/', (req: any, res: any) => {
+	console.log(req.cookies.authtoken);
 	console.log(req.oidc.isAuthenticated() ? 'logged in' : 'logged out');
+	res.cookie('authtoken', req.cookies.authtoken);
 	res.redirect(process.env.REACT_APP_BASE_URL || '');
 });
 app.use(critterRouter);
