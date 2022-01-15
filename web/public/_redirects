@@ -1,3 +1,3 @@
-/api/*  https://toinet.io/api/:splat  200
-/login  https://toinet.io/login  200
+/api/*  https://www.acwildlife.dev/api/:splat  200
+/login  https://www.acwildlife.dev/login  200
 /* /index.html 200
