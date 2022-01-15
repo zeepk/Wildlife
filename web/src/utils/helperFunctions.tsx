@@ -1,7 +1,7 @@
 import { maxUsernameLength, minUsernameLength } from 'utils/constants';
 
 export const isNullUndefinedOrWhitespace = (
-	text: string | null | undefined
+	text: string | null | undefined,
 ) => {
 	if (text === null || text === undefined) {
 		return true;
@@ -48,4 +48,14 @@ export const isStringValidJson = (str: string) => {
 		return false;
 	}
 	return true;
+};
+
+export const setCookie = (name: string, value: string, days: number) => {
+	var expires = '';
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+		expires = '; expires=' + date.toUTCString();
+	}
+	document.cookie = name + '=' + (value || '') + expires + '; path=/';
 };

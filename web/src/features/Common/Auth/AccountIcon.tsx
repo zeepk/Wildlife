@@ -6,7 +6,7 @@ import {
 	selectAccountAvatar,
 	selectAccountIncomingFriendRequests,
 } from 'features/Common/commonSlice';
-import { isNullUndefinedOrWhitespace } from 'utils/helperFunctions';
+import { isNullUndefinedOrWhitespace, setCookie } from 'utils/helperFunctions';
 
 import { Menu } from 'primereact/menu';
 import { Button } from 'primereact/button';
@@ -19,6 +19,11 @@ export function AccountIcon() {
 	const username = useAppSelector(selectAccountUsername);
 	const avatar = useAppSelector(selectAccountAvatar);
 	const friendRequests = useAppSelector(selectAccountIncomingFriendRequests);
+
+	const handleLogout = () => {
+		setCookie('login_jwt', '', 99);
+		window.location.href = logoutUrl;
+	};
 
 	// change to "> 0" outside of prod testing
 	const badge = friendRequests?.length > 999 && (
@@ -60,7 +65,7 @@ export function AccountIcon() {
 		{
 			label: 'Logout',
 			icon: 'pi pi-sign-out',
-			command: () => (window.location.href = logoutUrl),
+			command: () => handleLogout(),
 		},
 	];
 

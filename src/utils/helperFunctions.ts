@@ -61,5 +61,5 @@ export const getMonthString = (monthAvailability: Array<String>) => {
 	return monthStrings.join(', ');
 };
 
-export const getAuthIdFromJwt = (token: string) =>
-	jwt.verify(token, jwtSecret)?.authId;
+export const getAuthIdFromJwt = (token: string | null) =>
+	token ? jwt.verify(token, jwtSecret)?.authId : null;
