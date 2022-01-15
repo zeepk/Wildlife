@@ -77,7 +77,7 @@ app.get('/', async (req: any, res: any) => {
 			// 	secure: true,
 			// });
 			res.cookie('login_jwt', token, {
-				domain: 'acwildlife.com',
+				domain: 'www.acwildlife.dev',
 				sameSite: 'none',
 				path: '/',
 				secure: true,
@@ -85,7 +85,7 @@ app.get('/', async (req: any, res: any) => {
 			res.redirect(`${process.env.REACT_APP_BASE_URL}/login/${token}`);
 		} else {
 			res.cookie('login_jwt', '', {
-				domain: 'acwildlife.com',
+				domain: 'www.acwildlife.dev',
 				sameSite: 'none',
 				path: '/',
 				secure: true,
