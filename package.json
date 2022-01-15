@@ -25,6 +25,7 @@
 		"express-openid-connect": "^2.5.2",
 		"express-session": "^1.17.2",
 		"googleapis": "^39.2.0",
+		"jsonwebtoken": "^8.5.1",
 		"jwks-rsa": "^2.0.5",
 		"module-alias": "^2.2.2",
 		"mongoose": "^6.0.13",

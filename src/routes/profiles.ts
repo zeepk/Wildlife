@@ -1,8 +1,7 @@
 import express, { Request, Response } from 'express';
 var ObjectID = require('mongodb').ObjectID;
 import { FriendRequest, Profile } from '@/models/profile';
-const { auth } = require('express-oauth2-jwt-bearer');
-import { Caught, ICaught } from '@/models/caught';
+import { Caught } from '@/models/caught';
 import {
 	critterTypes,
 	hemispheres,
@@ -15,20 +14,12 @@ import { Fossil } from '@/models/fossil';
 import { Song } from '@/models/song';
 import { Art } from '@/models/art';
 import { ApiResponse, ProfileResponse } from '@/utils/customTypes';
+import { getAuthIdFromJwt } from '@/utils/helperFunctions';
 const router = express.Router();
 
-// "given_name": "Matt",
-// "family_name": "Hughes",
-// "nickname": "mhughes",
-// "name": "Matt Hughes",
-// "picture": "https://lh3.googleusercontent.com/a-/AOh14GiZ1Omf7_VWi9TfKAqU9Pu3yvaE0wd_uqxpfoNZRQ=s96-c",
-// "locale": "en",
-// "updated_at": "2021-11-28T23:47:15.868Z",
-// "email": "mhughes@mail.com",
-// "email_verified": true,
-// "sub": "google-oauth2|1234"
-
 router.get('/api/profile', async (req: any, res: Response) => {
+	const authId = getAuthIdFromJwt(req.cookies.login_jwt);
+
 	const data: ProfileResponse = {
 		isLoggedIn: true,
 		profile: null,
@@ -41,14 +32,13 @@ router.get('/api/profile', async (req: any, res: Response) => {
 		data: data,
 		message: '',
 	};
-	if (!req.oidc.isAuthenticated()) {
+	if (!authId) {
 		// not logged in
 		const message = 'User not authenticated';
 		resp.message = message;
 		resp.data.isLoggedIn = false;
 		return res.status(200).send(resp);
 	}
-	const authId = req.oidc?.user?.sub;
 	const profile = await Profile.findOne({ authId: authId });
 	if (!profile) {
 		const message = `invalid profile for authId: ${authId}`;
@@ -176,8 +166,9 @@ router.post('/api/profile/import', async (req: Request, res: Response) => {
 	return res.status(200).send({ imported: numberOfItemsImported });
 });
 
-router.get('/api/profile/totals/:id', async (req: Request, res: Response) => {
-	const authId = req.params.id;
+router.get('/api/profile/totals', async (req: Request, res: Response) => {
+	const authId = getAuthIdFromJwt(req.cookies.login_jwt);
+
 	const profile = await Profile.findOne({ authId: authId });
 	if (!profile) {
 		console.log(`invalid profile authId: ${authId}`);

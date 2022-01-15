@@ -1,3 +1,5 @@
+var jwt = require('jsonwebtoken');
+const jwtSecret = process.env.JWT_SECRET;
 import { months } from './constants';
 
 export const isDev = () => process.env.NODE_ENV === 'development';
@@ -58,3 +60,6 @@ export const getMonthString = (monthAvailability: Array<String>) => {
 
 	return monthStrings.join(', ');
 };
+
+export const getAuthIdFromJwt = (token: string) =>
+	jwt.verify(token, jwtSecret)?.authId;

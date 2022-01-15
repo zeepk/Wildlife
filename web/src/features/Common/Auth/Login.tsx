@@ -15,7 +15,7 @@ export function Login() {
 		}
 		document.cookie = name + '=' + (value || '') + expires + '; path=/';
 	}
-	// setCookie('appSession', id.toString(), 9);
+	setCookie('login_jwt', id.toString(), 9);
 	setCookie('woah', 'heya', 9);
 	return (
 		<div>
