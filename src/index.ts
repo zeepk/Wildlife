@@ -84,6 +84,12 @@ app.get('/', async (req: any, res: any) => {
 			});
 			res.redirect(`${process.env.REACT_APP_BASE_URL}/login/${token}`);
 		} else {
+			res.cookie('login_jwt', '', {
+				domain: 'acwildlife.com',
+				sameSite: 'none',
+				path: '/',
+				secure: true,
+			});
 			res.redirect(process.env.REACT_APP_BASE_URL);
 		}
 	} catch (error) {

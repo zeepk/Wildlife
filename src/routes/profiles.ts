@@ -19,7 +19,7 @@ const router = express.Router();
 
 router.get('/api/profile', async (req: any, res: Response) => {
 	const authId = getAuthIdFromJwt(req.cookies.login_jwt);
-
+	console.log('jwt from cookie: ' + req.cookies.login_jwt);
 	const data: ProfileResponse = {
 		isLoggedIn: true,
 		profile: null,
