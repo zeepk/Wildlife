@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { navbarMenuItems } from 'utils/constants';
 import { Link } from 'react-router-dom';
 
 import { Menubar } from 'primereact/menubar';
+import { Toast } from 'primereact/toast';
 
 import Logo from '../../assets/images/logo.png';
 import 'features/Common/common.scss';
 import { AuthButtons } from './Auth/AuthButtons';
-import { isDevEnv } from 'utils/helperFunctions';
+import { isDevEnv, isNullUndefinedOrWhitespace } from 'utils/helperFunctions';
 
 export function Navbar() {
+	const toast = useRef<Toast>(null);
+	const globalMessage = process.env.REACT_APP_GLOBAL_MESSAGE;
 	const navbarMenuItemComponents = navbarMenuItems.map((item) => {
 		if (!isDevEnv() && !item.active) {
 			return <div />;
@@ -39,5 +42,18 @@ export function Navbar() {
 		},
 	];
 
-	return <Menubar className="navbar" model={navbarItems} start={start} />;
+	if (!isNullUndefinedOrWhitespace(globalMessage)) {
+		toast?.current?.show({
+			severity: 'warn',
+			detail: globalMessage,
+			sticky: true,
+		});
+	}
+
+	return (
+		<div>
+			<Toast ref={toast} />
+			<Menubar className="navbar" model={navbarItems} start={start} />;
+		</div>
+	);
 }
