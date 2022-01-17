@@ -75,9 +75,9 @@ export async function getAchievements() {
 	return await requestWrapper(requestOptions);
 }
 
-export async function getTotals(authId: string) {
+export async function getTotals() {
 	const requestOptions = {
-		url: `${totalsUrl}/${authId}`,
+		url: totalsUrl,
 		method: 'GET',
 	};
 	return await requestWrapper(requestOptions);

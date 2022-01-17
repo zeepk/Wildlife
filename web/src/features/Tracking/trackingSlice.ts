@@ -83,22 +83,17 @@ export const getAllMusic = createAsyncThunk('tracking/music', async () => {
 	return response;
 });
 
-export const getUserTotals = createAsyncThunk(
-	'tracking/totals',
-	async (payload, { getState, requestId }) => {
-		const state: any = getState();
-		const authId = state.common.auth.account.profile.authId;
-		const response = await getTotals(authId);
-		return response;
-	},
-);
+export const getUserTotals = createAsyncThunk('tracking/totals', async () => {
+	const response = await getTotals();
+	return response;
+});
 
 export const getAllReactions = createAsyncThunk(
 	'tracking/reactions',
 	async () => {
 		const response = await getReactions();
 		return response;
-	},
+	}
 );
 
 export const getAllAchievements = createAsyncThunk(
@@ -106,7 +101,7 @@ export const getAllAchievements = createAsyncThunk(
 	async () => {
 		const response = await getAchievements();
 		return response;
-	},
+	}
 );
 
 // Loading is controlled by the number of loading calls currently active
