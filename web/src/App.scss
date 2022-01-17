@@ -33,7 +33,7 @@ $transparentDarkGray: #00000023;
 	background-position: center;
 	overflow-x: hidden;
 }
-.App > :not(.container--footer):not(.navbar) {
+.App > :not(.container--footer):not(.container--navbar) {
 	min-height: 80vh;
 }
 html {

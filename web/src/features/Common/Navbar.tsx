@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { navbarMenuItems } from 'utils/constants';
 import { Link } from 'react-router-dom';
 
@@ -13,6 +13,17 @@ import { isDevEnv, isNullUndefinedOrWhitespace } from 'utils/helperFunctions';
 export function Navbar() {
 	const toast = useRef<Toast>(null);
 	const globalMessage = process.env.REACT_APP_GLOBAL_MESSAGE;
+
+	useEffect(() => {
+		if (!isNullUndefinedOrWhitespace(globalMessage)) {
+			toast?.current?.show({
+				severity: 'warn',
+				detail: globalMessage,
+				sticky: true,
+			});
+		}
+	}, [globalMessage]);
+
 	const navbarMenuItemComponents = navbarMenuItems.map((item) => {
 		if (!isDevEnv() && !item.active) {
 			return <div />;
@@ -42,16 +53,8 @@ export function Navbar() {
 		},
 	];
 
-	if (!isNullUndefinedOrWhitespace(globalMessage)) {
-		toast?.current?.show({
-			severity: 'warn',
-			detail: globalMessage,
-			sticky: true,
-		});
-	}
-
 	return (
-		<div>
+		<div className="container--navbar">
 			<Toast ref={toast} />
 			<Menubar className="navbar" model={navbarItems} start={start} />;
 		</div>

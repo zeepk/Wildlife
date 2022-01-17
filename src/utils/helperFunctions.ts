@@ -10,7 +10,7 @@ export const getMonthString = (monthAvailability: Array<String>) => {
 	}
 
 	const availableMonths = monthAvailability.map((m, i) =>
-		m === 'NA' ? -1 : i,
+		m === 'NA' ? -1 : i
 	);
 
 	const startMonthIndices: Array<number> = [];
@@ -55,11 +55,17 @@ export const getMonthString = (monthAvailability: Array<String>) => {
 	}
 
 	const monthStrings = startMonthIndices.map(
-		(m, i) => `${months[m].short} - ${months[endMonthIndices[i]].short}`,
+		(m, i) => `${months[m].short} - ${months[endMonthIndices[i]].short}`
 	);
 
 	return monthStrings.join(', ');
 };
 
-export const getAuthIdFromJwt = (token: string | null) =>
-	token ? jwt.verify(token, jwtSecret)?.authId : null;
+export const getAuthIdFromJwt = (token: string | null) => {
+	try {
+		return jwt.verify(token, jwtSecret)?.authId;
+	} catch (error) {
+		console.log('Error reading user jwt');
+		console.log(error);
+	}
+};
