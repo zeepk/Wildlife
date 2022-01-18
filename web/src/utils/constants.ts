@@ -32,6 +32,7 @@ export const githubUrl = 'https://github.com/zeepk/wildlife';
 export const githubSponsorUrl = 'https://github.com/sponsors/zeepk';
 export const twitchUrl = 'https://www.twitch.tv/zee_pk';
 export const portfolioUrl = 'https://matthughes.dev';
+export const discordUrl = 'https://discord.gg/XK369Ez6nY';
 
 // verbiage
 
@@ -56,6 +57,10 @@ export const friendsTitleText = 'Friends';
 export const addFriendTitleText = 'Add Friend';
 export const addFriendSearchPlaceholderText = 'Search';
 export const addFriendSearchButtonText = 'Search';
+export const addFriendSendRequestText = 'Send Request';
+export const addFriendRequestSentText = 'Request Sent';
+export const addFriendAlreadyFriendsText = 'Already Friends!';
+export const addFriendIsMeText = "That's you, silly!";
 
 export const shadowSizeText = 'Shadow Size:';
 export const sourceText = 'Location:';
@@ -87,7 +92,7 @@ export const errorMessageAccountSettingsNotLoggedIn =
 export const errorMessageAccountSettingsCannotUpdate =
 	'Could not update your account. Please try again or contact support.';
 export const errorMessageNoArtFound = 'High-res art image could not be loaded.';
-export const errorMessageNoUserFound = 'Not found';
+export const errorMessageNoUserFound = 'Cannot find user:';
 export const errorMessageInvalidImportData =
 	'Invalid format for import data. Please try again or contact support.';
 
@@ -142,6 +147,7 @@ export const footerLinks = [
 		class: 'twitch',
 	},
 	{ id: 4, text: 'support', link: '/support', class: 'code' },
+	{ id: 5, text: 'discord', link: discordUrl, class: 'discord' },
 ];
 
 export const navbarMenuItems = [
