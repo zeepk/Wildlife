@@ -356,3 +356,8 @@
 	background-color: $errorRed !important;
 	font-weight: bolder !important;
 }
+.p-toast {
+	width: 25rem;
+	top: 5rem !important;
+	right: calc(50% - 12.5rem) !important;
+}
