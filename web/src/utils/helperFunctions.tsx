@@ -58,5 +58,13 @@ export const setCookie = (name: string, value: string, days: number) => {
 		expires = '; expires=' + date.toUTCString();
 	}
 	document.cookie =
-		name + '=' + (value || '') + expires + ';SameSite=none; secure; path=/';
+		name +
+		'=' +
+		(value || '') +
+		expires +
+		';SameSite=none;domain=www.acwildlife.dev;secure;path=/';
+
+	// document.cookie = `${name}=${
+	// 	value || ''
+	// }${expires};SameSite=none;secure;domain=${process.env.API_URL};path=/`;
 };
