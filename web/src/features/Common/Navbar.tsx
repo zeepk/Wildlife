@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { navbarMenuItems } from 'utils/constants';
+import { globalMessage, navbarMenuItems } from 'utils/constants';
 import { Link } from 'react-router-dom';
 
 import { Menubar } from 'primereact/menubar';
@@ -12,17 +12,19 @@ import { isDevEnv, isNullUndefinedOrWhitespace } from 'utils/helperFunctions';
 
 export function Navbar() {
 	const toast = useRef<Toast>(null);
-	const globalMessage = process.env.REACT_APP_GLOBAL_MESSAGE;
-
+	const emergencyMessage = process.env.REACT_APP_GLOBAL_MESSAGE;
+	const message = !isNullUndefinedOrWhitespace(emergencyMessage)
+		? emergencyMessage
+		: globalMessage;
 	useEffect(() => {
-		if (!isNullUndefinedOrWhitespace(globalMessage)) {
+		if (!isNullUndefinedOrWhitespace(message)) {
 			toast?.current?.show({
 				severity: 'warn',
-				detail: globalMessage,
+				detail: message,
 				sticky: true,
 			});
 		}
-	}, [globalMessage]);
+	}, [message]);
 
 	const navbarMenuItemComponents = navbarMenuItems.map((item) => {
 		if (!isDevEnv() && !item.active) {

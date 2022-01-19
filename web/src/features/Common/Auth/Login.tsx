@@ -9,9 +9,6 @@ export function Login() {
 	if (!isNullUndefinedOrWhitespace(id)) {
 		const jwt = id.toString();
 		setCookie('login_jwt', jwt, 9);
-		console.log(`setting jwt cookie: ${jwt.substring(0, 10)}`);
-	} else {
-		console.log('login url recieved null jwt');
 	}
 
 	return <Redirect to="/" />;

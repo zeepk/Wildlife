@@ -1,3 +1,6 @@
+// global alert toast notification to show on every page load
+export const globalMessage = '';
+
 // version
 export const versionNumber = '0.7.0';
 
