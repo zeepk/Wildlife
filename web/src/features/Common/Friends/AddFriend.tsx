@@ -49,8 +49,7 @@ export function AddFriend() {
 			setExistingIncoming(data.existingIncoming);
 			setExistingOutgoing(data.existingOutgoing);
 			setIsMe(data.isMe);
-			// TODO: implement on server side
-			setAlreadyFriends(false);
+			setAlreadyFriends(data.alreadyFriends);
 		}
 		setLoading(false);
 	};

@@ -50,7 +50,7 @@ router.get('/api/profile', async (req: any, res: Response) => {
 		{
 			_id: { $in: profile.friends },
 		},
-		{ _id: 0, authId: 0, friends: 0 }
+		{ _id: 0, authId: 0, friends: 0 },
 	);
 	resp.data = {
 		isLoggedIn: true,
@@ -160,7 +160,7 @@ router.post('/api/profile/import', async (req: Request, res: Response) => {
 				active: true,
 			});
 			numberOfItemsImported++;
-		})
+		}),
 	);
 	return res.status(200).send({ imported: numberOfItemsImported });
 });
@@ -181,12 +181,12 @@ router.get('/api/profile/totals', async (req: Request, res: Response) => {
 						...new Set(
 							caught
 								.filter((c) => c.critterType === inc && c.value)
-								.map((c) => `${c.ueid}${c.value}`)
+								.map((c) => `${c.ueid}${c.value}`),
 						),
 				  ]
 				: [
 						...new Set(
-							caught.filter((c) => c.critterType === inc).map((c) => c.ueid)
+							caught.filter((c) => c.critterType === inc).map((c) => c.ueid),
 						),
 				  ];
 
@@ -220,10 +220,10 @@ router.get('/api/profile/totals', async (req: Request, res: Response) => {
 
 router.post('/api/profilesearch', async (req: Request, res: Response) => {
 	const { profileId, username } = req.body;
-	const profile = await Profile.findOne(
-		{ username: username },
-		{ authId: 0, friends: 0 }
-	);
+	const [profile, loggedInUser] = await Promise.all([
+		await Profile.findOne({ username: username }, { authId: 0, friends: 0 }),
+		await Profile.findOne({ _id: profileId }),
+	]);
 	const resp: ApiResponse = {
 		success: true,
 		message: '',
@@ -252,11 +252,16 @@ router.post('/api/profilesearch', async (req: Request, res: Response) => {
 			}),
 		]);
 
+	const alreadyFriends = loggedInUser?.friends.includes(
+		new ObjectID(foundUserProfileId),
+	);
+
 	const respData = {
 		existingIncoming: existingIncomingFriendRequest?._id || null,
 		existingOutgoing: existingOutgoingFriendRequest?._id || null,
 		isMe: foundUserProfileId.toString() === profileId,
 		profile,
+		alreadyFriends,
 	};
 
 	resp.data = respData;
