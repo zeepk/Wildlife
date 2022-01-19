@@ -3,11 +3,12 @@ export const versionNumber = '0.7.0';
 
 // urls
 export const apiBaseUrl = process.env.REACT_APP_API_URL;
+export const loginBaseUrl = process.env.REACT_APP_LOGIN_BASE_URL;
 const endpointUrl = `${apiBaseUrl}/api`;
 export const profileUrl = `${endpointUrl}/profile`;
 
-export const loginUrl = `${apiBaseUrl}/login`;
-export const logoutUrl = `${apiBaseUrl}/logout`;
+export const loginUrl = `${loginBaseUrl}/login`;
+export const logoutUrl = `${loginBaseUrl}/logout`;
 export const userUrl = `${apiBaseUrl}/api/user`;
 export const searchForUserUrl = `${apiBaseUrl}/api/profilesearch`;
 export const caughtUrl = `${apiBaseUrl}/api/caught`;
