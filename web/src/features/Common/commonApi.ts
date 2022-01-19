@@ -11,6 +11,7 @@ import {
 	importUrl,
 	friendRequestsUrl,
 	searchForUserUrl,
+	addFriendUrl,
 } from 'utils/constants';
 
 export async function getProfile() {
@@ -92,6 +93,14 @@ export async function getFriendRequests(authId: string) {
 	const requestOptions = {
 		url: `${friendRequestsUrl}/${authId}`,
 		method: 'GET',
+	};
+	return await requestWrapper(requestOptions);
+}
+
+export async function sendFriendRequest(authId: string) {
+	const requestOptions = {
+		url: `${addFriendUrl}/${authId}`,
+		method: 'POST',
 	};
 	return await requestWrapper(requestOptions);
 }

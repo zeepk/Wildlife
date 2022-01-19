@@ -200,6 +200,12 @@
 					background-color: $mediumLightGreen;
 					border: 0.2rem solid white;
 					border-radius: 1rem;
+					min-height: 5rem;
+
+					.p-progressbar {
+						height: 0.5rem;
+						width: 5rem;
+					}
 
 					.username {
 						color: $mediumGray;

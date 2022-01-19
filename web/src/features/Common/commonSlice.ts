@@ -11,6 +11,7 @@ import {
 	importData,
 	getFriendRequests,
 	searchForProfile,
+	sendFriendRequest,
 } from './commonApi';
 import {
 	AuthDataCreateAccount,
@@ -178,6 +179,14 @@ export const searchForUser = createAsyncThunk(
 	},
 );
 
+export const sendUserFriendRequest = createAsyncThunk(
+	'common/auth/sendfriendrequest',
+	async (username: string) => {
+		const response = await sendFriendRequest(username);
+		return response;
+	},
+);
+
 const incrementLoading = (state: CommonState) => {
 	state.auth.loading = state.auth.loading + 1;
 };
@@ -290,6 +299,11 @@ export const commonSlice = createSlice({
 						action.payload.data.incomingFriendRequests;
 					state.auth.account.outgoingFriendRequests =
 						action.payload.data.outgoingFriendRequests;
+				}
+			})
+			.addCase(sendUserFriendRequest.fulfilled, (state, action) => {
+				if (action?.payload?.data) {
+					state.auth.account.friends.push(action.payload.data.newFriend);
 				}
 			});
 	},
