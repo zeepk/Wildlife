@@ -183,7 +183,7 @@
 			text-align: center;
 		}
 
-		.container--add-friend {
+		.container--friends-list {
 			width: 45%;
 			background-color: $backgroundColor;
 			border: 0.2rem solid white;
@@ -192,32 +192,39 @@
 			.title {
 				color: $mediumGray;
 			}
+		}
 
-			.container--add {
-				min-height: 14rem;
+		.container--add-friend {
+			width: 45%;
+			background-color: $backgroundColor;
+			border: 0.2rem solid white;
+			border-radius: 3rem;
+			height: 14rem;
 
-				.container--profile {
-					background-color: $mediumLightGreen;
-					border: 0.2rem solid white;
-					border-radius: 1rem;
-					min-height: 5rem;
-
-					.p-progressbar {
-						height: 0.5rem;
-						width: 5rem;
-					}
-
-					.username {
-						color: $mediumGray;
-					}
-
-					img {
-						width: 2rem;
-						height: 2rem;
-					}
-				}
+			.title {
+				color: $mediumGray;
 			}
 		}
+	}
+}
+.container--profile {
+	background-color: $mediumLightGreen;
+	border: 0.2rem solid white;
+	border-radius: 1rem;
+	min-height: 5rem;
+
+	.p-progressbar {
+		height: 0.5rem;
+		width: 5rem;
+	}
+
+	.username {
+		color: $mediumGray;
+	}
+
+	img {
+		width: 2rem;
+		height: 2rem;
 	}
 }
 .container--account-settings {

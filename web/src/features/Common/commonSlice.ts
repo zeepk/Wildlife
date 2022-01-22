@@ -69,7 +69,7 @@ export const getUserProfile = createAsyncThunk(
 	async () => {
 		const response = await getProfile();
 		return response;
-	},
+	}
 );
 
 export const createUserProfile = createAsyncThunk(
@@ -77,7 +77,7 @@ export const createUserProfile = createAsyncThunk(
 	async (payload: AuthDataCreateAccount) => {
 		const response = await createProfile(payload);
 		return response;
-	},
+	}
 );
 
 export const updateUserProfile = createAsyncThunk(
@@ -87,7 +87,7 @@ export const updateUserProfile = createAsyncThunk(
 		payload.authId = state.common.auth.account.profile.authId;
 		const response = await updateProfile(payload);
 		return response;
-	},
+	}
 );
 
 export const getUserCaught = createAsyncThunk(
@@ -95,7 +95,7 @@ export const getUserCaught = createAsyncThunk(
 	async (authId: string) => {
 		const response = await getCaught(authId);
 		return response;
-	},
+	}
 );
 
 export const getAllVillagers = createAsyncThunk(
@@ -103,14 +103,14 @@ export const getAllVillagers = createAsyncThunk(
 	async () => {
 		const response = await getVillagers();
 		return response;
-	},
+	}
 );
 
 export const createUserCaught = createAsyncThunk(
 	'common/auth/createcaught',
 	async (
 		data: { ueid: string; critterType?: critterTypes; value?: number },
-		{ getState, requestId },
+		{ getState, requestId }
 	) => {
 		// not using other params, but function won't work without them
 		const state: any = getState();
@@ -123,7 +123,7 @@ export const createUserCaught = createAsyncThunk(
 		};
 		const response = await createCaught(payload);
 		return response;
-	},
+	}
 );
 
 export const deleteUserCaught = createAsyncThunk(
@@ -139,7 +139,7 @@ export const deleteUserCaught = createAsyncThunk(
 		};
 		const response = await deleteCaught(payload);
 		return response;
-	},
+	}
 );
 
 export const importCaughtData = createAsyncThunk(
@@ -154,7 +154,7 @@ export const importCaughtData = createAsyncThunk(
 		};
 		const response = await importData(payload);
 		return response;
-	},
+	}
 );
 
 export const getUserFriendRequests = createAsyncThunk(
@@ -165,7 +165,7 @@ export const getUserFriendRequests = createAsyncThunk(
 		const authId = state.common.auth.account.profile.authId;
 		const response = await getFriendRequests(authId);
 		return response;
-	},
+	}
 );
 
 export const searchForUser = createAsyncThunk(
@@ -176,7 +176,7 @@ export const searchForUser = createAsyncThunk(
 		const profileId = state.common.auth.account.profile._id.toString();
 		const response = await searchForProfile({ username, profileId });
 		return response;
-	},
+	}
 );
 
 export const sendUserFriendRequest = createAsyncThunk(
@@ -184,7 +184,7 @@ export const sendUserFriendRequest = createAsyncThunk(
 	async (username: string) => {
 		const response = await sendFriendRequest(username);
 		return response;
-	},
+	}
 );
 
 const incrementLoading = (state: CommonState) => {
@@ -323,10 +323,6 @@ export const selectAccountExists = (state: RootState) =>
 	!isNullOrUndefined(state.common.auth.account.profile);
 export const selectAccountUsername = (state: RootState) =>
 	state.common.auth.account.profile?.username;
-export const selectAccountIncomingFriendRequests = (state: RootState) =>
-	state.common.auth.account.incomingFriendRequests;
-export const selectAccountOutgoingFriendRequests = (state: RootState) =>
-	state.common.auth.account.outgoingFriendRequests;
 export const selectAuthId = (state: RootState) =>
 	state.common.auth.account.profile?.authId;
 export const selectAccountHemisphere = (state: RootState) =>
@@ -339,6 +335,13 @@ export const selectAccountAvatar = (state: RootState) =>
 	state.common.auth.account.profile?.avatar;
 export const selectAccountAvatarId = (state: RootState) =>
 	state.common.auth.account.profile?.avatarId;
+
+export const selectAccountFriends = (state: RootState) =>
+	state.common.auth.account.friends;
+export const selectAccountIncomingFriendRequests = (state: RootState) =>
+	state.common.auth.account.incomingFriendRequests;
+export const selectAccountOutgoingFriendRequests = (state: RootState) =>
+	state.common.auth.account.outgoingFriendRequests;
 
 export const selectVillagers = (state: RootState) =>
 	state.common.auth.villagers;
