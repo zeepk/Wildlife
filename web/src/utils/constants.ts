@@ -58,6 +58,7 @@ export const accountSettingsImportDataLoadingText =
 	'Importing your data. This could take a minute or so.';
 
 export const friendsTitleText = 'Friends';
+export const friendRequestsTitleText = 'Friend Requests';
 export const addFriendTitleText = 'Add Friend';
 export const addFriendSearchPlaceholderText = 'Search';
 export const addFriendSearchButtonText = 'Search';

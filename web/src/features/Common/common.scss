@@ -194,6 +194,17 @@
 			}
 		}
 
+		.container--requests-list {
+			width: 45%;
+			background-color: $backgroundColor;
+			border: 0.2rem solid white;
+			border-radius: 3rem;
+
+			.title {
+				color: $mediumGray;
+			}
+		}
+
 		.container--add-friend {
 			width: 45%;
 			background-color: $backgroundColor;
