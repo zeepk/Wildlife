@@ -36,10 +36,10 @@ export function AddFriend() {
 	const showNotFoundMessage = profile === null;
 
 	const handleSearch = async (e?: any) => {
+		setLoading(true);
 		if (e) {
 			e.preventDefault();
 		}
-		setLoading(true);
 		const resp: any = await dispatch(searchForUser(username));
 		if (resp.error || !resp.payload.data.success) {
 			setProfile(null);
@@ -116,7 +116,7 @@ export function AddFriend() {
 			<Toast ref={toast} />
 			<div className="container--add p-px-4">
 				<h1 className="title p-p-0 p-my-0">{addFriendTitleText}</h1>
-				<form className="p-d-flex p-mb-2" onSubmit={(e) => handleSearch(e)}>
+				<form className="p-d-flex p-mb-3" onSubmit={(e) => handleSearch(e)}>
 					<InputText
 						className="p-mr-2"
 						value={username}
