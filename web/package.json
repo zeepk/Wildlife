@@ -61,7 +61,7 @@
 		"@types/react-transition-group": "^4.4.4",
 		"@typescript-eslint/eslint-plugin": "^5.10.0",
 		"@typescript-eslint/parser": "^5.10.0",
-		"eslint": "^8.7.0",
+		"eslint": "^7.11.0",
 		"eslint-plugin-react": "^7.28.0",
 		"react-app-rewire-alias": "^1.0.3"
 	}

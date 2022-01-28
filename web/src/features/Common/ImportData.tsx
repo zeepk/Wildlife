@@ -16,7 +16,7 @@ import { importCaughtData } from './commonSlice';
 import LoadingIcon from './LoadingIcon';
 
 type Props = {
-	callback: Function;
+	callback: (...args: any[]) => any;
 };
 
 export default function ImportData({ callback }: Props) {
@@ -34,7 +34,7 @@ export default function ImportData({ callback }: Props) {
 
 		const legacyData = JSON.parse(data);
 		const caughtThings = Object.keys(legacyData).filter(
-			(k) => legacyData[k] === 'true'
+			(k) => legacyData[k] === 'true',
 		);
 		callback('warn', accountSettingsImportDataLoadingText);
 		dispatch(importCaughtData(caughtThings)).then((resp: any) => {
@@ -46,7 +46,7 @@ export default function ImportData({ callback }: Props) {
 			}
 			callback(
 				'success',
-				`${successMessageDataImported} Found about ${resp?.payload.data.imported} things.`
+				`${successMessageDataImported} Found about ${resp?.payload.data.imported} things.`,
 			);
 		});
 	};
