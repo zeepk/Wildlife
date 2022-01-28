@@ -58,7 +58,7 @@ export function Navbar() {
 	return (
 		<div className="container--navbar">
 			<Toast ref={toast} />
-			<Menubar className="navbar" model={navbarItems} start={start} />;
+			<Menubar className="navbar" model={navbarItems} start={start} />
 		</div>
 	);
 }
