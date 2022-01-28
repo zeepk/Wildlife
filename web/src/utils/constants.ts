@@ -66,6 +66,8 @@ export const addFriendSendRequestText = 'Send Request';
 export const addFriendRequestSentText = 'Request Sent';
 export const addFriendAlreadyFriendsText = 'Already Friends!';
 export const addFriendIsMeText = "That's you, silly!";
+export const addFriendConfirmText = 'Confirm';
+export const addFriendDeleteText = 'Delete';
 
 export const shadowSizeText = 'Shadow Size:';
 export const sourceText = 'Location:';

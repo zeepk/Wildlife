@@ -1,11 +1,24 @@
 import React from 'react';
 import 'features/Common/common.scss';
-import { useAppSelector } from 'app/hooks';
-import { selectAccountIncomingFriendRequests } from '../commonSlice';
-import { friendRequestsTitleText } from 'utils/constants';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { Button } from 'primereact/button';
+import {
+	respondToUserFriendRequest,
+	selectAccountIncomingFriendRequests,
+} from '../commonSlice';
+import {
+	friendRequestsTitleText,
+	addFriendConfirmText,
+	addFriendDeleteText,
+} from 'utils/constants';
 
 export function FriendRequests() {
+	const dispatch = useAppDispatch();
 	const requests = useAppSelector(selectAccountIncomingFriendRequests);
+	const handleFriendRequest = (requestId: string, accepted: boolean) => {
+		dispatch(respondToUserFriendRequest({ requestId, accepted }));
+	};
+
 	const requestsContent = requests.map((f) => (
 		<div
 			key={f._id}
@@ -15,7 +28,18 @@ export function FriendRequests() {
 				<img src={f.requestor.avatar} alt={f.requestor.username} />
 				<div className="username p-ml-1">{f.requestor.username}</div>
 			</div>
-			<div />
+			<div>
+				<Button
+					label={addFriendConfirmText}
+					className="p-mr-2"
+					onClick={() => handleFriendRequest(f._id, true)}
+				/>
+				<Button
+					label={addFriendDeleteText}
+					className="p-button-danger"
+					onClick={() => handleFriendRequest(f._id, false)}
+				/>
+			</div>
 		</div>
 	));
 

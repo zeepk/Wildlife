@@ -105,6 +105,18 @@ export async function sendFriendRequest(authId: string) {
 	return await requestWrapper(requestOptions);
 }
 
+export async function respondToFriendRequest(data: {
+	requestId: string;
+	accepted: boolean;
+}) {
+	const requestOptions = {
+		url: friendRequestsUrl,
+		method: 'DELETE',
+		data,
+	};
+	return await requestWrapper(requestOptions);
+}
+
 export async function searchForProfile(data: {
 	profileId: string;
 	username: string;
