@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Name is ${{ github.event.release.name }}"
-      - run: echo "Name is $GITHUB_REF"
+      - run: echo "Name is ${{ github.event.release.tag }}"
       
       - name: Send Release Message
         uses: JamesIves/fetch-api-data-action@v2.1.0
