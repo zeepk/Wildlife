@@ -3,8 +3,8 @@ import axios from 'axios';
 type OptionsType = {
 	url: string;
 	method: any;
-	data?: object;
-	params?: object;
+	data?: any;
+	params?: any;
 	token?: string;
 };
 

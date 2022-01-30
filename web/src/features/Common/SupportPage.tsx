@@ -1,6 +1,11 @@
 import React from 'react';
 import 'features/Common/common.scss';
-import { githubSponsorUrl, portfolioUrl, twitchUrl } from 'utils/constants';
+import {
+	discordUrl,
+	githubSponsorUrl,
+	portfolioUrl,
+	twitchUrl,
+} from 'utils/constants';
 
 export function SupportPage() {
 	return (
@@ -13,7 +18,7 @@ export function SupportPage() {
 					</a>{' '}
 					and I made this :)
 				</div>
-				<div className="text p-text-center">
+				<div className="text p-text-center p-mb-3">
 					If you like it, you could support me by{' '}
 					<a href={githubSponsorUrl} className="p-mx-1">
 						sponsoring me on Github
@@ -23,6 +28,13 @@ export function SupportPage() {
 						on my twitch page
 					</a>{' '}
 					where I livestream coding stuff.
+				</div>
+				<div className="text p-text-center">
+					There's also{' '}
+					<a href={discordUrl} className="p-mx-1">
+						a discord server
+					</a>{' '}
+					if you have any questions, concerns, or cool ideas.
 				</div>
 			</div>
 		</div>

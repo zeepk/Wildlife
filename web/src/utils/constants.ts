@@ -2,7 +2,7 @@
 export const globalMessage = '';
 
 // version
-export const versionNumber = '0.7.1';
+export const versionNumber = '0.9.0';
 
 // urls
 export const apiBaseUrl = process.env.REACT_APP_API_URL;
@@ -28,6 +28,7 @@ export const achievementsUrl = `${apiBaseUrl}/api/achievements`;
 export const totalsUrl = `${apiBaseUrl}/api/profile/totals`;
 export const friendRequestsUrl = `${apiBaseUrl}/api/friends/requests`;
 export const addFriendUrl = `${apiBaseUrl}/api/friends/add`;
+export const removeFriendUrl = `${apiBaseUrl}/api/friends/remove`;
 export const defaultAvatarUrl =
 	'https://64.media.tumblr.com/660a46fe7a5825d898e36fc8c240685b/bd38759d70dd2985-ab/s400x600/05eb60dacdbb47e946713a8aaa048274dc176cb7.png';
 export const twitterUsername = '@matthughes2112';
@@ -44,6 +45,7 @@ export const homeTitleText = 'Tracking';
 export const homeText = 'Sample React Redux TypeScript app for Tracking';
 export const hideCaughtText = 'Hide Done';
 export const caughtAllText = 'All Done!';
+export const noneText = 'None at the moment!';
 export const totalsOverallText = 'Overall progress';
 export const accountSettingsTitleText = 'Settings';
 export const profileSettingsTitleText = 'Profile';
@@ -58,6 +60,7 @@ export const accountSettingsImportDataLoadingText =
 	'Importing your data. This could take a minute or so.';
 
 export const friendsTitleText = 'Friends';
+export const friendRequestsTitleText = 'Friend Requests';
 export const addFriendTitleText = 'Add Friend';
 export const addFriendSearchPlaceholderText = 'Search';
 export const addFriendSearchButtonText = 'Search';
@@ -65,6 +68,13 @@ export const addFriendSendRequestText = 'Send Request';
 export const addFriendRequestSentText = 'Request Sent';
 export const addFriendAlreadyFriendsText = 'Already Friends!';
 export const addFriendIsMeText = "That's you, silly!";
+export const addFriendConfirmText = 'Confirm';
+export const addFriendDeleteText = 'Delete';
+export const removeFriendModalHeader = 'Remove Friend?';
+export const removeFriendModalText =
+	'Are you sure you want to remove your friend';
+export const removeFriendModalButtonYesText = 'Yes :(';
+export const removeFriendModalButtonNoText = 'Wait...';
 
 export const shadowSizeText = 'Shadow Size:';
 export const sourceText = 'Location:';
@@ -97,6 +107,7 @@ export const errorMessageAccountSettingsCannotUpdate =
 	'Could not update your account. Please try again or contact support.';
 export const errorMessageNoArtFound = 'High-res art image could not be loaded.';
 export const errorMessageNoUserFound = 'Cannot find user:';
+export const errorMessageUsernameTaken = 'Username is already taken!';
 export const errorMessageInvalidImportData =
 	'Invalid format for import data. Please try again or contact support.';
 
@@ -150,8 +161,8 @@ export const footerLinks = [
 		link: twitchUrl,
 		class: 'twitch',
 	},
-	{ id: 4, text: 'support', link: '/support', class: 'code' },
-	{ id: 5, text: 'discord', link: discordUrl, class: 'discord' },
+	{ id: 4, text: 'about', link: '/support', class: 'code' },
+	{ id: 5, text: 'discord / support', link: discordUrl, class: 'discord' },
 ];
 
 export const navbarMenuItems = [

@@ -11,7 +11,7 @@ import { Villager } from '../commonTypes';
 import { accountSettingsSelectAVillagerText } from 'utils/constants';
 
 type Props = {
-	callback: Function;
+	callback: (...args: any[]) => any;
 	selectedId: string | undefined;
 };
 

@@ -25,8 +25,7 @@ export function AccountIcon() {
 		window.location.href = logoutUrl;
 	};
 
-	// change to "> 0" outside of prod testing
-	const badge = friendRequests?.length > 999 && (
+	const badge = friendRequests?.length > 0 && (
 		<Badge className="notif-badge" value={friendRequests.length} />
 	);
 	const menuItems = [

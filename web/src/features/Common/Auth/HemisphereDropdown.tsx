@@ -4,7 +4,7 @@ import 'features/Common/common.scss';
 import { hemisphereChoices } from 'utils/constants';
 
 type Props = {
-	callback: Function;
+	callback: (...args: any[]) => any;
 	selectedHemisphereId: number | undefined;
 };
 

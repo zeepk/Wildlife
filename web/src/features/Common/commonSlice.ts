@@ -11,6 +11,9 @@ import {
 	importData,
 	getFriendRequests,
 	searchForProfile,
+	sendFriendRequest,
+	respondToFriendRequest,
+	removeFriend,
 } from './commonApi';
 import {
 	AuthDataCreateAccount,
@@ -172,8 +175,35 @@ export const searchForUser = createAsyncThunk(
 	async (username: string, { getState, requestId }) => {
 		// not using other params, but function won't work without them
 		const state: any = getState();
-		const profileId = state.common.auth.account.profile._id.toString();
+		let profileId = null;
+		if(!isNullOrUndefined(state.common.auth.account.profile)) {
+		profileId = state.common.auth.account.profile._id.toString();
+		}
 		const response = await searchForProfile({ username, profileId });
+		return response;
+	},
+);
+
+export const sendUserFriendRequest = createAsyncThunk(
+	'common/auth/sendfriendrequest',
+	async (username: string) => {
+		const response = await sendFriendRequest(username);
+		return response;
+	},
+);
+
+export const removeUserFriend = createAsyncThunk(
+	'common/auth/removefriend',
+	async (username: string) => {
+		const response = await removeFriend(username);
+		return response;
+	},
+);
+
+export const respondToUserFriendRequest = createAsyncThunk(
+	'common/auth/respondtofriendrequest',
+	async (data: { requestId: string; accepted: boolean }) => {
+		const response = await respondToFriendRequest(data);
 		return response;
 	},
 );
@@ -291,6 +321,27 @@ export const commonSlice = createSlice({
 					state.auth.account.outgoingFriendRequests =
 						action.payload.data.outgoingFriendRequests;
 				}
+			})
+			.addCase(respondToUserFriendRequest.fulfilled, (state, action) => {
+				const data = action?.payload?.data;
+				if (data) {
+					state.auth.account.incomingFriendRequests =
+						state.auth.account.incomingFriendRequests.filter(
+							(r) => r.requestor._id !== data.newFriend._id,
+						);
+					if (data.accepted) {
+						state.auth.account.friends.push(action.payload.data.newFriend);
+					}
+				}
+			})
+			.addCase(removeUserFriend.fulfilled, (state, action) => {
+				const data = action?.payload?.data;
+				console.log(data);
+				if (data) {
+					state.auth.account.friends = state.auth.account.friends.filter(
+						(f) => f.username !== data.data,
+					);
+				}
 			});
 	},
 });
@@ -309,10 +360,6 @@ export const selectAccountExists = (state: RootState) =>
 	!isNullOrUndefined(state.common.auth.account.profile);
 export const selectAccountUsername = (state: RootState) =>
 	state.common.auth.account.profile?.username;
-export const selectAccountIncomingFriendRequests = (state: RootState) =>
-	state.common.auth.account.incomingFriendRequests;
-export const selectAccountOutgoingFriendRequests = (state: RootState) =>
-	state.common.auth.account.outgoingFriendRequests;
 export const selectAuthId = (state: RootState) =>
 	state.common.auth.account.profile?.authId;
 export const selectAccountHemisphere = (state: RootState) =>
@@ -325,6 +372,13 @@ export const selectAccountAvatar = (state: RootState) =>
 	state.common.auth.account.profile?.avatar;
 export const selectAccountAvatarId = (state: RootState) =>
 	state.common.auth.account.profile?.avatarId;
+
+export const selectAccountFriends = (state: RootState) =>
+	state.common.auth.account.friends;
+export const selectAccountIncomingFriendRequests = (state: RootState) =>
+	state.common.auth.account.incomingFriendRequests;
+export const selectAccountOutgoingFriendRequests = (state: RootState) =>
+	state.common.auth.account.outgoingFriendRequests;
 
 export const selectVillagers = (state: RootState) =>
 	state.common.auth.villagers;

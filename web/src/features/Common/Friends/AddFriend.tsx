@@ -16,7 +16,7 @@ import {
 } from 'utils/constants';
 import 'features/Common/common.scss';
 import { useAppDispatch } from 'app/hooks';
-import { searchForUser } from '../commonSlice';
+import { searchForUser, sendUserFriendRequest } from '../commonSlice';
 import { Profile } from '../commonTypes';
 import LoadingIcon from '../LoadingIcon';
 import { isNullUndefinedOrWhitespace } from 'utils/helperFunctions';
@@ -27,18 +27,19 @@ export function AddFriend() {
 	const [username, setUsername] = useState('');
 	const [searchTerm, setSearchTerm] = useState('');
 	const [loading, setLoading] = useState(false);
+	const [buttonLoading, setButtonLoading] = useState(false);
 	const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
-	const [existingIncoming, setExistingIncoming] = useState<string | null>('');
+	// const [existingIncoming, setExistingIncoming] = useState<string | null>('');
 	const [existingOutgoing, setExistingOutgoing] = useState<string | null>('');
 	const [isMe, setIsMe] = useState(false);
 	const [alreadyFriends, setAlreadyFriends] = useState(false);
 	const showNotFoundMessage = profile === null;
 
 	const handleSearch = async (e?: any) => {
+		setLoading(true);
 		if (e) {
 			e.preventDefault();
 		}
-		setLoading(true);
 		const resp: any = await dispatch(searchForUser(username));
 		if (resp.error || !resp.payload.data.success) {
 			setProfile(null);
@@ -46,17 +47,24 @@ export function AddFriend() {
 		} else {
 			const data = resp.payload.data.data;
 			setProfile(data.profile);
-			setExistingIncoming(data.existingIncoming);
+			// setExistingIncoming(data.existingIncoming);
 			setExistingOutgoing(data.existingOutgoing);
 			setIsMe(data.isMe);
-			// TODO: implement on server side
-			setAlreadyFriends(false);
+			setAlreadyFriends(data.alreadyFriends);
 		}
 		setLoading(false);
 	};
 
-	const handleSendFriendRequest = () => {
-		alert("This doesn't work quite yet, but will soon!");
+	const handleSendFriendRequest = async () => {
+		setButtonLoading(true);
+		const resp: any = await dispatch(sendUserFriendRequest(username));
+		if (resp.error || !resp.payload.data.success) {
+			setProfile(null);
+		} else {
+			const data = resp.payload.data.data;
+			setExistingOutgoing(data._id);
+		}
+		setButtonLoading(false);
 	};
 
 	let profileContent = <div />;
@@ -89,22 +97,29 @@ export function AddFriend() {
 					<img src={profile.avatar} alt={profile.username} />
 					<div className="username p-ml-1">{profile.username}</div>
 				</div>
-				<Button
-					label={buttonText}
-					className={`p-button-${buttonColor}`}
-					onClick={() => handleSendFriendRequest()}
-					disabled={buttonDisabled}
-				/>
+				{buttonLoading ? (
+					<LoadingIcon fullScreen={false} />
+				) : (
+					<Button
+						label={buttonText}
+						className={`p-button-${buttonColor}`}
+						onClick={() => handleSendFriendRequest()}
+						disabled={buttonDisabled}
+					/>
+				)}
 			</div>
 		);
 	}
 
 	return (
-		<div className="container--add-friend p-d-flex p-jc-center">
+		<div className="container--add-friend p-d-flex p-jc-center p-mb-6">
 			<Toast ref={toast} />
 			<div className="container--add p-px-4">
 				<h1 className="title p-p-0 p-my-0">{addFriendTitleText}</h1>
-				<form className="p-d-flex p-mb-2" onSubmit={(e) => handleSearch(e)}>
+				<form
+					className="p-d-flex p-mb-3 p-jc-center"
+					onSubmit={(e) => handleSearch(e)}
+				>
 					<InputText
 						className="p-mr-2"
 						value={username}
