@@ -1,0 +1,19 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Discord Message
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+
+jobs:
+  discord-message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Message
+        uses: JamesIves/fetch-api-data-action@v2.1.0
+        with:
+          endpoint: https://calm-brushlands-08590.herokuapp.com/send
+          configuration: '{ "method": "POST" }'
