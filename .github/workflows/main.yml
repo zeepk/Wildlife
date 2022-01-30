@@ -15,5 +15,5 @@ jobs:
       - name: Send Message
         uses: JamesIves/fetch-api-data-action@v2.1.0
         with:
-          endpoint: https://calm-brushlands-08590.herokuapp.com/send
+          endpoint: https://calm-brushlands-08590.herokuapp.com/push
           configuration: '{ "method": "POST" }'
