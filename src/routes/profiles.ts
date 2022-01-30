@@ -221,7 +221,10 @@ router.get('/api/profile/totals', async (req: Request, res: Response) => {
 router.post('/api/profilesearch', async (req: Request, res: Response) => {
 	const { profileId, username } = req.body;
 	const [profile, loggedInUser] = await Promise.all([
-		await Profile.findOne({ username: username }, { authId: 0, friends: 0 }),
+		await Profile.findOne(
+			{ username: { $regex: new RegExp('^' + username + '$', 'i') } },
+			{ authId: 0, friends: 0 },
+		),
 		await Profile.findOne({ _id: profileId }),
 	]);
 	const resp: ApiResponse = {
@@ -230,11 +233,11 @@ router.post('/api/profilesearch', async (req: Request, res: Response) => {
 		data: null,
 	};
 	if (!profile) {
-		const message = `invalid profile for username: ${username}`;
+		const message = `profile not found for username: ${username}`;
 		console.log(message);
 		resp.success = false;
 		resp.message = message;
-		return res.status(404).send(resp);
+		return res.status(200).send(resp);
 	}
 	const foundUserProfileId = profile._id;
 	// profileId = that of the user doing the searching
