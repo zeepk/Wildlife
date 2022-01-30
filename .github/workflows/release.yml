@@ -1,0 +1,22 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Discord Release Message
+
+# Controls when the workflow will run
+on:
+  release:
+      types: [published]
+  workflow_dispatch:
+
+jobs:
+  discord-message:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Name is ${{ github.event.release.name }}"
+      - run: echo "Name is $GITHUB_REF"
+      
+      - name: Send Release Message
+        uses: JamesIves/fetch-api-data-action@v2.1.0
+        with:          
+          endpoint: https://calm-brushlands-08590.herokuapp.com/send
+          configuration: '{ "method": "POST" }'
