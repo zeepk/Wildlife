@@ -107,6 +107,7 @@ export const errorMessageAccountSettingsCannotUpdate =
 	'Could not update your account. Please try again or contact support.';
 export const errorMessageNoArtFound = 'High-res art image could not be loaded.';
 export const errorMessageNoUserFound = 'Cannot find user:';
+export const errorMessageUsernameTaken = 'Username is already taken!';
 export const errorMessageInvalidImportData =
 	'Invalid format for import data. Please try again or contact support.';
 

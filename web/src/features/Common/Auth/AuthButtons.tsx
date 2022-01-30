@@ -7,6 +7,7 @@ import {
 	selectAuthLoading,
 	selectAccountExists,
 	getUserFriendRequests,
+	searchForUser,
 } from 'features/Common/commonSlice';
 import { ProgressBar } from 'primereact/progressbar';
 import { Button } from 'primereact/button';
@@ -55,7 +56,11 @@ export function AuthButtons() {
 		}
 	};
 
-	const createAccount = () => {
+	const createAccount = async () => {
+		const resp: any = await dispatch(searchForUser(username));
+		if (resp.error || !resp.payload.data.success) {
+			setErrorMessage(errorMessageUsernameInvalidLength);
+		}
 		setUsernameModalOpen(false);
 		const createPayload = {
 			authId: tempAuthId,
