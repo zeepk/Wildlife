@@ -14,7 +14,7 @@ export function FriendsPage() {
 			<Toast ref={toast} />
 			<div className="container--friends p-mt-6 p-px-4 p-pb-4">
 				<h1 className="title">{friendsTitleText}</h1>
-				<div className="container--friend-features p-d-flex p-jc-between p-flex-wrap">
+				<div className="container--friend-features p-d-flex p-jc-center p-jc-md-between p-flex-wrap p-flex-sm-row p-flex-column">
 					<AddFriend />
 					<FriendsList />
 					<FriendRequests />

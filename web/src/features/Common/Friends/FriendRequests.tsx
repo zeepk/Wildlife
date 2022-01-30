@@ -6,11 +6,7 @@ import {
 	respondToUserFriendRequest,
 	selectAccountIncomingFriendRequests,
 } from '../commonSlice';
-import {
-	friendRequestsTitleText,
-	addFriendConfirmText,
-	addFriendDeleteText,
-} from 'utils/constants';
+import { friendRequestsTitleText } from 'utils/constants';
 
 export function FriendRequests() {
 	const dispatch = useAppDispatch();
@@ -30,13 +26,13 @@ export function FriendRequests() {
 			</div>
 			<div>
 				<Button
-					label={addFriendConfirmText}
-					className="p-mr-2"
+					icon="pi pi-check"
+					className="p-button-rounded p-mr-2"
 					onClick={() => handleFriendRequest(f._id, true)}
 				/>
 				<Button
-					label={addFriendDeleteText}
-					className="p-button-danger"
+					icon="pi pi-times"
+					className="p-button-rounded p-button-danger"
 					onClick={() => handleFriendRequest(f._id, false)}
 				/>
 			</div>

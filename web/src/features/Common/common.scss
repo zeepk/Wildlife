@@ -184,7 +184,8 @@
 		}
 
 		.container--friends-list {
-			width: 45%;
+			width: 100%;
+			max-width: 30rem;
 			background-color: $backgroundColor;
 			border: 0.2rem solid white;
 			border-radius: 3rem;
@@ -195,7 +196,8 @@
 		}
 
 		.container--requests-list {
-			width: 45%;
+			width: 100%;
+			max-width: 30rem;
 			background-color: $backgroundColor;
 			border: 0.2rem solid white;
 			border-radius: 3rem;
@@ -206,7 +208,8 @@
 		}
 
 		.container--add-friend {
-			width: 45%;
+			width: 100%;
+			max-width: 30rem;
 			background-color: $backgroundColor;
 			border: 0.2rem solid white;
 			border-radius: 3rem;
@@ -214,6 +217,12 @@
 
 			.title {
 				color: $mediumGray;
+			}
+
+			.container--add {
+				.p-inputtext {
+					max-width: 60%;
+				}
 			}
 		}
 	}

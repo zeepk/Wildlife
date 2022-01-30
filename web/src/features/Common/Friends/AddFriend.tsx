@@ -116,7 +116,10 @@ export function AddFriend() {
 			<Toast ref={toast} />
 			<div className="container--add p-px-4">
 				<h1 className="title p-p-0 p-my-0">{addFriendTitleText}</h1>
-				<form className="p-d-flex p-mb-3" onSubmit={(e) => handleSearch(e)}>
+				<form
+					className="p-d-flex p-mb-3 p-jc-center"
+					onSubmit={(e) => handleSearch(e)}
+				>
 					<InputText
 						className="p-mr-2"
 						value={username}
