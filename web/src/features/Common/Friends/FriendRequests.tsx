@@ -6,7 +6,7 @@ import {
 	respondToUserFriendRequest,
 	selectAccountIncomingFriendRequests,
 } from '../commonSlice';
-import { friendRequestsTitleText } from 'utils/constants';
+import { friendRequestsTitleText, noneText } from 'utils/constants';
 
 export function FriendRequests() {
 	const dispatch = useAppDispatch();
@@ -43,6 +43,7 @@ export function FriendRequests() {
 		<div className="container--requests-list p-d-flex p-flex-column p-jc-start p-px-4 p-pb-2">
 			<h1 className="title p-p-0 p-my-0">{friendRequestsTitleText}</h1>
 			{requestsContent}
+			{requests.length === 0 && <p className="text--center">{noneText}</p>}
 		</div>
 	);
 }

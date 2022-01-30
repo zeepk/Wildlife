@@ -184,11 +184,14 @@
 		}
 
 		.container--friends-list {
-			width: 100%;
-			max-width: 30rem;
+			width: 45%;
 			background-color: $backgroundColor;
 			border: 0.2rem solid white;
 			border-radius: 3rem;
+
+			@media (max-width: 768px) {
+				width: 100%;
+			}
 
 			.title {
 				color: $mediumGray;
@@ -206,11 +209,14 @@
 		}
 
 		.container--requests-list {
-			width: 100%;
-			max-width: 30rem;
+			width: 45%;
 			background-color: $backgroundColor;
 			border: 0.2rem solid white;
 			border-radius: 3rem;
+
+			@media (max-width: 768px) {
+				width: 100%;
+			}
 
 			.title {
 				color: $mediumGray;
@@ -218,12 +224,15 @@
 		}
 
 		.container--add-friend {
-			width: 100%;
-			max-width: 30rem;
+			width: 45%;
 			background-color: $backgroundColor;
 			border: 0.2rem solid white;
 			border-radius: 3rem;
 			height: 14rem;
+
+			@media (max-width: 768px) {
+				width: 100%;
+			}
 
 			.title {
 				color: $mediumGray;

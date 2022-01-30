@@ -45,6 +45,7 @@ export const homeTitleText = 'Tracking';
 export const homeText = 'Sample React Redux TypeScript app for Tracking';
 export const hideCaughtText = 'Hide Done';
 export const caughtAllText = 'All Done!';
+export const noneText = 'None at the moment!';
 export const totalsOverallText = 'Overall progress';
 export const accountSettingsTitleText = 'Settings';
 export const profileSettingsTitleText = 'Profile';

@@ -4,6 +4,7 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import {
 	friendsTitleText,
+	noneText,
 	removeFriendModalButtonNoText,
 	removeFriendModalButtonYesText,
 	removeFriendModalHeader,
@@ -74,6 +75,7 @@ export function FriendsList() {
 
 			<h1 className="title p-p-0 p-my-0">{friendsTitleText}</h1>
 			{friendsContent}
+			{friends.length === 0 && <p className="text--center">{noneText}</p>}
 		</div>
 	);
 }
