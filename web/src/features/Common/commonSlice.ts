@@ -13,6 +13,7 @@ import {
 	searchForProfile,
 	sendFriendRequest,
 	respondToFriendRequest,
+	removeFriend,
 } from './commonApi';
 import {
 	AuthDataCreateAccount,
@@ -188,6 +189,14 @@ export const sendUserFriendRequest = createAsyncThunk(
 	},
 );
 
+export const removeUserFriend = createAsyncThunk(
+	'common/auth/removefriend',
+	async (username: string) => {
+		const response = await removeFriend(username);
+		return response;
+	},
+);
+
 export const respondToUserFriendRequest = createAsyncThunk(
 	'common/auth/respondtofriendrequest',
 	async (data: { requestId: string; accepted: boolean }) => {
@@ -320,6 +329,15 @@ export const commonSlice = createSlice({
 					if (data.accepted) {
 						state.auth.account.friends.push(action.payload.data.newFriend);
 					}
+				}
+			})
+			.addCase(removeUserFriend.fulfilled, (state, action) => {
+				const data = action?.payload?.data;
+				console.log(data);
+				if (data) {
+					state.auth.account.friends = state.auth.account.friends.filter(
+						(f) => f.username !== data.data,
+					);
 				}
 			});
 	},

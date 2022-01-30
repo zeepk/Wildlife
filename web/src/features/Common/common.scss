@@ -193,6 +193,16 @@
 			.title {
 				color: $mediumGray;
 			}
+
+			.p-button-danger {
+				height: 2rem;
+				width: 2rem;
+				filter: opacity(50%);
+
+				&:hover {
+					filter: opacity(100%);
+				}
+			}
 		}
 
 		.container--requests-list {

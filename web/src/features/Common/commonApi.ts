@@ -12,6 +12,7 @@ import {
 	friendRequestsUrl,
 	searchForUserUrl,
 	addFriendUrl,
+	removeFriendUrl,
 } from 'utils/constants';
 
 export async function getProfile() {
@@ -97,9 +98,9 @@ export async function getFriendRequests(authId: string) {
 	return await requestWrapper(requestOptions);
 }
 
-export async function sendFriendRequest(authId: string) {
+export async function sendFriendRequest(username: string) {
 	const requestOptions = {
-		url: `${addFriendUrl}/${authId}`,
+		url: `${addFriendUrl}/${username}`,
 		method: 'POST',
 	};
 	return await requestWrapper(requestOptions);
@@ -111,8 +112,16 @@ export async function respondToFriendRequest(data: {
 }) {
 	const requestOptions = {
 		url: friendRequestsUrl,
-		method: 'DELETE',
+		method: 'POST',
 		data,
+	};
+	return await requestWrapper(requestOptions);
+}
+
+export async function removeFriend(username: string) {
+	const requestOptions = {
+		url: `${removeFriendUrl}/${username}`,
+		method: 'POST',
 	};
 	return await requestWrapper(requestOptions);
 }

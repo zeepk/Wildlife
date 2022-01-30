@@ -25,7 +25,7 @@ router.get('/api/friends/requests/:id', async (req: Request, res: Response) => {
 	return res.status(200).send(resp);
 });
 
-router.delete('/api/friends/requests', async (req: Request, res: Response) => {
+router.post('/api/friends/requests', async (req: Request, res: Response) => {
 	const { requestId, accepted } = req.body;
 	const friendRequest = await FriendRequest.findOne({ _id: requestId });
 	if (!friendRequest) {
@@ -122,6 +122,70 @@ router.post(
 		});
 		resp.data = friendRequest;
 
+		return res.status(200).send(resp);
+	},
+);
+
+router.post(
+	'/api/friends/remove/:username',
+	async (req: Request, res: Response) => {
+		const requestorAuthId = getAuthIdFromJwt(req.cookies.login_jwt);
+		const requesteeUsername = req.params.username;
+
+		const requesteeProfile = await Profile.findOne(
+			{
+				username: requesteeUsername,
+			},
+			{ authId: 0 },
+		);
+		const requestorProfile = await Profile.findOne(
+			{ authId: requestorAuthId },
+			{ authId: 0 },
+		);
+		const resp: ApiResponse = {
+			success: true,
+			message: '',
+			data: null,
+		};
+		if (!requesteeProfile || !requestorProfile) {
+			const errorMessage = `invalid profile authId: ${requesteeUsername} or ${requestorAuthId}`;
+			console.log(errorMessage);
+			resp.success = false;
+			resp.message = errorMessage;
+			return res.status(404).send(resp);
+		}
+
+		if (!requesteeProfile || !requestorProfile) {
+			console.log(
+				`invalid profile username: ${requesteeUsername} or ${requestorAuthId}`,
+			);
+			return res.sendStatus(404);
+		}
+
+		requesteeProfile.friends = requesteeProfile.friends.filter(
+			(fid) => fid.toString() !== requestorProfile._id.toString(),
+		);
+		requestorProfile.friends = requestorProfile.friends.filter(
+			(fid) => fid.toString() !== requesteeProfile._id.toString(),
+		);
+
+		await requestorProfile.save();
+		await requesteeProfile.save();
+
+		const isStillFriend = requestorProfile.friends.includes(
+			requesteeProfile._id.toString(),
+		);
+
+		if (isStillFriend) {
+			const errorMessage = 'unable to remove friend';
+			console.log(errorMessage);
+			resp.success = false;
+			resp.message = errorMessage;
+			return res.status(500).send(resp);
+		}
+
+		resp.data = requesteeProfile.username;
+		resp.message = `removed ${requesteeProfile.username} from friends list`;
 		return res.status(200).send(resp);
 	},
 );
