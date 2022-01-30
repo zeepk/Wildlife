@@ -18,5 +18,5 @@ jobs:
       - name: Send Release Message
         uses: JamesIves/fetch-api-data-action@v2.1.0
         with:          
-          endpoint: https://calm-brushlands-08590.herokuapp.com/send
+          endpoint: https://calm-brushlands-08590.herokuapp.com/release/${{ github.event.release.name }}
           configuration: '{ "method": "POST" }'
