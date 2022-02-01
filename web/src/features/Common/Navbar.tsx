@@ -7,7 +7,7 @@ import { Toast } from 'primereact/toast';
 
 import Logo from '../../assets/images/logo.png';
 import 'features/Common/common.scss';
-import { AuthButtons } from './Auth/AuthButtons';
+import AuthButtons from './Auth/AuthButtons';
 import { isDevEnv, isNullUndefinedOrWhitespace } from 'utils/helperFunctions';
 
 export function Navbar() {
@@ -50,7 +50,7 @@ export function Navbar() {
 	const navbarItems = [
 		...navbarMenuItemComponents,
 		{
-			template: () => <AuthButtons />,
+			template: () => <AuthButtons checkLogin={true} />,
 			className: 'container--auth',
 		},
 	];

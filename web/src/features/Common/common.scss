@@ -123,7 +123,7 @@
 			color: rgb(187, 95, 187);
 		}
 		&.discord {
-			color: rgb(147, 146, 233);
+			color: $discord;
 		}
 	}
 }
@@ -394,6 +394,47 @@
 		border: 0.7rem solid $backgroundColor;
 		border-radius: 3rem;
 
+		.container--existing {
+			color: white;
+			text-align: left;
+
+			.welcome {
+				width: 100%;
+				text-align: center;
+				font-size: 3rem;
+			}
+
+			.divider {
+				width: 100%;
+				border-bottom: 0.5rem solid $backgroundColor;
+			}
+
+			.heading {
+				font-size: 3rem;
+			}
+
+			.subheading {
+				font-size: 2rem;
+			}
+
+			.text {
+				font-size: 1.2rem;
+			}
+
+			.content-link {
+				text-decoration: none;
+				color: rgb(47, 110, 102);
+				cursor: pointer;
+
+				&:hover {
+					text-decoration: underline;
+				}
+				&.discord {
+					color: rgb(71, 71, 124);
+				}
+			}
+		}
+
 		.loading--global {
 			width: 90vw;
 			max-width: 20rem;
@@ -404,6 +445,7 @@
 			color: white;
 			text-align: center;
 			white-space: pre-line;
+			font-size: 1.5rem;
 		}
 	}
 }

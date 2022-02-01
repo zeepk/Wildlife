@@ -2,7 +2,7 @@
 export const globalMessage = '';
 
 // version
-export const versionNumber = '0.9.0';
+export const versionNumber = '1.0.0';
 
 // urls
 export const apiBaseUrl = process.env.REACT_APP_API_URL;
@@ -90,9 +90,9 @@ export const artViewButtonText = 'View Artwork';
 export const artAlwaysRealText = 'Always real!';
 export const artFakeComparisonButtonText = 'View fake comparison';
 export const landingPageNewUserText =
-	'Welcome!\nThis site is still in beta :)\nTry creating an account by clicking Login above!';
+	"Welcome!\nHere you can track your progress in Animal Crossing: New Horizons\nFeel free to poke around, but be sure to sign up so we can remember what you've caught!";
 export const landingPageExistingUserText =
-	'Welcome back!\n\nStill under construction here.\nLet me know if you have any feedback!\n(contact links below)';
+	'Welcome back!\n\nLet me know if you have any feedback!\n(discord and twitter links below)';
 
 export const successMessageDataImported =
 	'Data imported successfully! Try refreshing in a minute or so.';

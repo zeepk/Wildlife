@@ -176,8 +176,8 @@ export const searchForUser = createAsyncThunk(
 		// not using other params, but function won't work without them
 		const state: any = getState();
 		let profileId = null;
-		if(!isNullOrUndefined(state.common.auth.account.profile)) {
-		profileId = state.common.auth.account.profile._id.toString();
+		if (!isNullOrUndefined(state.common.auth.account.profile)) {
+			profileId = state.common.auth.account.profile._id.toString();
 		}
 		const response = await searchForProfile({ username, profileId });
 		return response;

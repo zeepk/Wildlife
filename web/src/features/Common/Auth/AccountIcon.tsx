@@ -47,7 +47,7 @@ export function AccountIcon() {
 						href={item.target}
 					>
 						<span>
-							<span className="pi pi-home p-mr-2"></span>
+							<span className="pi pi-users p-mr-2"></span>
 							<span className={options.labelClassName}>{item.label}</span>
 						</span>
 						{badge}
@@ -58,9 +58,13 @@ export function AccountIcon() {
 		{
 			label: 'Your Totals',
 			icon: 'pi pi-chart-bar',
-			command: () => history.push('/totals'),
 		},
 		{ separator: true },
+		{
+			label: 'About',
+			icon: 'pi pi-info-circle',
+			command: () => history.push('/support'),
+		},
 		{
 			label: 'Logout',
 			icon: 'pi pi-sign-out',
