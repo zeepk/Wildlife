@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { FriendRequest, Profile } from '@/models/profile';
 import { ApiResponse } from '@/utils/customTypes';
 import { getAuthIdFromJwt } from '@/utils/helperFunctions';
+import { Caught } from '@/models/caught';
 const router = express.Router();
 
 router.get('/api/friends/requests/:id', async (req: Request, res: Response) => {
@@ -189,5 +190,43 @@ router.post(
 		return res.status(200).send(resp);
 	},
 );
+
+router.get('/api/friends/caught/:ueid', async (req: Request, res: Response) => {
+	const ueid = req.params.ueid;
+	const authId = getAuthIdFromJwt(req.cookies.login_jwt);
+	const profile = await Profile.findOne({ authId: authId });
+	const resp: ApiResponse = {
+		success: true,
+		message: '',
+		data: [],
+		// list of usernames who have caught this item
+	};
+	if (!profile) {
+		console.log(`invalid profile authId: ${authId}`);
+		return res.sendStatus(404);
+	}
+	if (profile.friends.length === 0) {
+		resp.message = 'no friends';
+		return res.status(200).send(resp);
+	}
+
+	const [friendProfiles, caughtForItem] = await Promise.all([
+		Profile.find(
+			{
+				_id: { $in: profile.friends },
+			},
+			{ _id: 0, friends: 0 },
+		),
+		Caught.find({ ueid: ueid }),
+	]);
+
+	const caughtUsernames = caughtForItem.map(
+		(c) => friendProfiles.find((fp) => fp.authId === c.authId)?.username,
+	);
+
+	resp.data = caughtUsernames;
+
+	return res.status(200).send(resp);
+});
 
 export { router as friendsRouter };

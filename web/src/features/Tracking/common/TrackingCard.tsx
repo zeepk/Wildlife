@@ -18,7 +18,7 @@ import {
 	createUserCaught,
 	deleteUserCaught,
 } from 'features/Common/commonSlice';
-import { critterTypes } from 'utils/constants';
+import { critterTypes, friendsCaughtModalHeaderText } from 'utils/constants';
 import { FishCard } from '../cards/FishCard';
 import { BugCard } from '../cards/BugCard';
 import { ArtCard } from '../cards/ArtCard';
@@ -29,6 +29,8 @@ import { MusicCard } from '../cards/MusicCard';
 import { AchievementCard } from '../cards/AchievementCard';
 import { Villager } from 'features/Common/commonTypes';
 import { VillagerCard } from '../cards/VillagerCard';
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
 
 type props = {
 	item:
@@ -50,6 +52,7 @@ export const TrackingCard: FunctionComponent<props> = ({
 }) => {
 	const dispatch = useAppDispatch();
 	const [allowCheck, setAllowCheck] = useState(true);
+	const [modalOpen, setModalOpen] = useState(false);
 	const caught = useAppSelector(selectCaughtUeids);
 	const isCaught = caught.includes(item.ueid);
 	const [checked, setChecked] = useState(isCaught);
@@ -88,7 +91,14 @@ export const TrackingCard: FunctionComponent<props> = ({
 			</Tooltip>
 			<div className="text p-py-0">{item.name}</div>
 			{showCheckbox && (
-				<Checkbox checked={checked} onChange={() => updateCaught()} />
+				<div className="p-d-flex p-ai-center">
+					<Button
+						icon="pi pi-users"
+						className="btn--friends p-button-link p-mr-3"
+						onClick={() => setModalOpen(true)}
+					/>
+					<Checkbox checked={checked} onChange={() => updateCaught()} />
+				</div>
 			)}
 		</div>
 	);
@@ -128,6 +138,16 @@ export const TrackingCard: FunctionComponent<props> = ({
 
 	return (
 		<Card className="p-m-3" header={header}>
+			<Dialog
+				className="modal--remove-friend"
+				header={friendsCaughtModalHeaderText}
+				visible={modalOpen}
+				closeOnEscape={true}
+				closable={true}
+				onHide={() => setModalOpen(false)}
+			>
+				friends??
+			</Dialog>
 			{body}
 		</Card>
 	);

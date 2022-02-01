@@ -76,6 +76,7 @@ export const removeFriendModalText =
 export const removeFriendModalButtonYesText = 'Yes :(';
 export const removeFriendModalButtonNoText = 'Wait...';
 
+export const friendsCaughtModalHeaderText = 'Friends Progress';
 export const shadowSizeText = 'Shadow Size:';
 export const sourceText = 'Location:';
 export const bellsSellText = 'Sale price:';

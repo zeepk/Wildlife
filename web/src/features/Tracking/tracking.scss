@@ -79,6 +79,12 @@
 					text-shadow: 2px 2px $transparentMediumGray;
 					font-size: 1.5rem;
 					height: 3rem;
+					.btn--friends {
+						color: white;
+						.p-button-icon {
+							font-size: 1.3rem;
+						}
+					}
 					.text {
 						max-width: 85%;
 						overflow: hidden;
