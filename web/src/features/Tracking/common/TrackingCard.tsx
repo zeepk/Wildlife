@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { Checkbox } from 'primereact/checkbox';
+import { Tooltip } from 'primereact/tooltip';
 import { Card } from 'primereact/card';
 import {
 	Fish,
@@ -79,7 +80,12 @@ export const TrackingCard: FunctionComponent<props> = ({
 	};
 
 	const header = (
-		<div className="header p-mx-2 p-py-0 p-d-flex p-ai-center p-jc-between">
+		<div
+			className={`header-${item.ueid} header p-mx-2 p-py-0 p-d-flex p-ai-center p-jc-between`}
+		>
+			<Tooltip position="top" target={`.header-${item.ueid}`}>
+				<div className="text--item-tooltip">{item.name}</div>
+			</Tooltip>
 			<div className="text p-py-0">{item.name}</div>
 			{showCheckbox && (
 				<Checkbox checked={checked} onChange={() => updateCaught()} />
