@@ -394,6 +394,30 @@
 		border: 0.7rem solid $backgroundColor;
 		border-radius: 3rem;
 
+		.container--existing {
+			color: white;
+			text-align: left;
+
+			.welcome {
+				width: 100%;
+				text-align: center;
+				font-size: 2rem;
+			}
+
+			.divider {
+				width: 100%;
+				border-bottom: 0.5rem solid $backgroundColor;
+			}
+
+			.heading {
+				font-size: 2rem;
+			}
+
+			.subheading {
+				font-size: 1.5rem;
+			}
+		}
+
 		.loading--global {
 			width: 90vw;
 			max-width: 20rem;
@@ -404,6 +428,7 @@
 			color: white;
 			text-align: center;
 			white-space: pre-line;
+			font-size: 1.5rem;
 		}
 	}
 }
