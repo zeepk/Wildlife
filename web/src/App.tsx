@@ -31,8 +31,7 @@ import { TotalsPage } from "features/Tracking/pages/TotalsPage";
 import { FriendsPage } from "features/Common/Friends/FriendsPage";
 import { Login } from "features/Common/Auth/Login";
 function initializeReactGA() {
-  console.warn("google analytics code invalid");
-  ReactGA.initialize("google analytics code");
+  ReactGA.initialize("UA-165301764-1");
   ReactGA.pageview("/homepage");
 }
 initializeReactGA();
