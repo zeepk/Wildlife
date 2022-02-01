@@ -220,9 +220,9 @@ router.get('/api/friends/caught/:ueid', async (req: Request, res: Response) => {
 		Caught.find({ ueid: ueid }),
 	]);
 
-	const caughtUsernames = caughtForItem.map(
-		(c) => friendProfiles.find((fp) => fp.authId === c.authId)?.username,
-	);
+	const caughtUsernames = caughtForItem
+		.map((c) => friendProfiles.find((fp) => fp.authId === c.authId)?.username)
+		.filter((u) => u);
 
 	resp.data = caughtUsernames;
 

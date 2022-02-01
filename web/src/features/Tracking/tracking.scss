@@ -292,3 +292,22 @@
 		}
 	}
 }
+.modal--friends-progress {
+	width: 95vw;
+	max-width: 25rem;
+	min-height: 10rem;
+	max-height: 80vh;
+
+	.p-dialog-header {
+		text-transform: capitalize;
+	}
+	.content-link {
+		font-weight: bold;
+		color: $mediumDarkGreen;
+		cursor: pointer;
+
+		&:hover {
+			text-decoration: underline !important;
+		}
+	}
+}

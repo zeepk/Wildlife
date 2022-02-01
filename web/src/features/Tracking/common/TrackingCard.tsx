@@ -18,7 +18,7 @@ import {
 	createUserCaught,
 	deleteUserCaught,
 } from 'features/Common/commonSlice';
-import { critterTypes, friendsCaughtModalHeaderText } from 'utils/constants';
+import { critterTypes } from 'utils/constants';
 import { FishCard } from '../cards/FishCard';
 import { BugCard } from '../cards/BugCard';
 import { ArtCard } from '../cards/ArtCard';
@@ -31,6 +31,7 @@ import { Villager } from 'features/Common/commonTypes';
 import { VillagerCard } from '../cards/VillagerCard';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import { FriendsCaughtModalContent } from './FriendsCaughtModalContent';
 
 type props = {
 	item:
@@ -83,13 +84,11 @@ export const TrackingCard: FunctionComponent<props> = ({
 	};
 
 	const header = (
-		<div
-			className={`header-${item.ueid} header p-mx-2 p-py-0 p-d-flex p-ai-center p-jc-between`}
-		>
+		<div className="header p-mx-2 p-py-0 p-d-flex p-ai-center p-jc-between">
 			<Tooltip position="top" target={`.header-${item.ueid}`}>
 				<div className="text--item-tooltip">{item.name}</div>
 			</Tooltip>
-			<div className="text p-py-0">{item.name}</div>
+			<div className={`header-${item.ueid} text p-py-0`}>{item.name}</div>
 			{showCheckbox && (
 				<div className="p-d-flex p-ai-center">
 					<Button
@@ -139,14 +138,14 @@ export const TrackingCard: FunctionComponent<props> = ({
 	return (
 		<Card className="p-m-3" header={header}>
 			<Dialog
-				className="modal--remove-friend"
-				header={friendsCaughtModalHeaderText}
+				className="modal--friends-progress"
+				header={item.name}
 				visible={modalOpen}
 				closeOnEscape={true}
 				closable={true}
 				onHide={() => setModalOpen(false)}
 			>
-				friends??
+				<FriendsCaughtModalContent item={item} />
 			</Dialog>
 			{body}
 		</Card>
