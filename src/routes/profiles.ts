@@ -50,7 +50,7 @@ router.get('/api/profile', async (req: any, res: Response) => {
 		{
 			_id: { $in: profile.friends },
 		},
-		{ _id: 0, authId: 0, friends: 0 },
+		{ _id: 0, authId: 0, friends: 0 }
 	);
 	resp.data = {
 		isLoggedIn: true,
@@ -78,8 +78,15 @@ router.post('/api/profile', async (req: Request, res: Response) => {
 
 router.put('/api/profile', async (req: Request, res: Response) => {
 	// TODO: allow users to change their timezone for fish times, etc
-	const { authId, username, avatarId, hemisphere, hideCaught, islandName } =
-		req.body;
+	const {
+		authId,
+		username,
+		avatarId,
+		hemisphere,
+		hideCaught,
+		islandName,
+		villagers,
+	} = req.body;
 	const profile = await Profile.findOne({ authId });
 	if (!profile) {
 		console.log(`invalid profile authId: ${authId}`);
@@ -104,6 +111,7 @@ router.put('/api/profile', async (req: Request, res: Response) => {
 	profile.hideCaught =
 		hideCaught === undefined ? profile.hideCaught : hideCaught;
 	profile.islandName = islandName || profile.islandName;
+	profile.villagers = villagers;
 
 	if (avatarId !== profile.avatarId) {
 		const villager = await Villager.findOne({ ueid: avatarId });
@@ -160,7 +168,7 @@ router.post('/api/profile/import', async (req: Request, res: Response) => {
 				active: true,
 			});
 			numberOfItemsImported++;
-		}),
+		})
 	);
 	return res.status(200).send({ imported: numberOfItemsImported });
 });
@@ -181,12 +189,12 @@ router.get('/api/profile/totals', async (req: Request, res: Response) => {
 						...new Set(
 							caught
 								.filter((c) => c.critterType === inc && c.value)
-								.map((c) => `${c.ueid}${c.value}`),
+								.map((c) => `${c.ueid}${c.value}`)
 						),
 				  ]
 				: [
 						...new Set(
-							caught.filter((c) => c.critterType === inc).map((c) => c.ueid),
+							caught.filter((c) => c.critterType === inc).map((c) => c.ueid)
 						),
 				  ];
 
@@ -223,7 +231,7 @@ router.post('/api/profilesearch', async (req: Request, res: Response) => {
 	const [profile, loggedInUser] = await Promise.all([
 		await Profile.findOne(
 			{ username: { $regex: new RegExp('^' + username + '$', 'i') } },
-			{ authId: 0, friends: 0 },
+			{ authId: 0, friends: 0 }
 		),
 		await Profile.findOne({ _id: profileId }),
 	]);
@@ -256,7 +264,7 @@ router.post('/api/profilesearch', async (req: Request, res: Response) => {
 		]);
 
 	const alreadyFriends = loggedInUser?.friends.includes(
-		new ObjectID(foundUserProfileId),
+		new ObjectID(foundUserProfileId)
 	);
 
 	const respData = {

@@ -15,6 +15,7 @@ export type AuthDataUpdateProfile = {
 	hemisphere?: hemispheres;
 	hideCaught?: boolean;
 	islandName?: string;
+	villagers?: Array<string | undefined>;
 };
 
 export type Profile = {
@@ -26,6 +27,7 @@ export type Profile = {
 	hideCaught: boolean;
 	islandName: string;
 	friends: Array<string>;
+	villagers: Array<string | null>;
 	createdAt: DateTime;
 	updatedAt: DateTime;
 	hemisphere: hemispheres;

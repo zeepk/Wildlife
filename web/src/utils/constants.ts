@@ -59,6 +59,7 @@ export const accountSettingsImportDataButtonText = 'Import';
 export const accountSettingsImportDataPlaceholderText = 'Data text';
 export const accountSettingsImportDataLoadingText =
 	'Importing your data. This could take a minute or so.';
+export const accountSettingsVillagersTitleText = 'Current Villagers';
 
 export const friendsTitleText = 'Friends';
 export const friendRequestsTitleText = 'Friend Requests';
@@ -120,6 +121,7 @@ export const maxNumberOfTracking = 5000;
 export const maxUsernameLength = 15;
 export const minUsernameLength = 3;
 export const globalToastLifetime = 5000;
+export const maxNumberOfVillagers = 10;
 
 export const errorMessageUsernameInvalidLength = `Let's keep it between ${minUsernameLength} and ${maxUsernameLength} characters`;
 

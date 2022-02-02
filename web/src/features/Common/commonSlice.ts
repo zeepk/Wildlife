@@ -24,7 +24,7 @@ import {
 	UpdateCaughtPayload,
 	Villager,
 } from 'features/Common/commonTypes';
-import { critterTypes } from 'utils/constants';
+import { critterTypes, maxNumberOfVillagers } from 'utils/constants';
 import { isNullOrUndefined } from 'utils/helperFunctions';
 export interface CommonState {
 	auth: {
@@ -71,7 +71,7 @@ export const getUserProfile = createAsyncThunk(
 	async () => {
 		const response = await getProfile();
 		return response;
-	},
+	}
 );
 
 export const createUserProfile = createAsyncThunk(
@@ -79,7 +79,7 @@ export const createUserProfile = createAsyncThunk(
 	async (payload: AuthDataCreateAccount) => {
 		const response = await createProfile(payload);
 		return response;
-	},
+	}
 );
 
 export const updateUserProfile = createAsyncThunk(
@@ -89,7 +89,7 @@ export const updateUserProfile = createAsyncThunk(
 		payload.authId = state.common.auth.account.profile.authId;
 		const response = await updateProfile(payload);
 		return response;
-	},
+	}
 );
 
 export const getUserCaught = createAsyncThunk(
@@ -97,7 +97,7 @@ export const getUserCaught = createAsyncThunk(
 	async (authId: string) => {
 		const response = await getCaught(authId);
 		return response;
-	},
+	}
 );
 
 export const getAllVillagers = createAsyncThunk(
@@ -105,14 +105,14 @@ export const getAllVillagers = createAsyncThunk(
 	async () => {
 		const response = await getVillagers();
 		return response;
-	},
+	}
 );
 
 export const createUserCaught = createAsyncThunk(
 	'common/auth/createcaught',
 	async (
 		data: { ueid: string; critterType?: critterTypes; value?: number },
-		{ getState, requestId },
+		{ getState, requestId }
 	) => {
 		// not using other params, but function won't work without them
 		const state: any = getState();
@@ -125,7 +125,7 @@ export const createUserCaught = createAsyncThunk(
 		};
 		const response = await createCaught(payload);
 		return response;
-	},
+	}
 );
 
 export const deleteUserCaught = createAsyncThunk(
@@ -141,7 +141,7 @@ export const deleteUserCaught = createAsyncThunk(
 		};
 		const response = await deleteCaught(payload);
 		return response;
-	},
+	}
 );
 
 export const importCaughtData = createAsyncThunk(
@@ -156,7 +156,7 @@ export const importCaughtData = createAsyncThunk(
 		};
 		const response = await importData(payload);
 		return response;
-	},
+	}
 );
 
 export const getUserFriendRequests = createAsyncThunk(
@@ -167,7 +167,7 @@ export const getUserFriendRequests = createAsyncThunk(
 		const authId = state.common.auth.account.profile.authId;
 		const response = await getFriendRequests(authId);
 		return response;
-	},
+	}
 );
 
 export const searchForUser = createAsyncThunk(
@@ -181,7 +181,7 @@ export const searchForUser = createAsyncThunk(
 		}
 		const response = await searchForProfile({ username, profileId });
 		return response;
-	},
+	}
 );
 
 export const sendUserFriendRequest = createAsyncThunk(
@@ -189,7 +189,7 @@ export const sendUserFriendRequest = createAsyncThunk(
 	async (username: string) => {
 		const response = await sendFriendRequest(username);
 		return response;
-	},
+	}
 );
 
 export const removeUserFriend = createAsyncThunk(
@@ -197,7 +197,7 @@ export const removeUserFriend = createAsyncThunk(
 	async (username: string) => {
 		const response = await removeFriend(username);
 		return response;
-	},
+	}
 );
 
 export const respondToUserFriendRequest = createAsyncThunk(
@@ -205,7 +205,7 @@ export const respondToUserFriendRequest = createAsyncThunk(
 	async (data: { requestId: string; accepted: boolean }) => {
 		const response = await respondToFriendRequest(data);
 		return response;
-	},
+	}
 );
 
 const incrementLoading = (state: CommonState) => {
@@ -243,6 +243,15 @@ export const commonSlice = createSlice({
 						state.auth.account.profile = data.profile;
 						state.auth.account.caught = data.caught;
 						state.auth.account.friends = data.friendProfiles;
+						for (let i = 0; i < maxNumberOfVillagers; i++) {
+							if (
+								state.auth.account.profile &&
+								!state.auth.account.profile?.villagers[i]
+							) {
+								state.auth.account.profile.villagers[i] = null;
+							}
+						}
+						data.friendProfiles;
 					}
 				}
 				decrementLoading(state);
@@ -327,7 +336,7 @@ export const commonSlice = createSlice({
 				if (data) {
 					state.auth.account.incomingFriendRequests =
 						state.auth.account.incomingFriendRequests.filter(
-							(r) => r.requestor._id !== data.newFriend._id,
+							(r) => r.requestor._id !== data.newFriend._id
 						);
 					if (data.accepted) {
 						state.auth.account.friends.push(action.payload.data.newFriend);
@@ -339,7 +348,7 @@ export const commonSlice = createSlice({
 				console.log(data);
 				if (data) {
 					state.auth.account.friends = state.auth.account.friends.filter(
-						(f) => f.username !== data.data,
+						(f) => f.username !== data.data
 					);
 				}
 			});
@@ -372,6 +381,8 @@ export const selectAccountAvatar = (state: RootState) =>
 	state.common.auth.account.profile?.avatar;
 export const selectAccountAvatarId = (state: RootState) =>
 	state.common.auth.account.profile?.avatarId;
+export const selectAccountVillagers = (state: RootState) =>
+	state.common.auth.account.profile?.villagers;
 
 export const selectAccountFriends = (state: RootState) =>
 	state.common.auth.account.friends;

@@ -373,12 +373,27 @@
 		}
 	}
 }
-
+.container--villagers > div {
+	height: 8rem;
+}
 .container--villager-list-item {
 	min-width: 10rem;
 	height: 2rem;
 	img {
 		max-height: 2rem;
+	}
+
+	&.display {
+		min-width: 5rem;
+		width: 5rem;
+		height: 5rem;
+		img {
+			max-height: 5rem;
+		}
+		&.text {
+			padding-right: 1rem;
+			white-space: normal;
+		}
 	}
 }
 .p-dropdown-label-empty {

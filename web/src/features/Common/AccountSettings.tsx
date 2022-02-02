@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -14,6 +14,9 @@ import {
 	selectAccountHemisphere,
 	selectAuthId,
 	updateUserProfile,
+	selectAccountVillagers,
+	selectVillagers,
+	getAllVillagers,
 } from 'features/Common/commonSlice';
 import LoadingIcon from 'features/Common/LoadingIcon';
 import {
@@ -22,6 +25,7 @@ import {
 	accountSettingsImportDataText,
 	accountSettingsTitleText,
 	accountSettingsUsernameText,
+	accountSettingsVillagersTitleText,
 	errorMessageAccountSettingsCannotUpdate,
 	errorMessageAccountSettingsNotLoggedIn,
 	errorMessageUsernameInvalidLength,
@@ -45,9 +49,13 @@ export function AccountSettings() {
 	const dispatch = useAppDispatch();
 	const isLoggedIn = useAppSelector(selectAuthIsLoggedIn);
 	const loading = useAppSelector(selectAuthLoading);
+	const villagers = useAppSelector(selectVillagers);
 	const existingUsername = useAppSelector(selectAccountUsername);
 	const existingAvatar = useAppSelector(selectAccountAvatar);
 	const existingAvatarId = useAppSelector(selectAccountAvatarId);
+	const existingVillagers = useAppSelector(selectAccountVillagers)?.map((ev) =>
+		villagers?.find((v) => v.ueid === ev)
+	);
 	const authId = useAppSelector(selectAuthId);
 	const existingHemisphere = useAppSelector(selectAccountHemisphere);
 
@@ -55,6 +63,7 @@ export function AccountSettings() {
 	const [avatarId, setAvatarId] = useState(existingAvatarId);
 	const [hemisphere, setHemisphere] = useState(existingHemisphere);
 	const [username, setUsername] = useState(existingUsername);
+	const [currentVillagers, setCurrentVillagers] = useState(existingVillagers);
 	const [profileLoading, setProfileLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 
@@ -65,6 +74,12 @@ export function AccountSettings() {
 	if (!isLoggedIn) {
 		return <h1 className="title">{errorMessageAccountSettingsNotLoggedIn}</h1>;
 	}
+
+	useEffect(() => {
+		if (villagers?.length === 0) {
+			dispatch(getAllVillagers());
+		}
+	}, [villagers]);
 
 	const updateUsername = (value: string) => {
 		setUsername(value);
@@ -78,6 +93,15 @@ export function AccountSettings() {
 	const updateAvatar = (villager: Villager) => {
 		setAvatarUri(villager.image_uri);
 		setAvatarId(villager.ueid);
+	};
+
+	const updateCurrentVillager = (villager: Villager, index: number) => {
+		if (!currentVillagers) {
+			return;
+		}
+		const currentVillagerArray = [...currentVillagers];
+		currentVillagerArray[index] = villager;
+		setCurrentVillagers(currentVillagerArray);
 	};
 
 	const updateHemisphere = (value: number) => {
@@ -108,7 +132,7 @@ export function AccountSettings() {
 			hemisphere === undefined
 		) {
 			console.error(
-				'Unable to update profile, the existing profile may be invalid',
+				'Unable to update profile, the existing profile may be invalid'
 			);
 			return;
 		}
@@ -117,6 +141,7 @@ export function AccountSettings() {
 			authId,
 			avatarId,
 			hemisphere,
+			villagers: currentVillagers?.map((cv) => cv?.ueid),
 		};
 
 		dispatch(updateUserProfile(req)).then((resp: any) => {
@@ -173,6 +198,18 @@ export function AccountSettings() {
 					<Button className="button--avatar account-settings p-button-rounded p-button-success">
 						<img src={avatarUri} alt="avatar" />
 					</Button>
+				</div>
+				<h1 className="title">{accountSettingsVillagersTitleText}</h1>
+				<div className="container--villagers p-d-flex p-flex-wrap p-ai-center p-jc-center">
+					{currentVillagers?.map((cv, i) => (
+						<div key={cv?._id || i} className="p-p-2">
+							<AvatarDropdown
+								callback={updateCurrentVillager}
+								selectedId={cv?.ueid}
+								index={i}
+							/>
+						</div>
+					))}
 				</div>
 				<h1 className="title">{accountSettingsTitleText}</h1>
 				<div className="setting p-mb-6">
