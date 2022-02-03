@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -16,7 +16,6 @@ import {
 	updateUserProfile,
 	selectAccountVillagers,
 	selectVillagers,
-	getAllVillagers,
 } from 'features/Common/commonSlice';
 import LoadingIcon from 'features/Common/LoadingIcon';
 import {
@@ -29,6 +28,7 @@ import {
 	errorMessageAccountSettingsCannotUpdate,
 	errorMessageAccountSettingsNotLoggedIn,
 	errorMessageUsernameInvalidLength,
+	errorMessageVillagerExists,
 	globalToastLifetime,
 	hemispheres,
 	profileSettingsTitleText,
@@ -49,13 +49,10 @@ export function AccountSettings() {
 	const dispatch = useAppDispatch();
 	const isLoggedIn = useAppSelector(selectAuthIsLoggedIn);
 	const loading = useAppSelector(selectAuthLoading);
-	const villagers = useAppSelector(selectVillagers);
 	const existingUsername = useAppSelector(selectAccountUsername);
 	const existingAvatar = useAppSelector(selectAccountAvatar);
 	const existingAvatarId = useAppSelector(selectAccountAvatarId);
-	const existingVillagers = useAppSelector(selectAccountVillagers)?.map((ev) =>
-		villagers?.find((v) => v.ueid === ev)
-	);
+	const existingVillagerIds = useAppSelector(selectAccountVillagers);
 	const authId = useAppSelector(selectAuthId);
 	const existingHemisphere = useAppSelector(selectAccountHemisphere);
 
@@ -63,7 +60,8 @@ export function AccountSettings() {
 	const [avatarId, setAvatarId] = useState(existingAvatarId);
 	const [hemisphere, setHemisphere] = useState(existingHemisphere);
 	const [username, setUsername] = useState(existingUsername);
-	const [currentVillagers, setCurrentVillagers] = useState(existingVillagers);
+	const [currentVillagerIds, setCurrentVillagerIds] =
+		useState(existingVillagerIds);
 	const [profileLoading, setProfileLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 
@@ -74,12 +72,6 @@ export function AccountSettings() {
 	if (!isLoggedIn) {
 		return <h1 className="title">{errorMessageAccountSettingsNotLoggedIn}</h1>;
 	}
-
-	useEffect(() => {
-		if (villagers?.length === 0) {
-			dispatch(getAllVillagers());
-		}
-	}, [villagers]);
 
 	const updateUsername = (value: string) => {
 		setUsername(value);
@@ -96,12 +88,20 @@ export function AccountSettings() {
 	};
 
 	const updateCurrentVillager = (villager: Villager, index: number) => {
-		if (!currentVillagers) {
+		if (!currentVillagerIds) {
 			return;
 		}
-		const currentVillagerArray = [...currentVillagers];
-		currentVillagerArray[index] = villager;
-		setCurrentVillagers(currentVillagerArray);
+		const currentVillagerArray = [...currentVillagerIds];
+		if (currentVillagerArray.includes(villager.ueid)) {
+			toast?.current?.show({
+				severity: 'warn',
+				detail: `${villager.name} ${errorMessageVillagerExists}`,
+				life: globalToastLifetime,
+			});
+			return;
+		}
+		currentVillagerArray[index] = villager.ueid;
+		setCurrentVillagerIds(currentVillagerArray);
 	};
 
 	const updateHemisphere = (value: number) => {
@@ -132,7 +132,7 @@ export function AccountSettings() {
 			hemisphere === undefined
 		) {
 			console.error(
-				'Unable to update profile, the existing profile may be invalid'
+				'Unable to update profile, the existing profile may be invalid',
 			);
 			return;
 		}
@@ -141,7 +141,7 @@ export function AccountSettings() {
 			authId,
 			avatarId,
 			hemisphere,
-			villagers: currentVillagers?.map((cv) => cv?.ueid),
+			villagers: currentVillagerIds,
 		};
 
 		dispatch(updateUserProfile(req)).then((resp: any) => {
@@ -170,6 +170,17 @@ export function AccountSettings() {
 			setProfileLoading(false);
 		});
 	};
+
+	const villagerSelectionContent = currentVillagerIds?.map((cv, i) => (
+		<div key={i} className="p-p-2">
+			<AvatarDropdown
+				callback={updateCurrentVillager}
+				selectedId={cv}
+				index={i}
+			/>
+		</div>
+	));
+
 	return (
 		<div className="container--account-settings p-d-flex p-jc-center p-align-center p-mb-6">
 			<Toast ref={toast} />
@@ -201,15 +212,7 @@ export function AccountSettings() {
 				</div>
 				<h1 className="title">{accountSettingsVillagersTitleText}</h1>
 				<div className="container--villagers p-d-flex p-flex-wrap p-ai-center p-jc-center">
-					{currentVillagers?.map((cv, i) => (
-						<div key={cv?._id || i} className="p-p-2">
-							<AvatarDropdown
-								callback={updateCurrentVillager}
-								selectedId={cv?.ueid}
-								index={i}
-							/>
-						</div>
-					))}
+					{villagerSelectionContent}
 				</div>
 				<h1 className="title">{accountSettingsTitleText}</h1>
 				<div className="setting p-mb-6">

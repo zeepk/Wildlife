@@ -114,6 +114,7 @@ export const errorMessageNoUserFound = 'Cannot find user:';
 export const errorMessageUsernameTaken = 'Username is already taken!';
 export const errorMessageInvalidImportData =
 	'Invalid format for import data. Please try again or contact support.';
+export const errorMessageVillagerExists = 'is already on your island!';
 
 // thresholds
 

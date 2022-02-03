@@ -13,7 +13,7 @@ import { isNullOrUndefined } from 'utils/helperFunctions';
 
 type Props = {
 	callback: (...args: any[]) => any;
-	selectedId: string | undefined;
+	selectedId: string | undefined | null;
 	index?: number;
 };
 
