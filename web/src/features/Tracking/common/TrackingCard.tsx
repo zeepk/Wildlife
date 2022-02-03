@@ -45,11 +45,13 @@ type props = {
 		| Achievement
 		| Villager;
 	showCheckbox: boolean;
+	showFriendsIcon: boolean;
 };
 
 export const TrackingCard: FunctionComponent<props> = ({
 	item,
 	showCheckbox,
+	showFriendsIcon,
 }) => {
 	const dispatch = useAppDispatch();
 	const [allowCheck, setAllowCheck] = useState(true);
@@ -89,16 +91,22 @@ export const TrackingCard: FunctionComponent<props> = ({
 				<div className="text--item-tooltip">{item.name}</div>
 			</Tooltip>
 			<div className={`header-${item.ueid} text p-py-0`}>{item.name}</div>
-			{showCheckbox && (
-				<div className="p-d-flex p-ai-center">
+			<div className="p-d-flex p-ai-center">
+				{showFriendsIcon && (
 					<Button
 						icon="pi pi-users"
-						className="btn--friends p-button-link p-mr-3"
+						className="btn--friends p-button-link"
 						onClick={() => setModalOpen(true)}
 					/>
-					<Checkbox checked={checked} onChange={() => updateCaught()} />
-				</div>
-			)}
+				)}
+				{showCheckbox && (
+					<Checkbox
+						className="p-ml-3"
+						checked={checked}
+						onChange={() => updateCaught()}
+					/>
+				)}
+			</div>
 		</div>
 	);
 
@@ -145,7 +153,10 @@ export const TrackingCard: FunctionComponent<props> = ({
 				closable={true}
 				onHide={() => setModalOpen(false)}
 			>
-				<FriendsCaughtModalContent item={item} />
+				<FriendsCaughtModalContent
+					item={item}
+					isVillager={item.critter_type === critterTypes.VILLAGER}
+				/>
 			</Dialog>
 			{body}
 		</Card>

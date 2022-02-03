@@ -62,7 +62,14 @@ export const TrackingCards: FunctionComponent<props> = ({ items }) => {
 
 	const showCheckbox =
 		isLoggedIn &&
-		!items.some((i) => i.critter_type === critterTypes.ACHIEVEMENT);
+		!items.some((i) =>
+			[critterTypes.ACHIEVEMENT, critterTypes.VILLAGER].includes(
+				i.critter_type,
+			),
+		);
+	const showFriendsIcon =
+		isLoggedIn &&
+		!items.some((i) => [critterTypes.ACHIEVEMENT].includes(i.critter_type));
 
 	const cards = items
 		.filter((i) => {
@@ -94,7 +101,12 @@ export const TrackingCards: FunctionComponent<props> = ({ items }) => {
 			i.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()),
 		)
 		.map((f) => (
-			<TrackingCard item={f} showCheckbox={showCheckbox} key={f._id} />
+			<TrackingCard
+				item={f}
+				showCheckbox={showCheckbox}
+				showFriendsIcon={showFriendsIcon}
+				key={f._id}
+			/>
 		));
 
 	const container = {

@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { getAllFriendsCaught } from '../trackingSlice';
 import { selectAccountFriends } from 'features/Common/commonSlice';
 import LoadingIcon from 'features/Common/LoadingIcon';
-import { caughtText, caughtTextNot } from 'utils/constants';
+import { caughtText, caughtTextNot, caughtTextVillager } from 'utils/constants';
 import { useHistory } from 'react-router-dom';
 type props = {
 	item:
@@ -28,10 +28,12 @@ type props = {
 		| Reaction
 		| Achievement
 		| Villager;
+	isVillager: boolean;
 };
 
 export const FriendsCaughtModalContent: FunctionComponent<props> = ({
 	item,
+	isVillager,
 }) => {
 	const history = useHistory();
 	const [isLoading, setIsLoading] = useState(true);
@@ -40,6 +42,14 @@ export const FriendsCaughtModalContent: FunctionComponent<props> = ({
 	const friends = useAppSelector(selectAccountFriends);
 	useEffect(() => {
 		setIsLoading(true);
+		if (isVillager) {
+			const friendsWithVillager = friends
+				.filter((f) => f.villagers.includes(item.ueid))
+				.map((f) => f.username);
+			setFriendsCaught(friendsWithVillager);
+			setIsLoading(false);
+			return;
+		}
 		dispatch(getAllFriendsCaught(item.ueid)).then((resp: any) => {
 			const data = resp.payload.data.data;
 			setFriendsCaught(data);
@@ -74,7 +84,11 @@ export const FriendsCaughtModalContent: FunctionComponent<props> = ({
 			{friends.map((f) => {
 				const isCaught = friendsCaught.includes(f.username);
 				const severity = isCaught ? 'success' : 'warning';
-				const value = isCaught ? caughtText : caughtTextNot;
+				const value = isCaught
+					? isVillager
+						? caughtTextVillager
+						: caughtText
+					: caughtTextNot;
 				return (
 					<div
 						key={f.username}

@@ -79,6 +79,7 @@ export const removeFriendModalButtonYesText = 'Yes :(';
 export const removeFriendModalButtonNoText = 'Wait...';
 
 export const caughtText = 'Caught';
+export const caughtTextVillager = 'Resident';
 export const caughtTextNot = 'Not Yet';
 export const shadowSizeText = 'Shadow Size:';
 export const sourceText = 'Location:';
