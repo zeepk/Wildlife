@@ -16,9 +16,12 @@ import {
 import { TrackingCard } from './TrackingCard';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import {
+	getAllVillagers,
 	selectAccountHideCaught,
 	selectAuthIsLoggedIn,
+	selectAuthLoading,
 	selectCaught,
+	selectVillagers,
 	updateUserProfile,
 } from 'features/Common/commonSlice';
 import { caughtAllText, critterTypes, hideCaughtText } from 'utils/constants';
@@ -39,6 +42,13 @@ export const TrackingCards: FunctionComponent<props> = ({ items }) => {
 	const hideCaught = useAppSelector(selectAccountHideCaught);
 	const caught = useAppSelector(selectCaught);
 
+	const villagers = useAppSelector(selectVillagers);
+	const loading = useAppSelector(selectAuthLoading);
+	useEffect(() => {
+		if (isLoggedIn && !loading && villagers?.length === 0) {
+			dispatch(getAllVillagers());
+		}
+	});
 	useEffect(() => {
 		if (hideCaught !== undefined) {
 			setHide(hideCaught);

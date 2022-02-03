@@ -111,10 +111,12 @@ router.put('/api/profile', async (req: Request, res: Response) => {
 	profile.hideCaught =
 		hideCaught === undefined ? profile.hideCaught : hideCaught;
 	profile.islandName = islandName || profile.islandName;
-	const sortedVillagers = villagers.sort((a, b) =>
-		a === null ? 1 : b === null ? -1 : a - b,
-	);
-	profile.villagers = sortedVillagers;
+	if (villagers) {
+		const sortedVillagers = villagers.sort((a, b) =>
+			a === null ? 1 : b === null ? -1 : a - b,
+		);
+		profile.villagers = sortedVillagers;
+	}
 
 	if (avatarId !== profile.avatarId) {
 		const villager = await Villager.findOne({ ueid: avatarId });

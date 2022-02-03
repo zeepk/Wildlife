@@ -94,6 +94,7 @@ export const achievementModalUnlockedText = 'Noun / Modifier Unlocked';
 export const artViewButtonText = 'View Artwork';
 export const artAlwaysRealText = 'Always real!';
 export const artFakeComparisonButtonText = 'View fake comparison';
+export const villagerReactionText = 'You can get this from';
 export const landingPageNewUserText =
 	"Welcome!\nHere you can track your progress in Animal Crossing: New Horizons\nFeel free to poke around, but be sure to sign up so we can remember what you've caught!";
 export const landingPageExistingUserText =
