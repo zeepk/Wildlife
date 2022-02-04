@@ -70,19 +70,18 @@ export const TrackingCards: FunctionComponent<props> = ({ items }) => {
 		setAllowSetHide(true);
 	};
 
-	const showCheckbox =
-		isLoggedIn &&
-		!items.some((i) =>
-			[critterTypes.ACHIEVEMENT, critterTypes.VILLAGER].includes(
-				i.critter_type,
-			),
-		);
-	const showFriendsIcon =
-		isLoggedIn &&
-		!items.some((i) => [critterTypes.ACHIEVEMENT].includes(i.critter_type));
+	const isVillagerPage = items.some(
+		i => i.critter_type === critterTypes.VILLAGER
+	);
+	const isAchievementPage = items.some(
+		i => i.critter_type === critterTypes.ACHIEVEMENT
+	);
+
+	const showCheckbox = isLoggedIn && !isVillagerPage && !isAchievementPage;
+	const showFriendsIcon = isLoggedIn && !isAchievementPage;
 
 	const cards = items
-		.filter((i) => {
+		.filter(i => {
 			if (!hide) {
 				return true;
 			}
@@ -90,27 +89,25 @@ export const TrackingCards: FunctionComponent<props> = ({ items }) => {
 				const achievement = i as Achievement;
 				if (achievement.sequential) {
 					return !caught.some(
-						(c) =>
-							c.ueid === achievement.ueid && c.value === achievement.tierCount,
+						c =>
+							c.ueid === achievement.ueid && c.value === achievement.tierCount
 					);
 				} else {
 					return (
 						new Set(
-							caught
-								.filter((c) => c.ueid === achievement.ueid)
-								.map((c) => c.value),
+							caught.filter(c => c.ueid === achievement.ueid).map(c => c.value)
 						).size %
 							achievement.tierCount !==
 						0
 					);
 				}
 			}
-			return !caught.some((c) => c.ueid === i.ueid);
+			return !caught.some(c => c.ueid === i.ueid);
 		})
-		.filter((i) =>
-			i.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()),
+		.filter(i =>
+			i.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
 		)
-		.map((f) => (
+		.map(f => (
 			<TrackingCard
 				item={f}
 				showCheckbox={showCheckbox}
@@ -134,11 +131,11 @@ export const TrackingCards: FunctionComponent<props> = ({ items }) => {
 					className="p-mx-2"
 					value={searchText}
 					placeholder="search..."
-					onChange={(e) => setSearchText(e.target.value)}
+					onChange={e => setSearchText(e.target.value)}
 				/>
 				{isLoggedIn && (
 					<div className="p-d-flex p-flex-column p-ai-center p-mx-2">
-						<InputSwitch checked={hide} onChange={(e) => setHideCaught()} />
+						<InputSwitch checked={hide} onChange={e => setHideCaught()} />
 						<div>{hideCaughtText}</div>
 					</div>
 				)}
