@@ -9,17 +9,20 @@ import { Dropdown } from 'primereact/dropdown';
 import 'features/Common/common.scss';
 import { Villager } from '../commonTypes';
 import { accountSettingsSelectAVillagerText } from 'utils/constants';
+import { isNullOrUndefined } from 'utils/helperFunctions';
 
 type Props = {
 	callback: (...args: any[]) => any;
-	selectedId: string | undefined;
+	selectedId: string | undefined | null;
+	index?: number;
 };
 
-export default function AvatarDropdown({ callback, selectedId }: Props) {
+export default function AvatarDropdown({ callback, selectedId, index }: Props) {
 	const dispatch = useAppDispatch();
 	const villagers = useAppSelector(selectVillagers);
 	const searchableVillagerList = useAppSelector(selectVillagers);
 	const loading = useAppSelector(selectAuthLoading);
+	const imageOnly = !isNullOrUndefined(index);
 
 	useEffect(() => {
 		if (!loading && villagers?.length === 0) {
@@ -42,6 +45,22 @@ export default function AvatarDropdown({ callback, selectedId }: Props) {
 		);
 	};
 
+	const imageOnlyTemplate = (villager?: Villager) => {
+		if (!villager) {
+			return (
+				<div className="container--villager-list-item display text">
+					{accountSettingsSelectAVillagerText}
+				</div>
+			);
+		}
+
+		return (
+			<div className="container--villager-list-item display p-d-flex p-flex-row p-ai-center p-jc-between">
+				<img src={villager.image_uri} alt={villager.name} />
+			</div>
+		);
+	};
+
 	if (!searchableVillagerList) {
 		return <h3>error loading choices</h3>;
 	}
@@ -51,12 +70,12 @@ export default function AvatarDropdown({ callback, selectedId }: Props) {
 			<Dropdown
 				value={selectedVillager}
 				options={searchableVillagerList}
-				onChange={(e) => callback(e.target.value)}
+				onChange={(e) => callback(e.target.value, index)}
 				optionLabel="name"
 				filter
 				filterBy="name"
 				virtualScrollerOptions={{ itemSize: 38 }}
-				valueTemplate={villagerItemTemplate}
+				valueTemplate={imageOnly ? imageOnlyTemplate : villagerItemTemplate}
 				itemTemplate={villagerItemTemplate}
 			/>
 		</div>

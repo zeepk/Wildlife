@@ -78,8 +78,15 @@ router.post('/api/profile', async (req: Request, res: Response) => {
 
 router.put('/api/profile', async (req: Request, res: Response) => {
 	// TODO: allow users to change their timezone for fish times, etc
-	const { authId, username, avatarId, hemisphere, hideCaught, islandName } =
-		req.body;
+	const {
+		authId,
+		username,
+		avatarId,
+		hemisphere,
+		hideCaught,
+		islandName,
+		villagers,
+	} = req.body;
 	const profile = await Profile.findOne({ authId });
 	if (!profile) {
 		console.log(`invalid profile authId: ${authId}`);
@@ -104,6 +111,12 @@ router.put('/api/profile', async (req: Request, res: Response) => {
 	profile.hideCaught =
 		hideCaught === undefined ? profile.hideCaught : hideCaught;
 	profile.islandName = islandName || profile.islandName;
+	if (villagers) {
+		const sortedVillagers = villagers.sort((a, b) =>
+			a === null ? 1 : b === null ? -1 : a - b,
+		);
+		profile.villagers = sortedVillagers;
+	}
 
 	if (avatarId !== profile.avatarId) {
 		const villager = await Villager.findOne({ ueid: avatarId });

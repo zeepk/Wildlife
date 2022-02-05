@@ -9,6 +9,7 @@ import {
 	reactionsUrl,
 	achievementsUrl,
 	totalsUrl,
+	friendsCaughtUrl,
 } from 'utils/constants';
 
 export async function getFish() {
@@ -78,6 +79,14 @@ export async function getAchievements() {
 export async function getTotals() {
 	const requestOptions = {
 		url: totalsUrl,
+		method: 'GET',
+	};
+	return await requestWrapper(requestOptions);
+}
+
+export async function getFriendsCaught(ueid: string) {
+	const requestOptions = {
+		url: `${friendsCaughtUrl}/${ueid}`,
 		method: 'GET',
 	};
 	return await requestWrapper(requestOptions);

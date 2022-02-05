@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { Checkbox } from 'primereact/checkbox';
+import { Tooltip } from 'primereact/tooltip';
 import { Card } from 'primereact/card';
 import {
 	Fish,
@@ -28,6 +29,9 @@ import { MusicCard } from '../cards/MusicCard';
 import { AchievementCard } from '../cards/AchievementCard';
 import { Villager } from 'features/Common/commonTypes';
 import { VillagerCard } from '../cards/VillagerCard';
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+import { FriendsCaughtModalContent } from './FriendsCaughtModalContent';
 
 type props = {
 	item:
@@ -41,14 +45,17 @@ type props = {
 		| Achievement
 		| Villager;
 	showCheckbox: boolean;
+	showFriendsIcon: boolean;
 };
 
 export const TrackingCard: FunctionComponent<props> = ({
 	item,
 	showCheckbox,
+	showFriendsIcon,
 }) => {
 	const dispatch = useAppDispatch();
 	const [allowCheck, setAllowCheck] = useState(true);
+	const [modalOpen, setModalOpen] = useState(false);
 	const caught = useAppSelector(selectCaughtUeids);
 	const isCaught = caught.includes(item.ueid);
 	const [checked, setChecked] = useState(isCaught);
@@ -80,10 +87,26 @@ export const TrackingCard: FunctionComponent<props> = ({
 
 	const header = (
 		<div className="header p-mx-2 p-py-0 p-d-flex p-ai-center p-jc-between">
-			<div className="text p-py-0">{item.name}</div>
-			{showCheckbox && (
-				<Checkbox checked={checked} onChange={() => updateCaught()} />
-			)}
+			<Tooltip position="top" target={`.header-${item.ueid}`}>
+				<div className="text--item-tooltip">{item.name}</div>
+			</Tooltip>
+			<div className={`header-${item.ueid} text p-py-0`}>{item.name}</div>
+			<div className="p-d-flex p-ai-center">
+				{showFriendsIcon && (
+					<Button
+						icon="pi pi-users"
+						className="btn--friends p-button-link"
+						onClick={() => setModalOpen(true)}
+					/>
+				)}
+				{showCheckbox && (
+					<Checkbox
+						className="p-ml-3"
+						checked={checked}
+						onChange={() => updateCaught()}
+					/>
+				)}
+			</div>
 		</div>
 	);
 
@@ -122,6 +145,19 @@ export const TrackingCard: FunctionComponent<props> = ({
 
 	return (
 		<Card className="p-m-3" header={header}>
+			<Dialog
+				className="modal--friends-progress"
+				header={item.name}
+				visible={modalOpen}
+				closeOnEscape={true}
+				closable={true}
+				onHide={() => setModalOpen(false)}
+			>
+				<FriendsCaughtModalContent
+					item={item}
+					isVillager={item.critter_type === critterTypes.VILLAGER}
+				/>
+			</Dialog>
 			{body}
 		</Card>
 	);

@@ -2,7 +2,7 @@
 export const globalMessage = '';
 
 // version
-export const versionNumber = '1.0.1';
+export const versionNumber = '2.1.1';
 
 // urls
 export const apiBaseUrl = process.env.REACT_APP_API_URL;
@@ -29,6 +29,7 @@ export const totalsUrl = `${apiBaseUrl}/api/profile/totals`;
 export const friendRequestsUrl = `${apiBaseUrl}/api/friends/requests`;
 export const addFriendUrl = `${apiBaseUrl}/api/friends/add`;
 export const removeFriendUrl = `${apiBaseUrl}/api/friends/remove`;
+export const friendsCaughtUrl = `${apiBaseUrl}/api/friends/caught`;
 export const defaultAvatarUrl =
 	'https://64.media.tumblr.com/660a46fe7a5825d898e36fc8c240685b/bd38759d70dd2985-ab/s400x600/05eb60dacdbb47e946713a8aaa048274dc176cb7.png';
 export const twitterUsername = '@matthughes2112';
@@ -45,6 +46,7 @@ export const homeTitleText = 'Tracking';
 export const homeText = 'Sample React Redux TypeScript app for Tracking';
 export const hideCaughtText = 'Hide Done';
 export const caughtAllText = 'All Done!';
+export const noResultsText = 'None!';
 export const noneText = 'None at the moment!';
 export const totalsOverallText = 'Overall progress';
 export const accountSettingsTitleText = 'Settings';
@@ -58,6 +60,7 @@ export const accountSettingsImportDataButtonText = 'Import';
 export const accountSettingsImportDataPlaceholderText = 'Data text';
 export const accountSettingsImportDataLoadingText =
 	'Importing your data. This could take a minute or so.';
+export const accountSettingsVillagersTitleText = 'Current Villagers';
 
 export const friendsTitleText = 'Friends';
 export const friendRequestsTitleText = 'Friend Requests';
@@ -76,6 +79,9 @@ export const removeFriendModalText =
 export const removeFriendModalButtonYesText = 'Yes :(';
 export const removeFriendModalButtonNoText = 'Wait...';
 
+export const caughtText = 'Caught';
+export const caughtTextVillager = 'Resident';
+export const caughtTextNot = 'Not Yet';
 export const shadowSizeText = 'Shadow Size:';
 export const sourceText = 'Location:';
 export const bellsSellText = 'Sale price:';
@@ -89,6 +95,7 @@ export const achievementModalUnlockedText = 'Noun / Modifier Unlocked';
 export const artViewButtonText = 'View Artwork';
 export const artAlwaysRealText = 'Always real!';
 export const artFakeComparisonButtonText = 'View fake comparison';
+export const villagerReactionText = 'You can get this from';
 export const landingPageNewUserText =
 	"Welcome!\nHere you can track your progress in Animal Crossing: New Horizons\nFeel free to poke around, but be sure to sign up so we can remember what you've caught!";
 export const landingPageExistingUserText =
@@ -110,6 +117,7 @@ export const errorMessageNoUserFound = 'Cannot find user:';
 export const errorMessageUsernameTaken = 'Username is already taken!';
 export const errorMessageInvalidImportData =
 	'Invalid format for import data. Please try again or contact support.';
+export const errorMessageVillagerExists = 'is already on your island!';
 
 // thresholds
 
@@ -117,6 +125,7 @@ export const maxNumberOfTracking = 5000;
 export const maxUsernameLength = 15;
 export const minUsernameLength = 3;
 export const globalToastLifetime = 5000;
+export const maxNumberOfVillagers = 10;
 
 export const errorMessageUsernameInvalidLength = `Let's keep it between ${minUsernameLength} and ${maxUsernameLength} characters`;
 

@@ -12,6 +12,7 @@ $lightGray: #4b4f52;
 $gainzGreen: #44e744;
 $linkBlue: #1d9bf0;
 $errorRed: #eb4d4d;
+$warnYellow: #abb42d;
 $darkErrorRed: #eb4d4d;
 $transparentMediumGray: #00000028;
 $transparentDarkGray: #00000023;
@@ -49,4 +50,11 @@ html {
 
 .text--center {
 	text-align: center;
+}
+
+.p-tag-success {
+	background-color: $mediumDarkGreen !important;
+}
+.p-tag-warning {
+	background-color: $warnYellow !important;
 }

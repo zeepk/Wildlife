@@ -10,6 +10,7 @@ import {
 	getSea,
 	getAchievements,
 	getTotals,
+	getFriendsCaught,
 } from 'features/Tracking/trackingApi';
 import {
 	Art,
@@ -93,7 +94,7 @@ export const getAllReactions = createAsyncThunk(
 	async () => {
 		const response = await getReactions();
 		return response;
-	}
+	},
 );
 
 export const getAllAchievements = createAsyncThunk(
@@ -101,9 +102,16 @@ export const getAllAchievements = createAsyncThunk(
 	async () => {
 		const response = await getAchievements();
 		return response;
-	}
+	},
 );
 
+export const getAllFriendsCaught = createAsyncThunk(
+	'tracking/friendscaught',
+	async (ueid: string) => {
+		const response = await getFriendsCaught(ueid);
+		return response;
+	},
+);
 // Loading is controlled by the number of loading calls currently active
 // the loading count is increased when a call is made, and decreased when the call completes
 

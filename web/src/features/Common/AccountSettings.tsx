@@ -14,6 +14,8 @@ import {
 	selectAccountHemisphere,
 	selectAuthId,
 	updateUserProfile,
+	selectAccountVillagers,
+	selectVillagers,
 } from 'features/Common/commonSlice';
 import LoadingIcon from 'features/Common/LoadingIcon';
 import {
@@ -22,9 +24,11 @@ import {
 	accountSettingsImportDataText,
 	accountSettingsTitleText,
 	accountSettingsUsernameText,
+	accountSettingsVillagersTitleText,
 	errorMessageAccountSettingsCannotUpdate,
 	errorMessageAccountSettingsNotLoggedIn,
 	errorMessageUsernameInvalidLength,
+	errorMessageVillagerExists,
 	globalToastLifetime,
 	hemispheres,
 	profileSettingsTitleText,
@@ -48,6 +52,7 @@ export function AccountSettings() {
 	const existingUsername = useAppSelector(selectAccountUsername);
 	const existingAvatar = useAppSelector(selectAccountAvatar);
 	const existingAvatarId = useAppSelector(selectAccountAvatarId);
+	const existingVillagerIds = useAppSelector(selectAccountVillagers);
 	const authId = useAppSelector(selectAuthId);
 	const existingHemisphere = useAppSelector(selectAccountHemisphere);
 
@@ -55,6 +60,8 @@ export function AccountSettings() {
 	const [avatarId, setAvatarId] = useState(existingAvatarId);
 	const [hemisphere, setHemisphere] = useState(existingHemisphere);
 	const [username, setUsername] = useState(existingUsername);
+	const [currentVillagerIds, setCurrentVillagerIds] =
+		useState(existingVillagerIds);
 	const [profileLoading, setProfileLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 
@@ -78,6 +85,23 @@ export function AccountSettings() {
 	const updateAvatar = (villager: Villager) => {
 		setAvatarUri(villager.image_uri);
 		setAvatarId(villager.ueid);
+	};
+
+	const updateCurrentVillager = (villager: Villager, index: number) => {
+		if (!currentVillagerIds) {
+			return;
+		}
+		const currentVillagerArray = [...currentVillagerIds];
+		if (currentVillagerArray.includes(villager.ueid)) {
+			toast?.current?.show({
+				severity: 'warn',
+				detail: `${villager.name} ${errorMessageVillagerExists}`,
+				life: globalToastLifetime,
+			});
+			return;
+		}
+		currentVillagerArray[index] = villager.ueid;
+		setCurrentVillagerIds(currentVillagerArray);
 	};
 
 	const updateHemisphere = (value: number) => {
@@ -117,6 +141,7 @@ export function AccountSettings() {
 			authId,
 			avatarId,
 			hemisphere,
+			villagers: currentVillagerIds,
 		};
 
 		dispatch(updateUserProfile(req)).then((resp: any) => {
@@ -145,6 +170,17 @@ export function AccountSettings() {
 			setProfileLoading(false);
 		});
 	};
+
+	const villagerSelectionContent = currentVillagerIds?.map((cv, i) => (
+		<div key={i} className="p-p-2">
+			<AvatarDropdown
+				callback={updateCurrentVillager}
+				selectedId={cv}
+				index={i}
+			/>
+		</div>
+	));
+
 	return (
 		<div className="container--account-settings p-d-flex p-jc-center p-align-center p-mb-6">
 			<Toast ref={toast} />
@@ -173,6 +209,10 @@ export function AccountSettings() {
 					<Button className="button--avatar account-settings p-button-rounded p-button-success">
 						<img src={avatarUri} alt="avatar" />
 					</Button>
+				</div>
+				<h1 className="title">{accountSettingsVillagersTitleText}</h1>
+				<div className="container--villagers p-d-flex p-flex-wrap p-ai-center p-jc-center">
+					{villagerSelectionContent}
 				</div>
 				<h1 className="title">{accountSettingsTitleText}</h1>
 				<div className="setting p-mb-6">
