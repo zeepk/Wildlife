@@ -2,7 +2,7 @@
 export const globalMessage = '';
 
 // version
-export const versionNumber = '2.0.1';
+export const versionNumber = '2.1.1';
 
 // urls
 export const apiBaseUrl = process.env.REACT_APP_API_URL;

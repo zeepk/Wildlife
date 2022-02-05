@@ -424,8 +424,14 @@
 				border-bottom: 0.5rem solid $backgroundColor;
 			}
 
+			.subdivider {
+				width: 100%;
+				border-bottom: 0.2rem solid $backgroundColor;
+			}
+
 			.heading {
 				font-size: 3rem;
+				text-decoration: underline;
 			}
 
 			.subheading {
@@ -475,4 +481,8 @@
 }
 .text--item-tooltip {
 	text-transform: capitalize;
+}
+.icon--friends.pi {
+	color: white;
+	font-size: 1.4rem;
 }
