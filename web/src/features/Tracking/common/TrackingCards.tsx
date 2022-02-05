@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
+import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import { InputSwitch } from 'primereact/inputswitch';
 import { motion } from 'framer-motion';
-
 import {
 	Achievement,
 	Art,
@@ -21,11 +21,19 @@ import {
 	selectAuthIsLoggedIn,
 	selectAuthLoading,
 	selectCaught,
+	selectVillagerPersonalities,
 	selectVillagers,
+	selectVillagerSpecies,
 	updateUserProfile,
 } from 'features/Common/commonSlice';
-import { caughtAllText, critterTypes, hideCaughtText } from 'utils/constants';
+import {
+	caughtAllText,
+	critterTypes,
+	hideCaughtText,
+	noResultsText,
+} from 'utils/constants';
 import { AuthDataUpdateProfile, Villager } from 'features/Common/commonTypes';
+import { isNullUndefinedOrWhitespace } from 'utils/helperFunctions';
 
 type props = {
 	items: Array<
@@ -33,17 +41,26 @@ type props = {
 	>;
 };
 
+const allOptionSpecies = 'All Species';
+const allOptionPersonalities = 'All Personalities';
+
 export const TrackingCards: FunctionComponent<props> = ({ items }) => {
 	const dispatch = useAppDispatch();
-	const [searchText, setSearchText] = useState('');
-	const [hide, setHide] = useState(false);
-	const [allowSetHide, setAllowSetHide] = useState(true);
+	const caught = useAppSelector(selectCaught);
+	const loading = useAppSelector(selectAuthLoading);
+	const villagers = useAppSelector(selectVillagers);
+	const species = useAppSelector(selectVillagerSpecies) || [];
 	const isLoggedIn = useAppSelector(selectAuthIsLoggedIn);
 	const hideCaught = useAppSelector(selectAccountHideCaught);
-	const caught = useAppSelector(selectCaught);
+	const personalities = useAppSelector(selectVillagerPersonalities) || [];
+	const [hide, setHide] = useState(false);
+	const [searchText, setSearchText] = useState('');
+	const [allowSetHide, setAllowSetHide] = useState(true);
+	const [selectedSpecies, setSelectedSpecies] = useState(allOptionSpecies);
+	const [selectedPersonality, setSelectedPersonality] = useState(
+		allOptionPersonalities
+	);
 
-	const villagers = useAppSelector(selectVillagers);
-	const loading = useAppSelector(selectAuthLoading);
 	useEffect(() => {
 		if (isLoggedIn && !loading && villagers?.length === 0) {
 			dispatch(getAllVillagers());
@@ -107,6 +124,16 @@ export const TrackingCards: FunctionComponent<props> = ({ items }) => {
 		.filter(i =>
 			i.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
 		)
+		.filter(i =>
+			selectedSpecies !== allOptionSpecies && 'species' in i
+				? i.species.toLowerCase() === selectedSpecies.toLowerCase()
+				: true
+		)
+		.filter(i =>
+			selectedPersonality !== allOptionPersonalities && 'personality' in i
+				? i.personality.toLowerCase() === selectedPersonality.toLowerCase()
+				: true
+		)
 		.map(f => (
 			<TrackingCard
 				item={f}
@@ -116,6 +143,31 @@ export const TrackingCards: FunctionComponent<props> = ({ items }) => {
 			/>
 		));
 
+	const speciesOptions = [allOptionSpecies, ...species];
+
+	const personalityOptions = [
+		allOptionPersonalities,
+		...personalities.map(p => ({ label: p, value: p })),
+	];
+
+	const villagerFilters = (
+		<div className="p-d-flex p-jc-between p-mt-2">
+			<Dropdown
+				value={selectedSpecies}
+				options={speciesOptions}
+				onChange={e => setSelectedSpecies(e.value)}
+				className="p-mx-1"
+			/>
+			<Dropdown
+				value={selectedPersonality}
+				options={personalityOptions}
+				onChange={e => setSelectedPersonality(e.value)}
+				className="p-mx-1"
+			/>
+		</div>
+	);
+
+	// used for motion animation
 	const container = {
 		hidden: { opacity: 0.5, y: -50 },
 		show: {
@@ -123,6 +175,13 @@ export const TrackingCards: FunctionComponent<props> = ({ items }) => {
 			y: 0,
 		},
 	};
+
+	const noneText =
+		selectedPersonality === allOptionPersonalities &&
+		selectedSpecies === allOptionSpecies &&
+		isNullUndefinedOrWhitespace(searchText)
+			? caughtAllText
+			: noResultsText;
 
 	return (
 		<div className="container--tracking-cards p-d-flex p-flex-column p-ai-center">
@@ -140,10 +199,11 @@ export const TrackingCards: FunctionComponent<props> = ({ items }) => {
 					</div>
 				)}
 			</div>
+			{isVillagerPage && villagerFilters}
 			<motion.div variants={container} initial="hidden" animate="show">
 				{cards.length === 0 && (
 					<div className="text--all-done p-mt-6 p-d-flex p-ai-center p-jc-center">
-						<h3>{caughtAllText}</h3>
+						<h3>{noneText}</h3>
 					</div>
 				)}
 				<div className="container--cards">{cards}</div>

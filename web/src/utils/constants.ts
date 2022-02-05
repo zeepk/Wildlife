@@ -2,7 +2,7 @@
 export const globalMessage = '';
 
 // version
-export const versionNumber = '1.0.1';
+export const versionNumber = '2.0.1';
 
 // urls
 export const apiBaseUrl = process.env.REACT_APP_API_URL;
@@ -46,6 +46,7 @@ export const homeTitleText = 'Tracking';
 export const homeText = 'Sample React Redux TypeScript app for Tracking';
 export const hideCaughtText = 'Hide Done';
 export const caughtAllText = 'All Done!';
+export const noResultsText = 'None!';
 export const noneText = 'None at the moment!';
 export const totalsOverallText = 'Overall progress';
 export const accountSettingsTitleText = 'Settings';

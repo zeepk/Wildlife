@@ -42,7 +42,11 @@ export interface CommonState {
 			incomingFriendRequests: Array<FriendRequest>;
 			outgoingFriendRequests: Array<FriendRequest>;
 		};
-		villagers: Array<Villager> | null;
+		villagers: {
+			villagers: Array<Villager> | null;
+			species: Array<string> | null;
+			personalities: Array<string> | null;
+		};
 	};
 }
 
@@ -62,7 +66,11 @@ const initialState: CommonState = {
 			incomingFriendRequests: [],
 			outgoingFriendRequests: [],
 		},
-		villagers: [],
+		villagers: {
+			villagers: [],
+			species: [],
+			personalities: [],
+		},
 	},
 };
 
@@ -71,7 +79,7 @@ export const getUserProfile = createAsyncThunk(
 	async () => {
 		const response = await getProfile();
 		return response;
-	},
+	}
 );
 
 export const createUserProfile = createAsyncThunk(
@@ -79,7 +87,7 @@ export const createUserProfile = createAsyncThunk(
 	async (payload: AuthDataCreateAccount) => {
 		const response = await createProfile(payload);
 		return response;
-	},
+	}
 );
 
 export const updateUserProfile = createAsyncThunk(
@@ -89,7 +97,7 @@ export const updateUserProfile = createAsyncThunk(
 		payload.authId = state.common.auth.account.profile.authId;
 		const response = await updateProfile(payload);
 		return response;
-	},
+	}
 );
 
 export const getUserCaught = createAsyncThunk(
@@ -97,7 +105,7 @@ export const getUserCaught = createAsyncThunk(
 	async (authId: string) => {
 		const response = await getCaught(authId);
 		return response;
-	},
+	}
 );
 
 export const getAllVillagers = createAsyncThunk(
@@ -105,14 +113,14 @@ export const getAllVillagers = createAsyncThunk(
 	async () => {
 		const response = await getVillagers();
 		return response;
-	},
+	}
 );
 
 export const createUserCaught = createAsyncThunk(
 	'common/auth/createcaught',
 	async (
 		data: { ueid: string; critterType?: critterTypes; value?: number },
-		{ getState, requestId },
+		{ getState, requestId }
 	) => {
 		// not using other params, but function won't work without them
 		const state: any = getState();
@@ -125,7 +133,7 @@ export const createUserCaught = createAsyncThunk(
 		};
 		const response = await createCaught(payload);
 		return response;
-	},
+	}
 );
 
 export const deleteUserCaught = createAsyncThunk(
@@ -141,7 +149,7 @@ export const deleteUserCaught = createAsyncThunk(
 		};
 		const response = await deleteCaught(payload);
 		return response;
-	},
+	}
 );
 
 export const importCaughtData = createAsyncThunk(
@@ -156,7 +164,7 @@ export const importCaughtData = createAsyncThunk(
 		};
 		const response = await importData(payload);
 		return response;
-	},
+	}
 );
 
 export const getUserFriendRequests = createAsyncThunk(
@@ -167,7 +175,7 @@ export const getUserFriendRequests = createAsyncThunk(
 		const authId = state.common.auth.account.profile.authId;
 		const response = await getFriendRequests(authId);
 		return response;
-	},
+	}
 );
 
 export const searchForUser = createAsyncThunk(
@@ -181,7 +189,7 @@ export const searchForUser = createAsyncThunk(
 		}
 		const response = await searchForProfile({ username, profileId });
 		return response;
-	},
+	}
 );
 
 export const sendUserFriendRequest = createAsyncThunk(
@@ -189,7 +197,7 @@ export const sendUserFriendRequest = createAsyncThunk(
 	async (username: string) => {
 		const response = await sendFriendRequest(username);
 		return response;
-	},
+	}
 );
 
 export const removeUserFriend = createAsyncThunk(
@@ -197,7 +205,7 @@ export const removeUserFriend = createAsyncThunk(
 	async (username: string) => {
 		const response = await removeFriend(username);
 		return response;
-	},
+	}
 );
 
 export const respondToUserFriendRequest = createAsyncThunk(
@@ -205,7 +213,7 @@ export const respondToUserFriendRequest = createAsyncThunk(
 	async (data: { requestId: string; accepted: boolean }) => {
 		const response = await respondToFriendRequest(data);
 		return response;
-	},
+	}
 );
 
 const incrementLoading = (state: CommonState) => {
@@ -224,12 +232,12 @@ export const commonSlice = createSlice({
 			// console.log(args);
 		},
 	},
-	extraReducers: (builder) => {
+	extraReducers: builder => {
 		builder
-			.addCase(getUserProfile.pending, (state) => {
+			.addCase(getUserProfile.pending, state => {
 				incrementLoading(state);
 			})
-			.addCase(getUserProfile.rejected, (state) => {
+			.addCase(getUserProfile.rejected, state => {
 				decrementLoading(state);
 				state.auth.isLoggedIn = false;
 			})
@@ -255,10 +263,10 @@ export const commonSlice = createSlice({
 				}
 				decrementLoading(state);
 			})
-			.addCase(createUserProfile.pending, (state) => {
+			.addCase(createUserProfile.pending, state => {
 				incrementLoading(state);
 			})
-			.addCase(createUserProfile.rejected, (state) => {
+			.addCase(createUserProfile.rejected, state => {
 				decrementLoading(state);
 				console.log('could not create profile');
 				state.auth.isLoggedIn = false;
@@ -271,7 +279,7 @@ export const commonSlice = createSlice({
 					state.auth.isLoggedIn = true;
 				}
 			})
-			.addCase(updateUserProfile.rejected, (state) => {
+			.addCase(updateUserProfile.rejected, state => {
 				console.log('could not update profile');
 			})
 			.addCase(updateUserProfile.fulfilled, (state, action) => {
@@ -280,18 +288,25 @@ export const commonSlice = createSlice({
 					state.auth.account.profile = resp;
 				}
 			})
-			.addCase(getAllVillagers.pending, (state) => {
+			.addCase(getAllVillagers.pending, state => {
 				incrementLoading(state);
-				state.auth.villagers = [];
+				state.auth.villagers.villagers = [];
+				state.auth.villagers.personalities = [];
+				state.auth.villagers.species = [];
 			})
-			.addCase(getAllVillagers.rejected, (state) => {
+			.addCase(getAllVillagers.rejected, state => {
 				decrementLoading(state);
-				state.auth.villagers = null;
+				state.auth.villagers.villagers = null;
+				state.auth.villagers.personalities = null;
+				state.auth.villagers.species = null;
 			})
 			.addCase(getAllVillagers.fulfilled, (state, action) => {
 				decrementLoading(state);
 				if (action?.payload?.data) {
-					state.auth.villagers = action.payload.data;
+					state.auth.villagers.villagers = action.payload.data.villagers;
+					state.auth.villagers.species = action.payload.data.species;
+					state.auth.villagers.personalities =
+						action.payload.data.personalities;
 				}
 			})
 			.addCase(createUserCaught.rejected, () => {
@@ -310,7 +325,7 @@ export const commonSlice = createSlice({
 			})
 			.addCase(deleteUserCaught.fulfilled, (state, action) => {
 				if (action?.payload?.data) {
-					state.auth.account.caught = state.auth.account.caught.filter((c) => {
+					state.auth.account.caught = state.auth.account.caught.filter(c => {
 						if (c.ueid === action.payload.data.ueid) {
 							if (action.payload.data.sequential) {
 								return false;
@@ -335,7 +350,7 @@ export const commonSlice = createSlice({
 				if (data) {
 					state.auth.account.incomingFriendRequests =
 						state.auth.account.incomingFriendRequests.filter(
-							(r) => r.requestor._id !== data.newFriend._id,
+							r => r.requestor._id !== data.newFriend._id
 						);
 					if (data.accepted) {
 						state.auth.account.friends.push(action.payload.data.newFriend);
@@ -347,7 +362,7 @@ export const commonSlice = createSlice({
 				console.log(data);
 				if (data) {
 					state.auth.account.friends = state.auth.account.friends.filter(
-						(f) => f.username !== data.data,
+						f => f.username !== data.data
 					);
 				}
 			});
@@ -391,10 +406,14 @@ export const selectAccountOutgoingFriendRequests = (state: RootState) =>
 	state.common.auth.account.outgoingFriendRequests;
 
 export const selectVillagers = (state: RootState) =>
-	state.common.auth.villagers;
+	state.common.auth.villagers.villagers;
+export const selectVillagerSpecies = (state: RootState) =>
+	state.common.auth.villagers.species;
+export const selectVillagerPersonalities = (state: RootState) =>
+	state.common.auth.villagers.personalities;
 
 export const selectCaughtUeids = (state: RootState) =>
-	state.common.auth.account.caught.map((c) => c.ueid);
+	state.common.auth.account.caught.map(c => c.ueid);
 export const selectCaught = (state: RootState) =>
 	state.common.auth.account.caught;
 
