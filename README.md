@@ -5,7 +5,6 @@ Track your progress in Animal Crossing: New Horizons! Designed for everyone from
 ##### Table of Contents  
 - [About](#about)  
 - [Tech Stack](#techstack)  
-- [Screenshots](#screenshots)  
 
 <a name="about"/>
 
@@ -53,14 +52,3 @@ Track your progress in Animal Crossing: New Horizons! Designed for everyone from
 - `master`: usually the most recent prod deployment
 - `dev`: latest code, may not be 100% functional
 - `release-vx.x.x`: code for that particular release
-
-<a name="screenshots"/>
-
-## Screenshots
-
-![image](https://user-images.githubusercontent.com/42755431/148669097-87499066-7a0d-44fe-9e7d-462d4f2f9cee.png)
-
-![image](https://user-images.githubusercontent.com/42755431/148669074-e1818a96-5c13-461f-b0b9-6a3e11268e22.png)
-
-![image](https://user-images.githubusercontent.com/42755431/148669093-b383530a-9b1f-4957-9a84-287e24b89b9d.png)
-
