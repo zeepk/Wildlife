@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, response, Response } from 'express';
 var ObjectID = require('mongodb').ObjectID;
 import { FriendRequest, Profile } from '@/models/profile';
 import { Caught } from '@/models/caught';
@@ -14,7 +14,12 @@ import { Fossil } from '@/models/fossil';
 import { Song } from '@/models/song';
 import { Art } from '@/models/art';
 import { ApiResponse, ProfileResponse } from '@/utils/customTypes';
-import { getAuthIdFromJwt } from '@/utils/helperFunctions';
+import {
+	getAuthIdFromJwt,
+	isAvailableInHour,
+	isAvailableInMonth,
+	isNullUndefinedOrWhitespace,
+} from '@/utils/helperFunctions';
 const router = express.Router();
 
 router.get('/api/profile', async (req: any, res: Response) => {
@@ -290,4 +295,47 @@ router.post('/api/profilesearch', async (req: Request, res: Response) => {
 
 	return res.status(200).send(resp);
 });
+
+router.post('/api/today', async (req: Request, res: Response) => {
+	const { hour, month } = req.body;
+	const authId = getAuthIdFromJwt(req.cookies.login_jwt);
+
+	// checking login status because it's okay if not logged in
+	const isLoggedIn = !isNullUndefinedOrWhitespace(authId);
+	let profile;
+	if (isLoggedIn) {
+		profile = await Profile.findOne({ authId: authId });
+		if (!profile) {
+			console.log(`invalid profile authId: ${authId}`);
+			return res.sendStatus(404);
+		}
+	}
+
+	const resp: ApiResponse = {
+		success: true,
+		message: '',
+		data: null,
+	};
+
+	const [critters, caught] = await Promise.all([
+		Critter.find(),
+		Caught.find({ authId }),
+	]);
+	const caughtUeids = caught.map(c => c.ueid);
+	const availableCritters = critters.filter(c =>
+		isAvailableInMonth(c, month, profile?.hemisphere || hemispheres.NORTHERN) &&
+		isAvailableInHour(c.time || '', hour) &&
+		isLoggedIn
+			? !caughtUeids.includes(c.ueid)
+			: true
+	);
+
+	//TODO: add villager birthdays and upcoming events(?)
+
+	resp.data = {
+		availableCritters,
+	};
+	return res.status(200).send(resp);
+});
+
 export { router as profileRouter };

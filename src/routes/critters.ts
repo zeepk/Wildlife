@@ -34,11 +34,10 @@ router.post('/api/critters', async (req: Request, res: Response) => {
 router.get('/api/available', async (req: Request, res: Response) => {
 	const { hour, month, hemisphere } = req.body;
 	const critters = await Critter.find();
-	// console.log()
 	const availableUeids = critters
 		.filter(c => isAvailableInMonth(c, month, hemisphere))
 		.map(critter =>
-			isAvailableInHour(critter.time || '', hour) ? critter.name : null
+			isAvailableInHour(critter.time || '', hour) ? critter.ueid : null
 		)
 		.filter(Boolean);
 	return res.status(200).send(availableUeids);
