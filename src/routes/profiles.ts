@@ -50,7 +50,7 @@ router.get('/api/profile', async (req: any, res: Response) => {
 		{
 			_id: { $in: profile.friends },
 		},
-		{ _id: 0, authId: 0, friends: 0 },
+		{ _id: 0, authId: 0, friends: 0 }
 	);
 	resp.data = {
 		isLoggedIn: true,
@@ -107,13 +107,19 @@ router.put('/api/profile', async (req: Request, res: Response) => {
 	}
 
 	profile.username = username || profile.username;
-	profile.hemisphere = hemisphere || profile.hemisphere;
+
+	// explicit check here because setting hemisphere to zero invokes falsey value
+	profile.hemisphere =
+		hemisphere === null || hemisphere === undefined
+			? profile.hemisphere
+			: hemisphere;
+
 	profile.hideCaught =
 		hideCaught === undefined ? profile.hideCaught : hideCaught;
 	profile.islandName = islandName || profile.islandName;
 	if (villagers) {
 		const sortedVillagers = villagers.sort((a, b) =>
-			a === null ? 1 : b === null ? -1 : a - b,
+			a === null ? 1 : b === null ? -1 : a - b
 		);
 		profile.villagers = sortedVillagers;
 	}
@@ -151,13 +157,13 @@ router.post('/api/profile/import', async (req: Request, res: Response) => {
 	let numberOfItemsImported = 0;
 
 	await Promise.all(
-		caughtItems.map(async (ci) => {
+		caughtItems.map(async ci => {
 			const ciName = ci
 				.toLowerCase()
 				.split('_')
 				.join(' ')
 				.replace('venus', "venus'");
-			const item = items.find((i) => i.name.toLowerCase() === ciName);
+			const item = items.find(i => i.name.toLowerCase() === ciName);
 			if (!item) {
 				console.log(`Could not find item with name: ${ciName}`);
 				return;
@@ -173,7 +179,7 @@ router.post('/api/profile/import', async (req: Request, res: Response) => {
 				active: true,
 			});
 			numberOfItemsImported++;
-		}),
+		})
 	);
 	return res.status(200).send({ imported: numberOfItemsImported });
 });
@@ -187,19 +193,19 @@ router.get('/api/profile/totals', async (req: Request, res: Response) => {
 		return res.sendStatus(404);
 	}
 	const caught = await Caught.find({ authId });
-	const totalResponses = includedInTotals.map((inc) => {
+	const totalResponses = includedInTotals.map(inc => {
 		const doneSet =
 			inc === critterTypes.ACHIEVEMENT
 				? [
 						...new Set(
 							caught
-								.filter((c) => c.critterType === inc && c.value)
-								.map((c) => `${c.ueid}${c.value}`),
+								.filter(c => c.critterType === inc && c.value)
+								.map(c => `${c.ueid}${c.value}`)
 						),
 				  ]
 				: [
 						...new Set(
-							caught.filter((c) => c.critterType === inc).map((c) => c.ueid),
+							caught.filter(c => c.critterType === inc).map(c => c.ueid)
 						),
 				  ];
 
@@ -236,7 +242,7 @@ router.post('/api/profilesearch', async (req: Request, res: Response) => {
 	const [profile, loggedInUser] = await Promise.all([
 		await Profile.findOne(
 			{ username: { $regex: new RegExp('^' + username + '$', 'i') } },
-			{ authId: 0, friends: 0 },
+			{ authId: 0, friends: 0 }
 		),
 		await Profile.findOne({ _id: profileId }),
 	]);
@@ -269,7 +275,7 @@ router.post('/api/profilesearch', async (req: Request, res: Response) => {
 		]);
 
 	const alreadyFriends = loggedInUser?.friends.includes(
-		new ObjectID(foundUserProfileId),
+		new ObjectID(foundUserProfileId)
 	);
 
 	const respData = {
