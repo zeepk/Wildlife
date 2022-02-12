@@ -1,5 +1,15 @@
 export const villagerBirthdayDayRange = 30;
 
+export const daysArray = [
+	'sunday',
+	'monday',
+	'tuesday',
+	'wednesday',
+	'thursday',
+	'friday',
+	'saturday',
+];
+
 export const totals = {
 	FISH: 80,
 	BUG: 80,

@@ -8,7 +8,7 @@ import { Fossil } from '@/models/fossil';
 import { Song } from '@/models/song';
 import { Reaction } from '@/models/reaction';
 import { Achievement, Tier, ITier } from '@/models/achievement';
-import { Event } from '@/models/event';
+import { GameEvent } from '@/models/gameevent';
 
 const fs = require('fs');
 const readline = require('readline');
@@ -679,11 +679,11 @@ router.get('/api/update', async (req: Request, res: Response) => {
 				if (rows.length) {
 					rows.map(async (row: any) => {
 						// console.log(row[1]);
-						const exists = await Event.exists({ name: row[0] });
+						const exists = await GameEvent.exists({ name: row[0] });
 						if (exists) {
 							return;
 						}
-						Event.create({
+						GameEvent.create({
 							name: row[0],
 							type: row[1],
 							year: row[4],

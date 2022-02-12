@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose';
-export interface IEvent extends Document {
+export interface IGameEvent extends Document {
 	name: string;
 	ueid: string;
 	type: string;
@@ -9,7 +9,7 @@ export interface IEvent extends Document {
 	display_name: string;
 }
 
-const EventSchema = new Schema<IEvent>(
+const GameEventSchema = new Schema<IGameEvent>(
 	{
 		name: String,
 		ueid: String,
@@ -27,4 +27,4 @@ const EventSchema = new Schema<IEvent>(
 	}
 );
 
-export const Event = model<IEvent>('Event', EventSchema);
+export const GameEvent = model<IGameEvent>('GameEvent', GameEventSchema);
