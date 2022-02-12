@@ -1,8 +1,14 @@
 import express, { Request, Response } from 'express';
 import { Critter } from '@/models/critter';
 const router = express.Router();
-import { critterTypes } from '@/utils/constants';
-import { isAvailableInHour, isAvailableInMonth } from '@/utils/helperFunctions';
+import { critterTypes, hemispheres } from '@/utils/constants';
+import {
+	getAuthIdFromJwt,
+	isAvailableInHour,
+	isAvailableInMonth,
+	isNullUndefinedOrWhitespace,
+} from '@/utils/helperFunctions';
+import { Profile } from '@/models/profile';
 
 router.get('/api/critters', async (req: Request, res: Response) => {
 	const critters = await Critter.find({});
@@ -32,10 +38,24 @@ router.post('/api/critters', async (req: Request, res: Response) => {
 });
 
 router.get('/api/available', async (req: Request, res: Response) => {
-	const { hour, month, hemisphere } = req.body;
+	const { hour, month } = req.body;
+	const authId = getAuthIdFromJwt(req.cookies.login_jwt);
+
+	// checking login status because it's okay if not logged in
+	const isLoggedIn = !isNullUndefinedOrWhitespace(authId);
+	let profile;
+	if (isLoggedIn) {
+		profile = await Profile.findOne({ authId: authId });
+		if (!profile) {
+			console.log(`invalid profile authId: ${authId}`);
+			return res.sendStatus(404);
+		}
+	}
 	const critters = await Critter.find();
 	const availableUeids = critters
-		.filter(c => isAvailableInMonth(c, month, hemisphere))
+		.filter(c =>
+			isAvailableInMonth(c, month, profile?.hemisphere || hemispheres.NORTHERN)
+		)
 		.map(critter =>
 			isAvailableInHour(critter.time || '', hour) ? critter.ueid : null
 		)
