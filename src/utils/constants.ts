@@ -1,3 +1,5 @@
+export const villagerBirthdayDayRange = 30;
+
 export const totals = {
 	FISH: 80,
 	BUG: 80,

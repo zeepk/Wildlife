@@ -7,6 +7,7 @@ import {
 	hemispheres,
 	includedInTotals,
 	totals,
+	villagerBirthdayDayRange,
 } from '@/utils/constants';
 import { Villager } from '@/models/villager';
 import { Critter } from '@/models/critter';
@@ -317,11 +318,14 @@ router.post('/api/today', async (req: Request, res: Response) => {
 		data: null,
 	};
 
-	const [critters, caught] = await Promise.all([
+	const [critters, caught, villagers] = await Promise.all([
 		Critter.find(),
 		Caught.find({ authId }),
+		Villager.find(),
 	]);
 	const caughtUeids = caught.map(c => c.ueid);
+
+	//TODO: do we need all of the data for the critters?
 	const availableCritters = critters.filter(c =>
 		isAvailableInMonth(c, month, profile?.hemisphere || hemispheres.NORTHERN) &&
 		isAvailableInHour(c.time || '', hour) &&
@@ -331,8 +335,21 @@ router.post('/api/today', async (req: Request, res: Response) => {
 	);
 
 	//TODO: add villager birthdays and upcoming events(?)
+	const today = new Date();
+	const xDaysFromNow = new Date();
+	xDaysFromNow.setDate(today.getDate() + villagerBirthdayDayRange);
+
+	const upcomingBirthdays = villagers
+		.filter(v => {
+			const birthday = new Date(
+				`${v.birthday}/${today.getFullYear()} 23:59:59`
+			);
+			return birthday >= today && birthday <= xDaysFromNow;
+		})
+		.sort((a, b) => a.birthday.localeCompare(b.birthday));
 
 	resp.data = {
+		upcomingBirthdays,
 		availableCritters,
 	};
 	return res.status(200).send(resp);
