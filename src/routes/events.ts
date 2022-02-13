@@ -70,8 +70,15 @@ router.get('/api/events', async (req: Request, res: Response) => {
 					startingDate.setDate(startingDate.getDate() + 1);
 				}
 			});
+		} else {
 		}
-		return { name: e.name, year: e.year, activeDates, activeDateRange };
+		return {
+			name: e.name,
+			year: e.year,
+			dateString,
+			activeDates,
+			activeDateRange,
+		};
 	};
 
 	const newEvents = events.map(e => convert(e)).filter(e => e);
