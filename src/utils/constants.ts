@@ -1,5 +1,29 @@
 export const villagerBirthdayDayRange = 30;
 
+export const ignoredEvents = [
+	'Big Game Celebration (1)',
+	'Big Game Celebration (2)',
+	'Carnival of Venice',
+	'Super Mario Bros.',
+	'Hinamatsuri',
+	'Shamrock Day (Able Sisters)',
+	'Setsubun',
+	'Aquarius',
+	'Pisces',
+	'Aries',
+	'Taurus',
+	'Gemini',
+	'Cancer',
+	'Leo',
+	'Virgo',
+	'Libra',
+	'Scorpio',
+	'Sagittarius',
+	'Capricorn',
+	'young spring bamboo',
+	'Spring shopping',
+];
+
 export const daysArray = [
 	'sunday',
 	'monday',

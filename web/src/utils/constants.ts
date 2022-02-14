@@ -30,6 +30,7 @@ export const friendRequestsUrl = `${apiBaseUrl}/api/friends/requests`;
 export const addFriendUrl = `${apiBaseUrl}/api/friends/add`;
 export const removeFriendUrl = `${apiBaseUrl}/api/friends/remove`;
 export const friendsCaughtUrl = `${apiBaseUrl}/api/friends/caught`;
+export const gameEventsUrl = `${apiBaseUrl}/api/events`;
 export const defaultAvatarUrl =
 	'https://64.media.tumblr.com/660a46fe7a5825d898e36fc8c240685b/bd38759d70dd2985-ab/s400x600/05eb60dacdbb47e946713a8aaa048274dc176cb7.png';
 export const twitterUsername = '@matthughes2112';
@@ -213,6 +214,12 @@ export const navbarMenuItems = [
 		path: '/achievements',
 		active: true,
 		type: critterTypes.ACHIEVEMENT,
+	},
+	{
+		id: 9,
+		text: 'Events',
+		path: '/events',
+		active: true,
 	},
 ];
 

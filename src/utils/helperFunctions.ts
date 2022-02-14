@@ -1,7 +1,8 @@
 var jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET;
-import { hemispheres, months } from './constants';
-import { Critter, ICritter } from '@/models/critter';
+import { hemispheres, months, daysArray, ignoredEvents } from './constants';
+import { ICritter } from '@/models/critter';
+import { IGameEvent } from '@/models/gameevent';
 
 export const isDev = () => process.env.NODE_ENV === 'development';
 
@@ -142,4 +143,67 @@ export const isAvailableInHour = (time: string, hour: number) => {
 	});
 
 	return availableArray.includes(true);
+};
+
+export const formatEvent = (e: IGameEvent, isNorthernHemisphere: boolean) => {
+	if (ignoredEvents.includes(e.name)) {
+		return;
+	}
+
+	let activeDates: any[] = [];
+	let activeDateRange: any[] = [];
+	if (e.dates_nh === 'NA' && e.dates_sh === 'NA') {
+		return;
+	}
+	if (e.name.includes('hemisphere')) {
+		if (e.name.includes('southern') && isNorthernHemisphere) {
+			return;
+		}
+		if (e.name.includes('nothern') && !isNorthernHemisphere) {
+			return;
+		}
+	}
+
+	const year = isNaN(Number(e.year)) ? new Date().getFullYear() : e.year;
+
+	const dateString = (isNorthernHemisphere ? e.dates_nh : e.dates_sh).replace(
+		/\u2013/g,
+		'-'
+	);
+
+	if (dateString.includes('-')) {
+		const dates = dateString.split('-');
+		const startDate = new Date(`${dates[0].trim()} ${year}`.trim());
+		const endDate = new Date(`${dates[1].trim()} ${year}`.trim());
+		if (endDate < startDate) {
+			endDate.setFullYear(endDate.getFullYear() + 1);
+		}
+		activeDateRange = [startDate, endDate];
+	} else if (dateString.includes(' of ')) {
+		const dates = dateString.split(';\n');
+		activeDates = dates.map(d => {
+			const month = d.split(' of ')[1].trim();
+			const dayOffset = Number(d.charAt(0));
+			const dayName = d.split(' of ')[0].split(' ')[1].trim().toLowerCase();
+			const dayIndex = daysArray.indexOf(dayName);
+			const startingDate = new Date(`${month} 1 ${year}`);
+			while (startingDate.getDay() <= 31) {
+				if (startingDate.getDay() === dayIndex) {
+					const dateNumber = startingDate.getDate() + (dayOffset - 1) * 7;
+					startingDate.setDate(dateNumber);
+					return startingDate;
+				}
+				startingDate.setDate(startingDate.getDate() + 1);
+			}
+		});
+	} else {
+		activeDates = [new Date(`${dateString} ${year}`)];
+	}
+	return {
+		name: e.name,
+		year: e.year,
+		dateString,
+		activeDates,
+		activeDateRange,
+	};
 };

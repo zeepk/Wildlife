@@ -14,6 +14,7 @@ import {
 	sendFriendRequest,
 	respondToFriendRequest,
 	removeFriend,
+	getEvents
 } from './commonApi';
 import {
 	AuthDataCreateAccount,
@@ -23,6 +24,7 @@ import {
 	Profile,
 	UpdateCaughtPayload,
 	Villager,
+	GameEvent
 } from 'features/Common/commonTypes';
 import { critterTypes, maxNumberOfVillagers } from 'utils/constants';
 import { isNullOrUndefined } from 'utils/helperFunctions';
@@ -35,6 +37,7 @@ export interface CommonState {
 		loginLoading: boolean;
 		createLoading: boolean;
 		isLoggedIn: boolean;
+		gameEvents: GameEvent[];
 		account: {
 			profile: Profile | null;
 			caught: Array<Caught>;
@@ -59,6 +62,7 @@ const initialState: CommonState = {
 		loginLoading: false,
 		createLoading: false,
 		isLoggedIn: false,
+		gameEvents: [],
 		account: {
 			profile: null,
 			caught: [],
@@ -196,6 +200,14 @@ export const sendUserFriendRequest = createAsyncThunk(
 	'common/auth/sendfriendrequest',
 	async (username: string) => {
 		const response = await sendFriendRequest(username);
+		return response;
+	}
+);
+
+export const getGameEvents = createAsyncThunk(
+	'common/auth/getevents',
+	async () => {
+		const response = await getEvents();
 		return response;
 	}
 );
@@ -365,6 +377,17 @@ export const commonSlice = createSlice({
 						f => f.username !== data.data
 					);
 				}
+			})
+			.addCase(getGameEvents.pending, (state, action) => {
+				incrementLoading(state);
+			})
+			.addCase(getGameEvents.fulfilled, (state, action) => {
+				const data = action?.payload?.data;
+				console.log(data);
+				if (data?.newEvents) {
+					state.auth.gameEvents = data.newEvents;
+				}
+				decrementLoading(state);
 			});
 	},
 });
@@ -416,5 +439,8 @@ export const selectCaughtUeids = (state: RootState) =>
 	state.common.auth.account.caught.map(c => c.ueid);
 export const selectCaught = (state: RootState) =>
 	state.common.auth.account.caught;
+
+export const selectEvents = (state: RootState) =>
+	state.common.auth.gameEvents;
 
 export default commonSlice.reducer;

@@ -399,6 +399,16 @@
 .p-dropdown-label-empty {
 	visibility: visible !important;
 }
+.container--events-page {
+	width: 100vw;
+	.content {
+		width: 95vw;
+		min-height: 20vh;
+		background-color: $mediumDarkGreen;
+		border: 0.7rem solid $backgroundColor;
+		border-radius: 3rem;
+	}
+}
 .container--landing-page {
 	width: 100vw;
 	.content {
