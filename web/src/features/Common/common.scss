@@ -480,6 +480,14 @@
 		}
 	}
 }
+.container--calendar > .Container-container {
+	padding: 1rem;
+	background-color: white;
+	border-radius: 1rem;
+	* {
+		text-transform: capitalize;
+	}
+}
 .notif-badge {
 	background-color: $errorRed !important;
 	font-weight: bolder !important;

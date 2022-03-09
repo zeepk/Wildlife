@@ -201,6 +201,7 @@ export const formatEvent = (e: IGameEvent, isNorthernHemisphere: boolean) => {
 	}
 	return {
 		name: e.name,
+		type: e.type,
 		year: e.year,
 		dateString,
 		activeDates,

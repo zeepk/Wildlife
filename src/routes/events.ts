@@ -3,10 +3,10 @@ import { GameEvent, IGameEvent } from '@/models/gameevent';
 import {
 	getAuthIdFromJwt,
 	isNullUndefinedOrWhitespace,
-formatEvent
+	formatEvent,
 } from '@/utils/helperFunctions';
 import { Profile } from '@/models/profile';
-import { hemispheres} from '@/utils/constants';
+import { hemispheres } from '@/utils/constants';
 const router = express.Router();
 
 router.get('/api/events', async (req: Request, res: Response) => {
@@ -26,15 +26,15 @@ router.get('/api/events', async (req: Request, res: Response) => {
 	const isNorthernHemisphere = hemisphere === hemispheres.NORTHERN;
 
 	const events = await GameEvent.find({});
-	const types = [...new Set(events.map(e => e.type))];
 	const newEvents = events
 		.map(e => formatEvent(e, isNorthernHemisphere))
 		.filter(e => e);
+	const types = [...new Set(newEvents.map(e => e?.type))];
 
 	const resp = {
-		newEvents,
+		count: newEvents.length,
 		types,
-		events,
+		newEvents,
 	};
 
 	return res.status(200).send(resp);

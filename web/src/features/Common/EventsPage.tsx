@@ -60,7 +60,7 @@ export function EventsPage() {
 	}
 
 	const content = (
-		<div className="p-d-flex p-flex-column p-ai-center p-pb-4">
+		<div className="p-d-flex p-flex-column p-ai-center p-p-4 container--calendar">
 			<p className="title">{events.length}</p>
 			<Scheduler data={eventsData}>
 				<ViewState currentDate={currentDate} />
