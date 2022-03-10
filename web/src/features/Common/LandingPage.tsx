@@ -32,7 +32,11 @@ export function LandingPage() {
 
 	return (
 		<div className="container--landing-page p-d-flex p-jc-center p-ai-center p-mb-6">
-			<div className="content p-mt-6 p-d-flex p-ai-center p-jc-center">
+			<div
+				className={`content p-mt-6 p-d-flex p-ai-center p-jc-center ${
+					!isLoggedIn && 'new'
+				}`}
+			>
 				{content}
 			</div>
 		</div>

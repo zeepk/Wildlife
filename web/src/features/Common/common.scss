@@ -413,11 +413,14 @@
 	width: 100vw;
 	.content {
 		width: 95vw;
-		max-width: 50rem;
 		min-height: 20vh;
 		background-color: $mediumDarkGreen;
 		border: 0.7rem solid $backgroundColor;
 		border-radius: 3rem;
+
+		&.new {
+			max-width: 50rem;
+		}
 
 		.container--existing {
 			color: white;
@@ -433,35 +436,76 @@
 				width: 100%;
 				border-bottom: 0.5rem solid $backgroundColor;
 			}
-
-			.subdivider {
+			.dashboard-container {
 				width: 100%;
-				border-bottom: 0.2rem solid $backgroundColor;
-			}
+				max-width: 25rem;
+				min-height: 20vh;
+				background-color: $mediumDarkGreen;
+				border: 0.7rem solid $backgroundColor;
+				border-radius: 3rem;
+				margin: 1rem;
+				padding: 0.5rem;
 
-			.heading {
-				font-size: 3rem;
-				text-decoration: underline;
-			}
-
-			.subheading {
-				font-size: 2rem;
-			}
-
-			.text {
-				font-size: 1.2rem;
-			}
-
-			.content-link {
-				text-decoration: none;
-				color: rgb(47, 110, 102);
-				cursor: pointer;
-
-				&:hover {
-					text-decoration: underline;
+				&.container--birthdays {
+					.upcoming {
+						.villagers {
+							width: 100%;
+							overflow-x: scroll;
+						}
+					}
+					.villager > img {
+						height: 3rem;
+					}
 				}
-				&.discord {
-					color: rgb(71, 71, 124);
+				* {
+					.row {
+						background-color: $backgroundTan;
+						color: $mediumGray;
+						border-radius: 0.5rem;
+						padding: 0.2rem 0.6rem;
+					}
+				}
+
+				.title {
+					font-size: 1.2rem;
+					margin: 0;
+					padding: 1rem 0;
+				}
+
+				&.container--notes {
+					height: 30rem;
+					overflow-y: scroll;
+
+					.subdivider {
+						width: 100%;
+						border-bottom: 0.2rem solid $backgroundColor;
+					}
+
+					.heading {
+						font-size: 3rem;
+						text-decoration: underline;
+					}
+
+					.subheading {
+						font-size: 2rem;
+					}
+
+					.text {
+						font-size: 1.2rem;
+					}
+
+					.content-link {
+						text-decoration: none;
+						color: rgb(47, 110, 102);
+						cursor: pointer;
+
+						&:hover {
+							text-decoration: underline;
+						}
+						&.discord {
+							color: rgb(71, 71, 124);
+						}
+					}
 				}
 			}
 		}
