@@ -1,11 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
 import 'features/Common/common.scss';
 import { discordUrl } from 'utils/constants';
+import {
+	selectAuthLoading,
+	getTodayInfo,
+	selectDashboard,
+} from 'features/Common/commonSlice';
 import { useHistory } from 'react-router-dom';
-import { Button } from 'primereact/button';
+import LoadingIcon from 'features/Common/LoadingIcon';
 
 export function ExistingUserLandingPage() {
 	const history = useHistory();
+	const dispatch = useAppDispatch();
+	const loading = useAppSelector(selectAuthLoading);
+	const dashboard = useAppSelector(selectDashboard);
+
+	useEffect(() => {
+		if (dashboard?.upcomingBirthdays?.length === 0) {
+			dispatch(getTodayInfo());
+		}
+	}, [dispatch, dashboard?.upcomingBirthdays?.length]);
+
+	if (loading || dashboard?.upcomingBirthdays?.length === 0) {
+		return <LoadingIcon fullScreen={true} />;
+	}
+	console.log(dashboard.todaysBirthdays);
 	return (
 		<div className="container--existing p-d-flex p-flex-column p-p-6">
 			<div className="welcome p-mb-2">Welcome Back!</div>

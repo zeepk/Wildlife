@@ -9,7 +9,7 @@ import {
 	totals,
 	villagerBirthdayDayRange,
 } from '@/utils/constants';
-import { Villager } from '@/models/villager';
+import { Villager, IVillager } from '@/models/villager';
 import { Critter } from '@/models/critter';
 import { Fossil } from '@/models/fossil';
 import { Song } from '@/models/song';
@@ -325,7 +325,6 @@ router.post('/api/today', async (req: Request, res: Response) => {
 	]);
 	const caughtUeids = caught.map(c => c.ueid);
 
-	//TODO: do we need all of the data for the critters?
 	const availableCritters = critters.filter(c =>
 		isAvailableInMonth(c, month, profile?.hemisphere || hemispheres.NORTHERN) &&
 		isAvailableInHour(c.time || '', hour) &&
@@ -334,21 +333,28 @@ router.post('/api/today', async (req: Request, res: Response) => {
 			: true
 	);
 
-	//TODO: add villager birthdays and upcoming events(?)
 	const today = new Date();
 	const xDaysFromNow = new Date();
 	xDaysFromNow.setDate(today.getDate() + villagerBirthdayDayRange);
 
+	const todaysBirthdays: Array<IVillager> = [];
 	const upcomingBirthdays = villagers
 		.filter(v => {
 			const birthday = new Date(
 				`${v.birthday}/${today.getFullYear()} 23:59:59`
 			);
+			if (
+				today.getDate() === birthday.getDate() &&
+				today.getMonth() === birthday.getMonth()
+			) {
+				todaysBirthdays.push(v);
+			}
 			return birthday >= today && birthday <= xDaysFromNow;
 		})
 		.sort((a, b) => a.birthday.localeCompare(b.birthday));
 
 	resp.data = {
+		todaysBirthdays,
 		upcomingBirthdays,
 		availableCritters,
 	};

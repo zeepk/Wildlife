@@ -14,6 +14,7 @@ import {
 	addFriendUrl,
 	removeFriendUrl,
 	gameEventsUrl,
+	todayUrl,
 } from 'utils/constants';
 
 export async function getProfile() {
@@ -141,6 +142,15 @@ export async function searchForProfile(data: {
 }) {
 	const requestOptions = {
 		url: searchForUserUrl,
+		method: 'POST',
+		data,
+	};
+	return await requestWrapper(requestOptions);
+}
+
+export async function getToday(data: { hour: number; month: string }) {
+	const requestOptions = {
+		url: todayUrl,
 		method: 'POST',
 		data,
 	};

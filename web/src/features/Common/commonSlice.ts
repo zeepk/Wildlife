@@ -14,7 +14,8 @@ import {
 	sendFriendRequest,
 	respondToFriendRequest,
 	removeFriend,
-	getEvents
+	getEvents,
+	getToday,
 } from './commonApi';
 import {
 	AuthDataCreateAccount,
@@ -24,11 +25,18 @@ import {
 	Profile,
 	UpdateCaughtPayload,
 	Villager,
-	GameEvent
+	GameEvent,
 } from 'features/Common/commonTypes';
-import { critterTypes, maxNumberOfVillagers } from 'utils/constants';
+import { Bug, Fish, Sea } from 'features/Tracking/trackingTypes';
+import { critterTypes, maxNumberOfVillagers, months } from 'utils/constants';
 import { isNullOrUndefined } from 'utils/helperFunctions';
 export interface CommonState {
+	dashboard: {
+		upcomingEvents: GameEvent[];
+		todaysBirthdays: Villager[];
+		upcomingBirthdays: Villager[];
+		availableCritters: Array<Fish | Bug | Sea>;
+	};
 	auth: {
 		error: boolean;
 		errorMessage: string | null;
@@ -54,6 +62,12 @@ export interface CommonState {
 }
 
 const initialState: CommonState = {
+	dashboard: {
+		upcomingEvents: [],
+		todaysBirthdays: [],
+		upcomingBirthdays: [],
+		availableCritters: [],
+	},
 	auth: {
 		error: false,
 		errorMessage: null,
@@ -116,6 +130,18 @@ export const getAllVillagers = createAsyncThunk(
 	'common/auth/getvillagers',
 	async () => {
 		const response = await getVillagers();
+		return response;
+	}
+);
+
+export const getTodayInfo = createAsyncThunk(
+	'common/auth/gettoday',
+	async () => {
+		const today = new Date();
+		const response = await getToday({
+			hour: today.getHours(),
+			month: months[today.getMonth()].name,
+		});
 		return response;
 	}
 );
@@ -378,12 +404,24 @@ export const commonSlice = createSlice({
 					);
 				}
 			})
+			.addCase(getTodayInfo.pending, (state, action) => {
+				incrementLoading(state);
+			})
+			.addCase(getTodayInfo.fulfilled, (state, action) => {
+				const data = action?.payload?.data?.data;
+				if (data) {
+					state.dashboard.upcomingEvents = data.upcomingEvents;
+					state.dashboard.upcomingBirthdays = data.upcomingBirthdays;
+					state.dashboard.todaysBirthdays = data.todaysBirthdays;
+					state.dashboard.availableCritters = data.availableCritters;
+				}
+				decrementLoading(state);
+			})
 			.addCase(getGameEvents.pending, (state, action) => {
 				incrementLoading(state);
 			})
 			.addCase(getGameEvents.fulfilled, (state, action) => {
 				const data = action?.payload?.data;
-				console.log(data);
 				if (data?.newEvents) {
 					state.auth.gameEvents = data.newEvents;
 				}
@@ -440,7 +478,8 @@ export const selectCaughtUeids = (state: RootState) =>
 export const selectCaught = (state: RootState) =>
 	state.common.auth.account.caught;
 
-export const selectEvents = (state: RootState) =>
-	state.common.auth.gameEvents;
+export const selectEvents = (state: RootState) => state.common.auth.gameEvents;
+
+export const selectDashboard = (state: RootState) => state.common.dashboard;
 
 export default commonSlice.reducer;
