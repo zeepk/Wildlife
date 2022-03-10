@@ -8,6 +8,7 @@ import {
 	Toolbar,
 	DateNavigator,
 	Appointments,
+	AppointmentTooltip,
 	TodayButton,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
@@ -18,16 +19,11 @@ import {
 } from '../Common/commonSlice';
 import LoadingIcon from 'features/Common/LoadingIcon';
 import 'features/Common/common.scss';
-import {
-	landingPageExistingUserText,
-	landingPageNewUserText,
-} from 'utils/constants';
 
 export function EventsPage() {
 	const dispatch = useAppDispatch();
 	const loading = useAppSelector(selectAuthLoading);
 	const events = useAppSelector(selectEvents);
-	const currentDate = '2022-02-13';
 	const eventsData = events
 		.map(e => {
 			if (e.activeDateRange.length > 0) {
@@ -61,14 +57,14 @@ export function EventsPage() {
 
 	const content = (
 		<div className="p-d-flex p-flex-column p-ai-center p-p-4 container--calendar">
-			<p className="title">{events.length}</p>
 			<Scheduler data={eventsData}>
-				<ViewState currentDate={currentDate} />
+				<ViewState />
 				<MonthView />
 				<Toolbar />
 				<DateNavigator />
 				<TodayButton />
 				<Appointments />
+				<AppointmentTooltip />
 			</Scheduler>
 		</div>
 	);

@@ -146,7 +146,12 @@ export const isAvailableInHour = (time: string, hour: number) => {
 };
 
 export const formatEvent = (e: IGameEvent, isNorthernHemisphere: boolean) => {
-	if (ignoredEvents.includes(e.name)) {
+	const name = e.name.toLowerCase();
+	if (
+		ignoredEvents.includes(e.name) ||
+		name.includes('shopping') ||
+		name.includes('before')
+	) {
 		return;
 	}
 
