@@ -99,10 +99,12 @@ export const isAvailableInMonth = (
 	const monthAvailability = critter[propertyName];
 
 	if (
-		critter.name === 'blowfish' ||
+		critter.name === 'abalone' ||
 		isNullUndefinedOrWhitespace(monthAvailability)
 	) {
 		console.log(propertyName);
+		console.log(monthAvailability);
+		console.log(monthAvailability !== 'NA');
 	}
 
 	return monthAvailability !== 'NA';

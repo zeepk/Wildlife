@@ -6,6 +6,8 @@ import {
 	selectAuthLoading,
 	getTodayInfo,
 	selectDashboard,
+	selectAuthIsLoggedIn,
+	selectAccountExists,
 } from 'features/Common/commonSlice';
 import { useHistory } from 'react-router-dom';
 import LoadingIcon from 'features/Common/LoadingIcon';
@@ -13,18 +15,20 @@ import { IconTemplate } from 'features/Tracking/common/IconTemplate';
 import { DateTime } from 'luxon';
 import { Carousel } from 'primereact/carousel';
 import { Fish, Bug, Sea } from 'features/Tracking/trackingTypes';
+import AuthButtons from './Auth/AuthButtons';
 
 export function ExistingUserLandingPage() {
 	const history = useHistory();
 	const dispatch = useAppDispatch();
 	const loading = useAppSelector(selectAuthLoading);
 	const dashboard = useAppSelector(selectDashboard);
+	const accountExists = useAppSelector(selectAccountExists);
 
 	useEffect(() => {
-		if (dashboard?.upcomingBirthdays?.length === 0) {
+		if (accountExists && dashboard?.upcomingBirthdays?.length === 0) {
 			dispatch(getTodayInfo());
 		}
-	}, [dispatch, dashboard?.upcomingBirthdays?.length]);
+	}, [dispatch, dashboard?.upcomingBirthdays?.length, accountExists]);
 
 	if (loading || dashboard?.upcomingBirthdays?.length === 0) {
 		return <LoadingIcon fullScreen={true} />;
@@ -58,10 +62,17 @@ export function ExistingUserLandingPage() {
 
 	return (
 		<div className="container--existing p-d-flex p-flex-column p-p-6">
-			<div className="welcome p-mb-2">Welcome Back!</div>
+			<div className="welcome p-mb-2">
+				<p className="p-m-0">
+					{accountExists ? 'Welcome Back!' : 'Hello there!'}
+				</p>
+				<div className="p-mb-4">
+					{!accountExists && <AuthButtons checkLogin={false} />}
+				</div>
+			</div>
 			<div className="divider p-mb-6" />
 			<div className="container--dashboard p-d-flex p-flex-row p-flex-wrap p-jc-between">
-				<div className="dashboard-left p-d-flex p-flex-wrap">
+				<div className="dashboard-left p-d-flex p-flex-wrap p-jc-between">
 					<div className="dashboard-container container--birthdays">
 						<p className="title">Birthdays</p>
 						<div className="birthdays p-px-1">
@@ -133,13 +144,21 @@ export function ExistingUserLandingPage() {
 					</div>
 					<div className="dashboard-container container--critters">
 						<p className="title">Available Critters</p>
-						<Carousel
-							value={dashboard.availableCritters}
-							itemTemplate={c => critterTemplate(c)}
-							numVisible={3}
-							numScroll={1}
-							responsiveOptions={responsiveOptions}
-						/>
+						{dashboard.availableCritters.length > 0 ? (
+							<Carousel
+								value={dashboard.availableCritters}
+								itemTemplate={c => critterTemplate(c)}
+								numVisible={3}
+								numScroll={3}
+								autoplayInterval={3000}
+								circular
+								responsiveOptions={responsiveOptions}
+							/>
+						) : (
+							<div className="p-d-flex p-jc-center p-ai-center">
+								<p className="none">None!</p>
+							</div>
+						)}
 					</div>
 				</div>
 				<div className="dashboard-right p-ml-2">

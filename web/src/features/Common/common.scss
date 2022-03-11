@@ -431,7 +431,9 @@
 			.welcome {
 				width: 100%;
 				text-align: center;
-				font-size: 3rem;
+				p {
+					font-size: 3rem;
+				}
 			}
 
 			.divider {
@@ -440,9 +442,22 @@
 			}
 			.dashboard-left {
 				width: 65%;
+				@media (max-width: 500px) {
+					width: 100%;
+					justify-content: center;
+				}
 			}
 			.dashboard-right {
 				width: 30%;
+				@media (max-width: 500px) {
+					width: 100%;
+					justify-content: center;
+					margin-left: 0 !important;
+					div {
+						width: 100%;
+						margin: 0;
+					}
+				}
 			}
 			.dashboard-container {
 				min-height: 20vh;
@@ -453,7 +468,10 @@
 				padding: 0.5rem;
 
 				&.container--birthdays {
-					width: 45%;
+					width: 100%;
+					@media (min-width: 1000px) {
+						width: 50%;
+					}
 					.upcoming {
 						.villagers {
 							width: 100%;
@@ -466,7 +484,10 @@
 				}
 
 				&.container--events {
-					width: 45%;
+					width: 100%;
+					@media (min-width: 1000px) {
+						width: 40%;
+					}
 					.event {
 						text-transform: capitalize;
 					}
@@ -480,6 +501,9 @@
 					.p-carousel-indicators {
 						display: none;
 						color: white;
+					}
+					.none {
+						font-size: 1.5rem;
 					}
 					.critter {
 						background-color: $backgroundTan;

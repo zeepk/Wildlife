@@ -310,7 +310,6 @@ router.post('/api/today', async (req: Request, res: Response) => {
 		profile = await Profile.findOne({ authId: authId });
 		if (!profile) {
 			console.log(`invalid profile authId: ${authId}`);
-			return res.sendStatus(404);
 		}
 	}
 	const hemisphere = profile ? profile.hemisphere : hemispheres.NORTHERN;
@@ -329,12 +328,15 @@ router.post('/api/today', async (req: Request, res: Response) => {
 	]);
 	const caughtUeids = caught.map(c => c.ueid);
 
-	const availableCritters = critters.filter(c =>
-		isAvailableInMonth(c, month, profile?.hemisphere || hemispheres.NORTHERN) &&
-		isAvailableInHour(c.time || '', hour) &&
-		isLoggedIn
-			? !caughtUeids.includes(c.ueid)
-			: true
+	const availableCritters = critters.filter(
+		c =>
+			isAvailableInMonth(
+				c,
+				month,
+				profile?.hemisphere || hemispheres.NORTHERN
+			) &&
+			isAvailableInHour(c.time || '', hour) &&
+			(isLoggedIn ? !caughtUeids.includes(c.ueid) : true)
 	);
 
 	const today = new Date();
