@@ -423,6 +423,8 @@
 		}
 
 		.container--existing {
+			width: 100%;
+			height: 100%;
 			color: white;
 			text-align: left;
 
@@ -436,9 +438,13 @@
 				width: 100%;
 				border-bottom: 0.5rem solid $backgroundColor;
 			}
+			.dashboard-left {
+				width: 65%;
+			}
+			.dashboard-right {
+				width: 30%;
+			}
 			.dashboard-container {
-				width: 100%;
-				max-width: 25rem;
 				min-height: 20vh;
 				background-color: $mediumDarkGreen;
 				border: 0.7rem solid $backgroundColor;
@@ -447,6 +453,7 @@
 				padding: 0.5rem;
 
 				&.container--birthdays {
+					width: 45%;
 					.upcoming {
 						.villagers {
 							width: 100%;
@@ -459,8 +466,33 @@
 				}
 
 				&.container--events {
+					width: 45%;
 					.event {
 						text-transform: capitalize;
+					}
+				}
+				&.container--critters {
+					width: 100%;
+					.pi-chevron-right,
+					.pi-chevron-left {
+						color: white;
+					}
+					.p-carousel-indicators {
+						display: none;
+						color: white;
+					}
+					.critter {
+						background-color: $backgroundTan;
+						color: $mediumGray;
+						border-radius: 0.5rem;
+						padding: 0.5rem;
+						text-transform: capitalize;
+
+						img {
+							height: 3rem;
+							width: 3rem;
+							object-fit: scale-down;
+						}
 					}
 				}
 
@@ -480,7 +512,7 @@
 				}
 
 				&.container--notes {
-					height: 30rem;
+					height: 40rem;
 					overflow-y: scroll;
 
 					.subdivider {
