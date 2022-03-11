@@ -26,13 +26,14 @@ import {
 	UpdateCaughtPayload,
 	Villager,
 	GameEvent,
+	LightGameEvent,
 } from 'features/Common/commonTypes';
 import { Bug, Fish, Sea } from 'features/Tracking/trackingTypes';
 import { critterTypes, maxNumberOfVillagers, months } from 'utils/constants';
 import { isNullOrUndefined } from 'utils/helperFunctions';
 export interface CommonState {
 	dashboard: {
-		upcomingEvents: GameEvent[];
+		todaysEvents: LightGameEvent[];
 		todaysBirthdays: Villager[];
 		upcomingBirthdays: Villager[];
 		availableCritters: Array<Fish | Bug | Sea>;
@@ -63,7 +64,7 @@ export interface CommonState {
 
 const initialState: CommonState = {
 	dashboard: {
-		upcomingEvents: [],
+		todaysEvents: [],
 		todaysBirthdays: [],
 		upcomingBirthdays: [],
 		availableCritters: [],
@@ -410,7 +411,7 @@ export const commonSlice = createSlice({
 			.addCase(getTodayInfo.fulfilled, (state, action) => {
 				const data = action?.payload?.data?.data;
 				if (data) {
-					state.dashboard.upcomingEvents = data.upcomingEvents;
+					state.dashboard.todaysEvents = data.todaysEvents;
 					state.dashboard.upcomingBirthdays = data.upcomingBirthdays;
 					state.dashboard.todaysBirthdays = data.todaysBirthdays;
 					state.dashboard.availableCritters = data.availableCritters;

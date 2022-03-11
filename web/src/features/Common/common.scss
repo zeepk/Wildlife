@@ -457,6 +457,13 @@
 						height: 3rem;
 					}
 				}
+
+				&.container--events {
+					.event {
+						text-transform: capitalize;
+					}
+				}
+
 				* {
 					.row {
 						background-color: $backgroundTan;

@@ -84,3 +84,8 @@ export type GameEvent = {
 	activeDates: Array<Date>;
 	activeDateRange: Array<Date>;
 };
+
+export type LightGameEvent = {
+	name: string;
+	endDate?: DateTime;
+};

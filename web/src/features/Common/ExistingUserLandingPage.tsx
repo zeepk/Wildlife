@@ -10,6 +10,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import LoadingIcon from 'features/Common/LoadingIcon';
 import { IconTemplate } from 'features/Tracking/common/IconTemplate';
+import { DateTime } from 'luxon';
 
 export function ExistingUserLandingPage() {
 	const history = useHistory();
@@ -35,7 +36,7 @@ export function ExistingUserLandingPage() {
 				<div className="dashboard-container container--birthdays">
 					<p className="title">Birthdays</p>
 					<div className="birthdays p-px-1">
-						<div className="row todays p-d-flex p-ai-center p-jc-between">
+						<div className="row todays p-px-3 p-d-flex p-ai-center p-jc-between">
 							<div>Today</div>
 							<div className="p-d-flex p-jc-end">
 								{dashboard.todaysBirthdays?.length === 0 ? (
@@ -63,7 +64,7 @@ export function ExistingUserLandingPage() {
 										.filter(v => !todaysBirthdaysNames.includes(v.name))
 										.map(v => (
 											<div
-												key={v.name}
+												key={v._id}
 												className="villager p-d-flex p-flex-column p-ai-center p-ml-3"
 											>
 												<IconTemplate uri={v.icon_uri} altText={v.name} />
@@ -78,6 +79,25 @@ export function ExistingUserLandingPage() {
 				</div>
 				<div className="dashboard-container container--events">
 					<p className="title">Today's Events</p>
+					<div className="p-d-flex p-flex-column p-jc-end">
+						{dashboard.todaysEvents?.length === 0 ? (
+							<div>None!</div>
+						) : (
+							dashboard.todaysEvents.map(e => {
+								const end = e.endDate?.toFormat('yyyy LLL dd');
+								const endDate = end ? `until ${end}` : '';
+								return (
+									<div
+										key={e.name}
+										className="row event p-d-flex p-flex-column p-ai-center p-mb-3"
+									>
+										<div className="name">{e.name}</div>
+										<div className="date">{endDate}</div>
+									</div>
+								);
+							})
+						)}
+					</div>
 				</div>
 				<div className="dashboard-container container--critters">
 					<p className="title">Available Critters</p>

@@ -16,11 +16,13 @@ import { Song } from '@/models/song';
 import { Art } from '@/models/art';
 import { ApiResponse, ProfileResponse } from '@/utils/customTypes';
 import {
+	formatEvent,
 	getAuthIdFromJwt,
 	isAvailableInHour,
 	isAvailableInMonth,
 	isNullUndefinedOrWhitespace,
 } from '@/utils/helperFunctions';
+import { GameEvent } from '@/models/gameevent';
 const router = express.Router();
 
 router.get('/api/profile', async (req: any, res: Response) => {
@@ -311,6 +313,8 @@ router.post('/api/today', async (req: Request, res: Response) => {
 			return res.sendStatus(404);
 		}
 	}
+	const hemisphere = profile ? profile.hemisphere : hemispheres.NORTHERN;
+	const isNorthernHemisphere = hemisphere === hemispheres.NORTHERN;
 
 	const resp: ApiResponse = {
 		success: true,
@@ -353,8 +357,47 @@ router.post('/api/today', async (req: Request, res: Response) => {
 		})
 		.sort((a, b) => a.birthday.localeCompare(b.birthday));
 
+	const events = await GameEvent.find({});
+	const todaysEvents = events
+		.map(e => formatEvent(e, isNorthernHemisphere))
+		.map(e => {
+			if (!e) {
+				return;
+			}
+			if (e.activeDateRange.length > 0) {
+				return {
+					title: e.name,
+					startDate: new Date(e.activeDateRange[0]),
+					endDate: new Date(e.activeDateRange[1]),
+				};
+			} else {
+				return {
+					title: e.name,
+					startDate: new Date(e.activeDates[0]),
+					endDate: null,
+				};
+			}
+		})
+		.filter((e, i) => i > -1 && e !== undefined)
+		.filter(e => {
+			if (!e?.startDate || !e?.endDate) {
+				return false;
+			}
+			if (
+				e?.startDate.getDate() === today.getDate() &&
+				e?.startDate.getMonth() === today.getMonth()
+			) {
+				return true;
+			}
+			if (e?.startDate <= today && e?.endDate >= today) {
+				return true;
+			}
+		})
+		.map(e => ({ name: e?.title, endDate: e?.endDate }));
+
 	resp.data = {
 		todaysBirthdays,
+		todaysEvents,
 		upcomingBirthdays,
 		availableCritters,
 	};
