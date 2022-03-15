@@ -546,35 +546,50 @@
 					height: 40rem;
 					overflow-y: scroll;
 
-					.subdivider {
-						width: 100%;
-						border-bottom: 0.2rem solid $backgroundColor;
+					.note {
+						background-color: $backgroundTan;
+						color: $mediumGray;
+						border-radius: 0.5rem;
+						padding: 1rem;
+						margin-bottom: 2rem;
+
+						.subheading {
+							font-size: 2rem;
+						}
+
+						.text {
+							font-size: 1.2rem;
+
+							.pi {
+								color: $mediumGray;
+							}
+						}
+
+						.footer {
+							display: flex;
+							font-size: 0.8rem;
+							.hyphen {
+								padding: 0 0.5rem;
+							}
+						}
+
+						.content-link {
+							text-decoration: none;
+							color: rgb(0, 89, 255);
+							cursor: pointer;
+
+							&:hover {
+								text-decoration: underline;
+							}
+							&.discord {
+								color: rgb(71, 71, 124);
+							}
+						}
 					}
 
 					.heading {
 						font-size: 3rem;
 						text-decoration: underline;
-					}
-
-					.subheading {
-						font-size: 2rem;
-					}
-
-					.text {
-						font-size: 1.2rem;
-					}
-
-					.content-link {
-						text-decoration: none;
-						color: rgb(47, 110, 102);
-						cursor: pointer;
-
-						&:hover {
-							text-decoration: underline;
-						}
-						&.discord {
-							color: rgb(71, 71, 124);
-						}
 					}
 				}
 			}
