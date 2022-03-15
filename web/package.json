@@ -7,6 +7,7 @@
 		"@devexpress/dx-react-scheduler": "^3.0.0",
 		"@devexpress/dx-react-scheduler-material-ui": "^3.0.0",
 		"@mui/icons-material": "^5.5.1",
+		"@mui/lab": "^5.0.0-alpha.73",
 		"@mui/material": "^5.5.1",
 		"@reduxjs/toolkit": "^1.5.1",
 		"@testing-library/jest-dom": "^4.2.4",
