@@ -77,3 +77,15 @@ export type UpdateCaughtPayload = {
 	critterType?: critterTypes;
 	value?: number;
 };
+
+export type GameEvent = {
+	ueid: string;
+	name: string;
+	activeDates: Array<Date>;
+	activeDateRange: Array<Date>;
+};
+
+export type LightGameEvent = {
+	name: string;
+	endDate?: DateTime;
+};

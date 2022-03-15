@@ -14,6 +14,8 @@ import {
 	sendFriendRequest,
 	respondToFriendRequest,
 	removeFriend,
+	getEvents,
+	getToday,
 } from './commonApi';
 import {
 	AuthDataCreateAccount,
@@ -23,10 +25,19 @@ import {
 	Profile,
 	UpdateCaughtPayload,
 	Villager,
+	GameEvent,
+	LightGameEvent,
 } from 'features/Common/commonTypes';
-import { critterTypes, maxNumberOfVillagers } from 'utils/constants';
+import { Bug, Fish, Sea } from 'features/Tracking/trackingTypes';
+import { critterTypes, maxNumberOfVillagers, months } from 'utils/constants';
 import { isNullOrUndefined } from 'utils/helperFunctions';
 export interface CommonState {
+	dashboard: {
+		todaysEvents: LightGameEvent[];
+		todaysBirthdays: Villager[];
+		upcomingBirthdays: Villager[];
+		availableCritters: Array<Fish | Bug | Sea>;
+	};
 	auth: {
 		error: boolean;
 		errorMessage: string | null;
@@ -35,6 +46,7 @@ export interface CommonState {
 		loginLoading: boolean;
 		createLoading: boolean;
 		isLoggedIn: boolean;
+		gameEvents: GameEvent[];
 		account: {
 			profile: Profile | null;
 			caught: Array<Caught>;
@@ -51,6 +63,12 @@ export interface CommonState {
 }
 
 const initialState: CommonState = {
+	dashboard: {
+		todaysEvents: [],
+		todaysBirthdays: [],
+		upcomingBirthdays: [],
+		availableCritters: [],
+	},
 	auth: {
 		error: false,
 		errorMessage: null,
@@ -59,6 +77,7 @@ const initialState: CommonState = {
 		loginLoading: false,
 		createLoading: false,
 		isLoggedIn: false,
+		gameEvents: [],
 		account: {
 			profile: null,
 			caught: [],
@@ -112,6 +131,18 @@ export const getAllVillagers = createAsyncThunk(
 	'common/auth/getvillagers',
 	async () => {
 		const response = await getVillagers();
+		return response;
+	}
+);
+
+export const getTodayInfo = createAsyncThunk(
+	'common/auth/gettoday',
+	async () => {
+		const today = new Date();
+		const response = await getToday({
+			hour: today.getHours(),
+			month: months[today.getMonth()].name,
+		});
 		return response;
 	}
 );
@@ -196,6 +227,14 @@ export const sendUserFriendRequest = createAsyncThunk(
 	'common/auth/sendfriendrequest',
 	async (username: string) => {
 		const response = await sendFriendRequest(username);
+		return response;
+	}
+);
+
+export const getGameEvents = createAsyncThunk(
+	'common/auth/getevents',
+	async () => {
+		const response = await getEvents();
 		return response;
 	}
 );
@@ -365,6 +404,29 @@ export const commonSlice = createSlice({
 						f => f.username !== data.data
 					);
 				}
+			})
+			.addCase(getTodayInfo.pending, (state, action) => {
+				incrementLoading(state);
+			})
+			.addCase(getTodayInfo.fulfilled, (state, action) => {
+				const data = action?.payload?.data?.data;
+				if (data) {
+					state.dashboard.todaysEvents = data.todaysEvents;
+					state.dashboard.upcomingBirthdays = data.upcomingBirthdays;
+					state.dashboard.todaysBirthdays = data.todaysBirthdays;
+					state.dashboard.availableCritters = data.availableCritters;
+				}
+				decrementLoading(state);
+			})
+			.addCase(getGameEvents.pending, (state, action) => {
+				incrementLoading(state);
+			})
+			.addCase(getGameEvents.fulfilled, (state, action) => {
+				const data = action?.payload?.data;
+				if (data?.newEvents) {
+					state.auth.gameEvents = data.newEvents;
+				}
+				decrementLoading(state);
 			});
 	},
 });
@@ -416,5 +478,9 @@ export const selectCaughtUeids = (state: RootState) =>
 	state.common.auth.account.caught.map(c => c.ueid);
 export const selectCaught = (state: RootState) =>
 	state.common.auth.account.caught;
+
+export const selectEvents = (state: RootState) => state.common.auth.gameEvents;
+
+export const selectDashboard = (state: RootState) => state.common.dashboard;
 
 export default commonSlice.reducer;

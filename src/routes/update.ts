@@ -8,6 +8,7 @@ import { Fossil } from '@/models/fossil';
 import { Song } from '@/models/song';
 import { Reaction } from '@/models/reaction';
 import { Achievement, Tier, ITier } from '@/models/achievement';
+import { GameEvent } from '@/models/gameevent';
 
 const fs = require('fs');
 const readline = require('readline');
@@ -31,6 +32,7 @@ router.get('/api/update', async (req: Request, res: Response) => {
 	const villagerSheetRange = 'Villagers!2:414';
 	const reactionSheetRange = 'Reactions!2:89';
 	const achievementsSheetRange = 'Achievements!2:97';
+	const eventsSheetRange = 'Seasons and Events!2:120';
 
 	await fs.readFile('credentials.json', async (err: any, content: any) => {
 		if (err) return console.log('Error loading client secret file:', err);
@@ -140,7 +142,7 @@ router.get('/api/update', async (req: Request, res: Response) => {
 
 						const timeString = months.includes('All day')
 							? 'all day'
-							: months.find((m) => m !== 'NA');
+							: months.find(m => m !== 'NA');
 
 						await Critter.create(
 							// { name: row[1] },
@@ -255,7 +257,7 @@ router.get('/api/update', async (req: Request, res: Response) => {
 
 						const timeString = months.includes('All day')
 							? 'all day'
-							: months.find((m) => m !== 'NA');
+							: months.find(m => m !== 'NA');
 
 						await Critter.create(
 							// { name: row[1] },
@@ -364,7 +366,7 @@ router.get('/api/update', async (req: Request, res: Response) => {
 
 						const timeString = months.includes('All day')
 							? 'all day'
-							: months.find((m) => m !== 'NA');
+							: months.find(m => m !== 'NA');
 
 						await Critter.create(
 							// { name: row[1] },
@@ -661,6 +663,39 @@ router.get('/api/update', async (req: Request, res: Response) => {
 					});
 				} else {
 					console.log('No Villager data found');
+				}
+			}
+		);
+
+		await sheets.spreadsheets.values.get(
+			{
+				spreadsheetId,
+				range: eventsSheetRange,
+				valueRenderOption: 'FORMULA',
+			},
+			async (err: any, res: any) => {
+				if (err) return console.log('The API returned an error: ' + err);
+				const rows = res.data.values;
+				if (rows.length) {
+					rows.map(async (row: any) => {
+						// console.log(row[1]);
+						const exists = await GameEvent.exists({ name: row[0] });
+						if (exists) {
+							return;
+						}
+						GameEvent.create({
+							name: row[0],
+							type: row[1],
+							year: row[4],
+							dates_nh: row[5],
+							dates_sh: row[6],
+							display_name: row[7],
+							ueid: row[12],
+						});
+						console.log(`Created Event: ${row[0]}`);
+					});
+				} else {
+					console.log('No Event data found');
 				}
 			}
 		);

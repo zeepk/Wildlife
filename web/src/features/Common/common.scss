@@ -399,59 +399,198 @@
 .p-dropdown-label-empty {
 	visibility: visible !important;
 }
+.container--events-page {
+	width: 100vw;
+	.content {
+		width: 95vw;
+		min-height: 20vh;
+		background-color: $mediumDarkGreen;
+		border: 0.7rem solid $backgroundColor;
+		border-radius: 3rem;
+	}
+}
 .container--landing-page {
 	width: 100vw;
 	.content {
 		width: 95vw;
-		max-width: 50rem;
 		min-height: 20vh;
 		background-color: $mediumDarkGreen;
 		border: 0.7rem solid $backgroundColor;
 		border-radius: 3rem;
 
+		&.new {
+			max-width: 50rem;
+		}
+
 		.container--existing {
+			width: 100%;
+			height: 100%;
 			color: white;
 			text-align: left;
 
 			.welcome {
 				width: 100%;
 				text-align: center;
-				font-size: 3rem;
+				p {
+					font-size: 3rem;
+				}
 			}
 
 			.divider {
 				width: 100%;
 				border-bottom: 0.5rem solid $backgroundColor;
 			}
-
-			.subdivider {
-				width: 100%;
-				border-bottom: 0.2rem solid $backgroundColor;
-			}
-
-			.heading {
-				font-size: 3rem;
-				text-decoration: underline;
-			}
-
-			.subheading {
-				font-size: 2rem;
-			}
-
-			.text {
-				font-size: 1.2rem;
-			}
-
-			.content-link {
-				text-decoration: none;
-				color: rgb(47, 110, 102);
-				cursor: pointer;
-
-				&:hover {
-					text-decoration: underline;
+			.dashboard-left {
+				width: 65%;
+				@media (max-width: 500px) {
+					width: 100%;
+					justify-content: center;
 				}
-				&.discord {
-					color: rgb(71, 71, 124);
+			}
+			.dashboard-right {
+				width: 30%;
+				@media (max-width: 500px) {
+					width: 100%;
+					justify-content: center;
+					margin-left: 0 !important;
+					div {
+						width: 100%;
+						margin: 0;
+					}
+				}
+			}
+			.dashboard-container {
+				min-height: 20vh;
+				background-color: $mediumDarkGreen;
+				border: 0.7rem solid $backgroundColor;
+				border-radius: 3rem;
+				margin: 1rem;
+				padding: 0.5rem;
+
+				&.container--birthdays {
+					width: 100%;
+					@media (min-width: 1000px) {
+						width: 50%;
+					}
+					.upcoming {
+						.villagers {
+							width: 100%;
+							overflow-x: scroll;
+						}
+					}
+					.villager > img {
+						height: 3rem;
+					}
+					.villager {
+						&.current {
+							background-color: $backgroundColor;
+							padding: 0 1rem;
+							border-radius: 0.5rem;
+						}
+					}
+				}
+
+				&.container--events {
+					width: 100%;
+					@media (min-width: 1000px) {
+						width: 40%;
+					}
+					.event {
+						text-transform: capitalize;
+					}
+				}
+				&.container--critters {
+					width: 100%;
+					.pi-chevron-right,
+					.pi-chevron-left {
+						color: white;
+					}
+					.p-carousel-indicators {
+						display: none;
+						color: white;
+					}
+					.none {
+						font-size: 1.5rem;
+					}
+					.critter {
+						background-color: $backgroundTan;
+						color: $mediumGray;
+						border-radius: 0.5rem;
+						padding: 0.5rem;
+						text-transform: capitalize;
+
+						img {
+							height: 3rem;
+							width: 3rem;
+							object-fit: scale-down;
+						}
+					}
+				}
+
+				* {
+					.row {
+						background-color: $backgroundTan;
+						color: $mediumGray;
+						border-radius: 0.5rem;
+						padding: 0.2rem 0.6rem;
+					}
+				}
+
+				.title {
+					font-size: 1.2rem;
+					margin: 0;
+					padding: 1rem 0;
+				}
+
+				&.container--notes {
+					height: 40rem;
+					overflow-y: scroll;
+
+					.note {
+						background-color: $backgroundTan;
+						color: $mediumGray;
+						border-radius: 0.5rem;
+						padding: 1rem;
+						margin-bottom: 2rem;
+
+						.subheading {
+							font-size: 2rem;
+						}
+
+						.text {
+							font-size: 1.2rem;
+
+							.pi {
+								color: $mediumGray;
+							}
+						}
+
+						.footer {
+							display: flex;
+							font-size: 0.8rem;
+							.hyphen {
+								padding: 0 0.5rem;
+							}
+						}
+
+						.content-link {
+							text-decoration: none;
+							color: rgb(0, 89, 255);
+							cursor: pointer;
+
+							&:hover {
+								text-decoration: underline;
+							}
+							&.discord {
+								color: rgb(71, 71, 124);
+							}
+						}
+					}
+
+					.heading {
+						font-size: 3rem;
+						text-decoration: underline;
+					}
 				}
 			}
 		}
@@ -468,6 +607,26 @@
 			white-space: pre-line;
 			font-size: 1.5rem;
 		}
+	}
+}
+.title {
+	color: white;
+	text-align: center;
+	white-space: pre-line;
+	font-size: 1.5rem;
+}
+.Toolbar-toolbar > div {
+	button {
+		font-size: 1.5rem;
+	}
+}
+.container--calendar > .Container-container {
+	padding: 1rem;
+	background-color: white;
+	border-radius: 1rem;
+	max-width: 60rem;
+	* {
+		text-transform: capitalize;
 	}
 }
 .notif-badge {

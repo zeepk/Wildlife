@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, response, Response } from 'express';
 var ObjectID = require('mongodb').ObjectID;
 import { FriendRequest, Profile } from '@/models/profile';
 import { Caught } from '@/models/caught';
@@ -7,14 +7,22 @@ import {
 	hemispheres,
 	includedInTotals,
 	totals,
+	villagerBirthdayDayRange,
 } from '@/utils/constants';
-import { Villager } from '@/models/villager';
+import { Villager, IVillager } from '@/models/villager';
 import { Critter } from '@/models/critter';
 import { Fossil } from '@/models/fossil';
 import { Song } from '@/models/song';
 import { Art } from '@/models/art';
 import { ApiResponse, ProfileResponse } from '@/utils/customTypes';
-import { getAuthIdFromJwt } from '@/utils/helperFunctions';
+import {
+	formatEvent,
+	getAuthIdFromJwt,
+	isAvailableInHour,
+	isAvailableInMonth,
+	isNullUndefinedOrWhitespace,
+} from '@/utils/helperFunctions';
+import { GameEvent } from '@/models/gameevent';
 const router = express.Router();
 
 router.get('/api/profile', async (req: any, res: Response) => {
@@ -290,4 +298,112 @@ router.post('/api/profilesearch', async (req: Request, res: Response) => {
 
 	return res.status(200).send(resp);
 });
+
+router.post('/api/today', async (req: Request, res: Response) => {
+	const { hour, month } = req.body;
+	const authId = getAuthIdFromJwt(req.cookies.login_jwt);
+
+	// checking login status because it's okay if not logged in
+	const isLoggedIn = !isNullUndefinedOrWhitespace(authId);
+	let profile;
+	if (isLoggedIn) {
+		profile = await Profile.findOne({ authId: authId });
+		if (!profile) {
+			console.log(`invalid profile authId: ${authId}`);
+		}
+	}
+	const hemisphere = profile ? profile.hemisphere : hemispheres.NORTHERN;
+	const isNorthernHemisphere = hemisphere === hemispheres.NORTHERN;
+
+	const resp: ApiResponse = {
+		success: true,
+		message: '',
+		data: null,
+	};
+
+	const [critters, caught, villagers] = await Promise.all([
+		Critter.find(),
+		Caught.find({ authId }),
+		Villager.find(),
+	]);
+	const caughtUeids = caught.map(c => c.ueid);
+
+	const availableCritters = critters.filter(
+		c =>
+			isAvailableInMonth(
+				c,
+				month,
+				profile?.hemisphere || hemispheres.NORTHERN
+			) &&
+			isAvailableInHour(c.time || '', hour) &&
+			(isLoggedIn ? !caughtUeids.includes(c.ueid) : true)
+	);
+
+	const today = new Date();
+	const xDaysFromNow = new Date();
+	xDaysFromNow.setDate(today.getDate() + villagerBirthdayDayRange);
+
+	const todaysBirthdays: Array<IVillager> = [];
+	const upcomingBirthdays = villagers
+		.filter(v => {
+			const birthday = new Date(
+				`${v.birthday}/${today.getFullYear()} 23:59:59`
+			);
+			if (
+				today.getDate() === birthday.getDate() &&
+				today.getMonth() === birthday.getMonth()
+			) {
+				todaysBirthdays.push(v);
+			}
+			return birthday >= today && birthday <= xDaysFromNow;
+		})
+		.sort((a, b) => a.birthday.localeCompare(b.birthday));
+
+	const events = await GameEvent.find({});
+	const todaysEvents = events
+		.map(e => formatEvent(e, isNorthernHemisphere))
+		.map(e => {
+			if (!e) {
+				return;
+			}
+			if (e.activeDateRange.length > 0) {
+				return {
+					title: e.name,
+					startDate: new Date(e.activeDateRange[0]),
+					endDate: new Date(e.activeDateRange[1]),
+				};
+			} else {
+				return {
+					title: e.name,
+					startDate: new Date(e.activeDates[0]),
+					endDate: null,
+				};
+			}
+		})
+		.filter((e, i) => i > -1 && e !== undefined)
+		.filter(e => {
+			if (!e?.startDate || !e?.endDate) {
+				return false;
+			}
+			if (
+				e?.startDate.getDate() === today.getDate() &&
+				e?.startDate.getMonth() === today.getMonth()
+			) {
+				return true;
+			}
+			if (e?.startDate <= today && e?.endDate >= today) {
+				return true;
+			}
+		})
+		.map(e => ({ name: e?.title, endDate: e?.endDate }));
+
+	resp.data = {
+		todaysBirthdays,
+		todaysEvents,
+		upcomingBirthdays,
+		availableCritters,
+	};
+	return res.status(200).send(resp);
+});
+
 export { router as profileRouter };
