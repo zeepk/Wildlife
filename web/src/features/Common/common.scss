@@ -481,6 +481,13 @@
 					.villager > img {
 						height: 3rem;
 					}
+					.villager {
+						&.current {
+							background-color: $backgroundColor;
+							padding: 0 1rem;
+							border-radius: 0.5rem;
+						}
+					}
 				}
 
 				&.container--events {

@@ -95,9 +95,9 @@ export default function AuthButtons({ checkLogin }: Props) {
 		//			return profile
 		if (!isLoggedIn && checkLogin) {
 			dispatch(getUserProfile()).then((resp: any) => {
-				const data = resp.payload.data.data;
-				if (data.isLoggedIn && !data.profile) {
-					setTempAuthId(data.tempAuthId);
+				const data = resp.payload?.data?.data;
+				if (data?.isLoggedIn && !data?.profile) {
+					setTempAuthId(data?.tempAuthId);
 					setUsernameModalOpen(true);
 				} else {
 					dispatch(getUserFriendRequests());
@@ -126,7 +126,7 @@ export default function AuthButtons({ checkLogin }: Props) {
 					<div className="container--modal-username p-d-flex p-flex-column p-ai-center">
 						<InputText
 							value={username}
-							onChange={(e) => updateUsername(e.target.value)}
+							onChange={e => updateUsername(e.target.value)}
 						/>
 						<p className="text--error p-mb-2">{errorMessage}</p>
 						<AvatarDropdown callback={updateAvatar} selectedId={avatarId} />

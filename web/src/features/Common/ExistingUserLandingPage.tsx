@@ -6,8 +6,8 @@ import {
 	selectAuthLoading,
 	getTodayInfo,
 	selectDashboard,
-	selectAuthIsLoggedIn,
 	selectAccountExists,
+	selectAccountVillagers,
 } from 'features/Common/commonSlice';
 import { useHistory } from 'react-router-dom';
 import LoadingIcon from 'features/Common/LoadingIcon';
@@ -23,12 +23,14 @@ export function ExistingUserLandingPage() {
 	const loading = useAppSelector(selectAuthLoading);
 	const dashboard = useAppSelector(selectDashboard);
 	const accountExists = useAppSelector(selectAccountExists);
+	const accountVillagers = useAppSelector(selectAccountVillagers);
+	const villagerIds = accountVillagers ?? [];
 
 	useEffect(() => {
-		if (accountExists && dashboard?.upcomingBirthdays?.length === 0) {
+		if (!loading && dashboard?.upcomingBirthdays?.length === 0) {
 			dispatch(getTodayInfo());
 		}
-	}, [dispatch, dashboard?.upcomingBirthdays?.length, accountExists]);
+	}, [dispatch, dashboard?.upcomingBirthdays?.length, loading]);
 
 	if (loading || dashboard?.upcomingBirthdays?.length === 0) {
 		return <LoadingIcon fullScreen={true} />;
@@ -85,10 +87,12 @@ export function ExistingUserLandingPage() {
 										dashboard.todaysBirthdays.map(v => (
 											<div
 												key={v.name}
-												className="villager p-d-flex p-flex-column p-ai-center p-ml-3"
+												className={`villager ${
+													villagerIds.includes(v.ueid) && 'current'
+												} p-d-flex p-flex-column p-ai-center p-ml-3`}
 											>
 												<IconTemplate uri={v.icon_uri} altText={v.name} />
-												<div className="name">{v.name}</div>
+												<div className="name">{v.name}!</div>
 											</div>
 										))
 									)}
@@ -105,7 +109,9 @@ export function ExistingUserLandingPage() {
 											.map(v => (
 												<div
 													key={v._id}
-													className="villager p-d-flex p-flex-column p-ai-center p-ml-3"
+													className={`villager ${
+														villagerIds.includes(v.ueid) && 'current'
+													} p-d-flex p-flex-column p-ai-center p-ml-3`}
 												>
 													<IconTemplate uri={v.icon_uri} altText={v.name} />
 													<div className="name">{v.name}</div>
