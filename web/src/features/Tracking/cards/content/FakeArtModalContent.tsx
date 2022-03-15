@@ -24,7 +24,7 @@ export const FakeArtModalContent: FunctionComponent<props> = ({
 		setError(true);
 	};
 	return (
-		<div className="container--art-modal fake p-d-flex p-ai-center">
+		<div className="container--art-modal fake p-d-flex p-ai-center p-flex-column">
 			<div>
 				{isLoading && <LoadingIcon fullScreen={false} />}
 				{error && <div>{errorMessageNoArtFound}</div>}
@@ -53,6 +53,13 @@ export const FakeArtModalContent: FunctionComponent<props> = ({
 						onLoad={() => decrementLoading()}
 					/>
 				</div>
+			</div>
+			<div className="link p-mt-4">
+				Still not sure? Check out{' '}
+				<a href="https://www.polygon.com/animal-crossing-new-horizons-switch-acnh-guide/2020/4/23/21231433">
+					{'this article'}
+				</a>{' '}
+				for a more in-depth comparison.
 			</div>
 		</div>
 	);

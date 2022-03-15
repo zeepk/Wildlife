@@ -246,6 +246,11 @@
 
 		&.fake {
 			max-width: 100rem;
+
+			.link {
+				text-transform: none;
+				font-size: 1.4rem;
+			}
 		}
 
 		.spacer {
