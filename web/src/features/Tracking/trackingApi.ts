@@ -12,26 +12,29 @@ import {
 	friendsCaughtUrl,
 } from 'utils/constants';
 
-export async function getFish() {
+export async function getFish(data: { hour: number; month: string }) {
 	const requestOptions = {
 		url: `${fishUrl}`,
-		method: 'GET',
+		method: 'POST',
+		data,
 	};
 	return await requestWrapper(requestOptions);
 }
 
-export async function getBugs() {
+export async function getBugs(data: { hour: number; month: string }) {
 	const requestOptions = {
-		url: `${bugsUrl}`,
-		method: 'GET',
+		url: bugsUrl,
+		method: 'POST',
+		data,
 	};
 	return await requestWrapper(requestOptions);
 }
 
-export async function getSea() {
+export async function getSea(data: { hour: number; month: string }) {
 	const requestOptions = {
 		url: `${seaUrl}`,
-		method: 'GET',
+		method: 'POST',
+		data,
 	};
 	return await requestWrapper(requestOptions);
 }

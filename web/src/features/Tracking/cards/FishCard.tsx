@@ -9,12 +9,14 @@ import {
 	sourceText,
 } from 'utils/constants';
 import { IconTemplate } from '../common/IconTemplate';
+import { Badge } from 'primereact/badge';
 
 type props = {
 	item: Fish;
+	available: boolean;
 };
 
-export const FishCard: FunctionComponent<props> = ({ item }) => {
+export const FishCard: FunctionComponent<props> = ({ item, available }) => {
 	const hemisphere = useAppSelector(selectAccountHemisphere);
 
 	const months =
@@ -43,9 +45,19 @@ export const FishCard: FunctionComponent<props> = ({ item }) => {
 				<div>{shadowSizeText}</div>
 				<div>{item.shadow_size}</div>
 			</div>
-			<div className="container--card-info">
-				<div>{bellsSellText}</div>
-				<div>{item.bells_sell}</div>
+			<div className="container--card-footer p-d-flex p-jc-between">
+				<div className="container--card-info p-mr-1">
+					<div className="left">{bellsSellText}</div>
+					<div>{item.bells_sell}</div>
+				</div>
+				<div className="container--available-badge p-d-flex p-jc-end p-ai-start">
+					{available && (
+						<Badge
+							className="available-badge p-mt-2 p-pt-1 p-mr-1"
+							value="Available now!"
+						/>
+					)}
+				</div>
 			</div>
 		</div>
 	);
