@@ -6,12 +6,14 @@ type props = {
 	realUri: string;
 	fakeUri: string;
 	alt: string;
+	note?: string;
 };
 
 export const FakeArtModalContent: FunctionComponent<props> = ({
 	realUri,
 	fakeUri,
 	alt,
+	note,
 }) => {
 	const [loading, setLoading] = useState(2);
 	const [error, setError] = useState(false);
@@ -54,6 +56,7 @@ export const FakeArtModalContent: FunctionComponent<props> = ({
 					/>
 				</div>
 			</div>
+			<div className="note">{note}</div>
 			<div className="link p-mt-4">
 				Still not sure? Check out{' '}
 				<a href="https://www.polygon.com/animal-crossing-new-horizons-switch-acnh-guide/2020/4/23/21231433">

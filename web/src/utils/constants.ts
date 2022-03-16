@@ -1,3 +1,5 @@
+import { notStrictEqual } from 'assert';
+
 // global alert toast notification to show on every page load
 export const globalMessage = '';
 
@@ -284,5 +286,12 @@ export const months = [
 		nhColumn: 'nh_dec',
 		shColumn: 'sh_dec',
 		name: 'December',
+	},
+];
+
+export const fakeArtNotes: Array<{ ueid: string; note: string }> = [
+	{
+		ueid: 'zpAsguge9Yb29ksjS',
+		note: 'The fake statue has antennas for ears.',
 	},
 ];

@@ -247,6 +247,11 @@
 		&.fake {
 			max-width: 100rem;
 
+			.note {
+				text-transform: none;
+				font-size: 1.4rem;
+			}
+
 			.link {
 				text-transform: none;
 				font-size: 1.4rem;
