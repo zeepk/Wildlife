@@ -4,7 +4,7 @@ import { notStrictEqual } from 'assert';
 export const globalMessage = '';
 
 // version
-export const versionNumber = '2.2.0';
+export const versionNumber = '2.3.0';
 
 // urls
 export const apiBaseUrl = process.env.REACT_APP_API_URL;
