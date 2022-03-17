@@ -428,6 +428,9 @@
 			color: white;
 			text-align: left;
 
+			@media (max-width: 500px) {
+				padding: 0.5rem !important;
+			}
 			.welcome {
 				width: 100%;
 				text-align: center;
@@ -466,6 +469,9 @@
 				border-radius: 3rem;
 				margin: 1rem;
 				padding: 0.5rem;
+				@media (max-width: 500px) {
+					margin-bottom: 5vh;
+				}
 
 				&.container--birthdays {
 					width: 100%;
@@ -545,6 +551,10 @@
 				&.container--notes {
 					height: 40rem;
 					overflow-y: scroll;
+
+					@media (max-width: 500px) {
+						margin-bottom: 10vh;
+					}
 
 					.note {
 						background-color: $backgroundTan;

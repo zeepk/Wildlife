@@ -23,6 +23,7 @@ import {
 	Achievement,
 	Total,
 } from 'features/Tracking/trackingTypes';
+import { months } from 'utils/constants';
 
 export interface TrackingState {
 	loading: number;
@@ -37,6 +38,7 @@ export interface TrackingState {
 	achievements: Array<Achievement>;
 	totals: Array<Total>;
 	overall: Total | null;
+	available: Array<string>;
 }
 
 const initialState: TrackingState = {
@@ -52,20 +54,33 @@ const initialState: TrackingState = {
 	achievements: [],
 	totals: [],
 	overall: null,
+	available: [],
 };
 
 export const getAllFish = createAsyncThunk('tracking/fish', async () => {
-	const response = await getFish();
+	const today = new Date();
+	const response = await getFish({
+		hour: today.getHours(),
+		month: months[today.getMonth()].name,
+	});
 	return response;
 });
 
 export const getAllBugs = createAsyncThunk('tracking/bugs', async () => {
-	const response = await getBugs();
+	const today = new Date();
+	const response = await getBugs({
+		hour: today.getHours(),
+		month: months[today.getMonth()].name,
+	});
 	return response;
 });
 
 export const getAllSea = createAsyncThunk('tracking/sea', async () => {
-	const response = await getSea();
+	const today = new Date();
+	const response = await getSea({
+		hour: today.getHours(),
+		month: months[today.getMonth()].name,
+	});
 	return response;
 });
 
@@ -94,7 +109,7 @@ export const getAllReactions = createAsyncThunk(
 	async () => {
 		const response = await getReactions();
 		return response;
-	},
+	}
 );
 
 export const getAllAchievements = createAsyncThunk(
@@ -102,7 +117,7 @@ export const getAllAchievements = createAsyncThunk(
 	async () => {
 		const response = await getAchievements();
 		return response;
-	},
+	}
 );
 
 export const getAllFriendsCaught = createAsyncThunk(
@@ -110,7 +125,7 @@ export const getAllFriendsCaught = createAsyncThunk(
 	async (ueid: string) => {
 		const response = await getFriendsCaught(ueid);
 		return response;
-	},
+	}
 );
 // Loading is controlled by the number of loading calls currently active
 // the loading count is increased when a call is made, and decreased when the call completes
@@ -127,33 +142,45 @@ export const trackingSlice = createSlice({
 	name: 'tracking',
 	initialState,
 	reducers: {},
-	extraReducers: (builder) => {
+	extraReducers: builder => {
 		builder
-			.addCase(getAllFish.pending, (state) => {
+			.addCase(getAllFish.pending, state => {
 				incrementLoading(state);
 				state.fish = [];
 			})
 			.addCase(getAllFish.fulfilled, (state, action) => {
 				decrementLoading(state);
-				state.fish = action.payload.data;
+				state.fish = action.payload.data.critters;
+				state.available = [
+					...state.available,
+					...action.payload.data.available,
+				];
 			})
-			.addCase(getAllBugs.pending, (state) => {
+			.addCase(getAllBugs.pending, state => {
 				incrementLoading(state);
 				state.bugs = [];
 			})
 			.addCase(getAllBugs.fulfilled, (state, action) => {
 				decrementLoading(state);
-				state.bugs = action.payload.data;
+				state.bugs = action.payload.data.critters;
+				state.available = [
+					...state.available,
+					...action.payload.data.available,
+				];
 			})
-			.addCase(getAllSea.pending, (state) => {
+			.addCase(getAllSea.pending, state => {
 				incrementLoading(state);
 				state.sea = [];
 			})
 			.addCase(getAllSea.fulfilled, (state, action) => {
 				decrementLoading(state);
-				state.sea = action.payload.data;
+				state.sea = action.payload.data.critters;
+				state.available = [
+					...state.available,
+					...action.payload.data.available,
+				];
 			})
-			.addCase(getAllFossils.pending, (state) => {
+			.addCase(getAllFossils.pending, state => {
 				incrementLoading(state);
 				state.fossils = [];
 			})
@@ -161,7 +188,7 @@ export const trackingSlice = createSlice({
 				decrementLoading(state);
 				state.fossils = action.payload.data;
 			})
-			.addCase(getAllReactions.pending, (state) => {
+			.addCase(getAllReactions.pending, state => {
 				incrementLoading(state);
 				state.reactions = [];
 			})
@@ -169,7 +196,7 @@ export const trackingSlice = createSlice({
 				decrementLoading(state);
 				state.reactions = action.payload.data;
 			})
-			.addCase(getAllMusic.pending, (state) => {
+			.addCase(getAllMusic.pending, state => {
 				incrementLoading(state);
 				state.music = [];
 			})
@@ -177,7 +204,7 @@ export const trackingSlice = createSlice({
 				decrementLoading(state);
 				state.music = action.payload.data;
 			})
-			.addCase(getAllAchievements.pending, (state) => {
+			.addCase(getAllAchievements.pending, state => {
 				incrementLoading(state);
 				state.achievements = [];
 			})
@@ -185,7 +212,7 @@ export const trackingSlice = createSlice({
 				decrementLoading(state);
 				state.achievements = action.payload.data;
 			})
-			.addCase(getAllArt.pending, (state) => {
+			.addCase(getAllArt.pending, state => {
 				incrementLoading(state);
 				state.art = [];
 			})
@@ -193,7 +220,7 @@ export const trackingSlice = createSlice({
 				decrementLoading(state);
 				state.art = action.payload.data;
 			})
-			.addCase(getUserTotals.pending, (state) => {
+			.addCase(getUserTotals.pending, state => {
 				incrementLoading(state);
 				state.totals = [];
 			})
@@ -224,5 +251,6 @@ export const selectReactions = (state: RootState) =>
 	state.tracking.reactions.slice().sort((a, b) => a.order - b.order);
 export const selectTotals = (state: RootState) => state.tracking.totals;
 export const selectOverall = (state: RootState) => state.tracking.overall;
+export const selectAvailable = (state: RootState) => state.tracking.available;
 
 export default trackingSlice.reducer;

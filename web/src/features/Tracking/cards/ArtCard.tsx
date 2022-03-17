@@ -7,6 +7,7 @@ import {
 	artAlwaysRealText,
 	artFakeComparisonButtonText,
 	artViewButtonText,
+	fakeArtNotes,
 } from 'utils/constants';
 import { IconTemplate } from '../common/IconTemplate';
 import { isNullUndefinedOrWhitespace } from 'utils/helperFunctions';
@@ -20,6 +21,7 @@ type props = {
 export const ArtCard: FunctionComponent<props> = ({ item }) => {
 	const [visible, setVisible] = useState(false);
 	const [modalContent, setModalContent] = useState(<h1>unset</h1>);
+	const note = fakeArtNotes.find(n => n.ueid === item.ueid)?.note;
 
 	const realArtModalContent = (
 		<RealArtModalContent uri={item.image_uri} alt={item.name} />
@@ -30,6 +32,7 @@ export const ArtCard: FunctionComponent<props> = ({ item }) => {
 			realUri={item.image_uri || item.icon_uri}
 			fakeUri={item.fake_uri}
 			alt={item.name}
+			note={note}
 		/>
 	);
 

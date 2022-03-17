@@ -189,6 +189,19 @@
 					}
 				}
 
+				.container--card-footer {
+					div {
+						width: 45%;
+
+						.available-badge {
+							font-weight: normal;
+							height: 2rem;
+							width: 90%;
+							font-size: 1rem;
+						}
+					}
+				}
+
 				.container--card-info {
 					text-align: right;
 					display: flex;
@@ -202,6 +215,10 @@
 					white-space: nowrap;
 					overflow: hidden;
 					margin-bottom: 1rem;
+
+					.left {
+						text-align: left;
+					}
 
 					.pi {
 						font-size: 1.3rem;
@@ -246,6 +263,16 @@
 
 		&.fake {
 			max-width: 100rem;
+
+			.note {
+				text-transform: none;
+				font-size: 1.4rem;
+			}
+
+			.link {
+				text-transform: none;
+				font-size: 1.4rem;
+			}
 		}
 
 		.spacer {

@@ -10,12 +10,14 @@ import {
 } from 'utils/constants';
 import { IconTemplate } from '../common/IconTemplate';
 import { calculateRarity } from 'utils/helperFunctions';
+import { Badge } from 'primereact/badge';
 
 type props = {
 	item: Sea;
+	available: boolean;
 };
 
-export const SeaCard: FunctionComponent<props> = ({ item }) => {
+export const SeaCard: FunctionComponent<props> = ({ item, available }) => {
 	const hemisphere = useAppSelector(selectAccountHemisphere);
 
 	const months =
@@ -44,9 +46,19 @@ export const SeaCard: FunctionComponent<props> = ({ item }) => {
 				<div>{rarityText}</div>
 				<div>{calculateRarity(item.spawn_rates)}</div>
 			</div>
-			<div className="container--card-info">
-				<div>{bellsSellText}</div>
-				<div>{item.bells_sell}</div>
+			<div className="container--card-footer p-d-flex p-jc-between">
+				<div className="container--card-info p-mr-1">
+					<div className="left">{bellsSellText}</div>
+					<div>{item.bells_sell}</div>
+				</div>
+				<div className="container--available-badge p-d-flex p-jc-end p-ai-start">
+					{available && (
+						<Badge
+							className="available-badge p-mt-2 p-pt-1 p-mr-1"
+							value="Available now!"
+						/>
+					)}
+				</div>
 			</div>
 		</div>
 	);

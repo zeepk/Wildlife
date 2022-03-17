@@ -9,25 +9,107 @@ import {
 	isNullUndefinedOrWhitespace,
 } from '@/utils/helperFunctions';
 import { Profile } from '@/models/profile';
+import { Caught } from '@/models/caught';
 
 router.get('/api/critters', async (req: Request, res: Response) => {
 	const critters = await Critter.find({});
 	return res.status(200).send(critters);
 });
 
-router.get('/api/fish', async (req: Request, res: Response) => {
+router.post('/api/fish', async (req: Request, res: Response) => {
+	const authId = getAuthIdFromJwt(req.cookies.login_jwt);
+	const { hour, month } = req.body;
+
+	// checking login status because it's okay if not logged in
+	const isLoggedIn = !isNullUndefinedOrWhitespace(authId);
+	let profile;
+	if (isLoggedIn) {
+		profile = await Profile.findOne({ authId: authId });
+		if (!profile) {
+			console.log(`invalid profile authId: ${authId}`);
+		}
+	}
 	const critters = await Critter.find({ critter_type: critterTypes.FISH });
-	return res.status(200).send(critters);
+
+	const available = critters
+		.filter(
+			c =>
+				isAvailableInMonth(
+					c,
+					month,
+					profile?.hemisphere || hemispheres.NORTHERN
+				) && isAvailableInHour(c.time || '', hour)
+		)
+		.map(c => c.ueid);
+	const resp = {
+		critters,
+		available,
+	};
+	return res.status(200).send(resp);
 });
 
-router.get('/api/bugs', async (req: Request, res: Response) => {
+router.post('/api/bugs', async (req: Request, res: Response) => {
+	const authId = getAuthIdFromJwt(req.cookies.login_jwt);
+	const { hour, month } = req.body;
+
+	// checking login status because it's okay if not logged in
+	const isLoggedIn = !isNullUndefinedOrWhitespace(authId);
+	let profile;
+	if (isLoggedIn) {
+		profile = await Profile.findOne({ authId: authId });
+		if (!profile) {
+			console.log(`invalid profile authId: ${authId}`);
+		}
+	}
 	const critters = await Critter.find({ critter_type: critterTypes.BUG });
-	return res.status(200).send(critters);
+
+	const available = critters
+		.filter(
+			c =>
+				isAvailableInMonth(
+					c,
+					month,
+					profile?.hemisphere || hemispheres.NORTHERN
+				) && isAvailableInHour(c.time || '', hour)
+		)
+		.map(c => c.ueid);
+	const resp = {
+		critters,
+		available,
+	};
+	return res.status(200).send(resp);
 });
 
-router.get('/api/sea', async (req: Request, res: Response) => {
+router.post('/api/sea', async (req: Request, res: Response) => {
+	const authId = getAuthIdFromJwt(req.cookies.login_jwt);
+	const { hour, month } = req.body;
+
+	// checking login status because it's okay if not logged in
+	const isLoggedIn = !isNullUndefinedOrWhitespace(authId);
+	let profile;
+	if (isLoggedIn) {
+		profile = await Profile.findOne({ authId: authId });
+		if (!profile) {
+			console.log(`invalid profile authId: ${authId}`);
+		}
+	}
 	const critters = await Critter.find({ critter_type: critterTypes.SEA });
-	return res.status(200).send(critters);
+
+	const available = critters
+		.filter(
+			c =>
+				isAvailableInMonth(
+					c,
+					month,
+					profile?.hemisphere || hemispheres.NORTHERN
+				) && isAvailableInHour(c.time || '', hour)
+		)
+		.map(c => c.ueid);
+	const resp = {
+		critters,
+		available,
+	};
+	return res.status(200).send(resp);
 });
 
 router.post('/api/critters', async (req: Request, res: Response) => {

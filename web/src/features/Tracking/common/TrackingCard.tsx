@@ -32,6 +32,7 @@ import { VillagerCard } from '../cards/VillagerCard';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { FriendsCaughtModalContent } from './FriendsCaughtModalContent';
+import { selectAvailable } from '../trackingSlice';
 
 type props = {
 	item:
@@ -57,8 +58,11 @@ export const TrackingCard: FunctionComponent<props> = ({
 	const [allowCheck, setAllowCheck] = useState(true);
 	const [modalOpen, setModalOpen] = useState(false);
 	const caught = useAppSelector(selectCaughtUeids);
+	const available = useAppSelector(selectAvailable);
 	const isCaught = caught.includes(item.ueid);
 	const [checked, setChecked] = useState(isCaught);
+
+	const isAvailable = available.includes(item.ueid);
 
 	useEffect(() => {
 		setChecked(isCaught);
@@ -113,13 +117,13 @@ export const TrackingCard: FunctionComponent<props> = ({
 	let body = <div />;
 	switch (item.critter_type) {
 		case critterTypes.FISH:
-			body = <FishCard item={item as Fish} />;
+			body = <FishCard item={item as Fish} available={isAvailable} />;
 			break;
 		case critterTypes.BUG:
-			body = <BugCard item={item as Bug} />;
+			body = <BugCard item={item as Bug} available={isAvailable} />;
 			break;
 		case critterTypes.SEA:
-			body = <SeaCard item={item as Sea} />;
+			body = <SeaCard item={item as Sea} available={isAvailable} />;
 			break;
 		case critterTypes.ART:
 			body = <ArtCard item={item as Art} />;

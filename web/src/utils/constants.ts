@@ -1,3 +1,5 @@
+import { notStrictEqual } from 'assert';
+
 // global alert toast notification to show on every page load
 export const globalMessage = '';
 
@@ -86,7 +88,7 @@ export const caughtTextVillager = 'Resident';
 export const caughtTextNot = 'Not Yet';
 export const shadowSizeText = 'Shadow Size:';
 export const sourceText = 'Location:';
-export const bellsSellText = 'Sale price:';
+export const bellsSellText = 'Bells:';
 export const weatherText = 'Weather:';
 export const speedText = 'Speed:';
 export const rarityText = 'Rarity:';
@@ -284,5 +286,12 @@ export const months = [
 		nhColumn: 'nh_dec',
 		shColumn: 'sh_dec',
 		name: 'December',
+	},
+];
+
+export const fakeArtNotes: Array<{ ueid: string; note: string }> = [
+	{
+		ueid: 'zpAsguge9Yb29ksjS',
+		note: 'The fake statue has antennas for ears.',
 	},
 ];
