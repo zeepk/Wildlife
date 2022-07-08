@@ -44,49 +44,49 @@ function App() {
 			<Router>
 				<Navbar />
 				<Switch>
-					<Route exact path="/login/:id">
+					<Route path="/login/:id">
 						<Login />
 					</Route>
-					<Route exact path="/account">
+					<Route path="/account">
 						{isLoggedIn ? <AccountSettings /> : <Redirect to="/" />}
 					</Route>
-					<Route exact path="/totals">
+					<Route path="/totals">
 						{isLoggedIn ? <TotalsPage /> : <Redirect to="/" />}
 					</Route>
-					<Route exact path="/friends">
+					<Route path="/friends">
 						{isLoggedIn ? <FriendsPage /> : <Redirect to="/" />}
 					</Route>
-					<Route exact path="/events">
+					<Route path="/events">
 						<EventsPage />
 					</Route>
-					<Route exact path="/fish">
+					<Route path="/fish">
 						<FishPage />
 					</Route>
-					<Route exact path="/bugs">
+					<Route path="/bugs">
 						<BugsPage />
 					</Route>
-					<Route exact path="/sea">
+					<Route path="/sea">
 						<SeaPage />
 					</Route>
-					<Route exact path="/art">
+					<Route path="/art">
 						<ArtPage />
 					</Route>
-					<Route exact path="/fossils">
+					<Route path="/fossils">
 						<FossilsPage />
 					</Route>
-					<Route exact path="/reactions">
+					<Route path="/reactions">
 						<ReactionsPage />
 					</Route>
-					<Route exact path="/music">
+					<Route path="/music">
 						<MusicPage />
 					</Route>
-					<Route exact path="/achievements">
+					<Route path="/achievements">
 						<AchievementsPage />
 					</Route>
-					<Route exact path="/villagers">
+					<Route path="/villagers">
 						<VillagersPage />
 					</Route>
-					<Route exact path="/support">
+					<Route path="/support">
 						<SupportPage />
 					</Route>
 					<Route path="/">

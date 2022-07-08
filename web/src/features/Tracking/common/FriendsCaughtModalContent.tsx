@@ -44,8 +44,8 @@ export const FriendsCaughtModalContent: FunctionComponent<props> = ({
 		setIsLoading(true);
 		if (isVillager) {
 			const friendsWithVillager = friends
-				.filter((f) => f.villagers.includes(item.ueid))
-				.map((f) => f.username);
+				.filter(f => f.villagers.includes(item.ueid))
+				.map(f => f.username);
 			setFriendsCaught(friendsWithVillager);
 			setIsLoading(false);
 			return;
@@ -81,9 +81,9 @@ export const FriendsCaughtModalContent: FunctionComponent<props> = ({
 
 	return (
 		<div>
-			{friends.map((f) => {
+			{friends.map(f => {
 				const isCaught = friendsCaught.includes(f.username);
-				const severity = isCaught ? 'success' : 'warning';
+				const severity = isCaught ? 'success' : 'warn';
 				const value = isCaught
 					? isVillager
 						? caughtTextVillager
