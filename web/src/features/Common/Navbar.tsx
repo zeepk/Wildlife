@@ -26,10 +26,10 @@ export function Navbar() {
 		}
 	}, [message]);
 
-	const navbarMenuItemComponents = navbarMenuItems.map((item) => {
-		if (!isDevEnv() && !item.active) {
-			return <div />;
-		}
+	const navbarMenuItemComponents = navbarMenuItems.map(item => {
+		// if (!isDevEnv() && !item.active) {
+		// 	return <div />;
+		// }
 		return {
 			template: () => (
 				<Link className="navbar-item p-px-2" to={item.path}>

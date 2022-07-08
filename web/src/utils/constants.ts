@@ -4,7 +4,7 @@ import { notStrictEqual } from 'assert';
 export const globalMessage = '';
 
 // version
-export const versionNumber = '2.3.0';
+export const versionNumber = '2.4.0';
 
 // urls
 export const apiBaseUrl = process.env.REACT_APP_API_URL;
@@ -35,7 +35,7 @@ export const friendsCaughtUrl = `${apiBaseUrl}/api/friends/caught`;
 export const gameEventsUrl = `${apiBaseUrl}/api/events`;
 export const todayUrl = `${apiBaseUrl}/api/today`;
 export const defaultAvatarUrl =
-	'https://64.media.tumblr.com/660a46fe7a5825d898e36fc8c240685b/bd38759d70dd2985-ab/s400x600/05eb60dacdbb47e946713a8aaa048274dc176cb7.png';
+    'https://64.media.tumblr.com/660a46fe7a5825d898e36fc8c240685b/bd38759d70dd2985-ab/s400x600/05eb60dacdbb47e946713a8aaa048274dc176cb7.png';
 export const twitterUsername = '@matthughes2112';
 export const twitterUrl = `https://twitter.com/${twitterUsername}`;
 export const githubUrl = 'https://github.com/zeepk/wildlife';
@@ -63,7 +63,7 @@ export const accountSettingsImportDataText = 'Import from old AC Wildlife';
 export const accountSettingsImportDataButtonText = 'Import';
 export const accountSettingsImportDataPlaceholderText = 'Data text';
 export const accountSettingsImportDataLoadingText =
-	'Importing your data. This could take a minute or so.';
+    'Importing your data. This could take a minute or so.';
 export const accountSettingsVillagersTitleText = 'Current Villagers';
 
 export const friendsTitleText = 'Friends';
@@ -79,7 +79,7 @@ export const addFriendConfirmText = 'Confirm';
 export const addFriendDeleteText = 'Delete';
 export const removeFriendModalHeader = 'Remove Friend?';
 export const removeFriendModalText =
-	'Are you sure you want to remove your friend';
+    'Are you sure you want to remove your friend';
 export const removeFriendModalButtonYesText = 'Yes :(';
 export const removeFriendModalButtonNoText = 'Wait...';
 
@@ -101,26 +101,26 @@ export const artAlwaysRealText = 'Always real!';
 export const artFakeComparisonButtonText = 'View fake comparison';
 export const villagerReactionText = 'You can get this from';
 export const landingPageNewUserText =
-	"Welcome!\nHere you can track your progress in Animal Crossing: New Horizons\nFeel free to poke around, but be sure to sign up so we can remember what you've caught!";
+    "Welcome!\nHere you can track your progress in Animal Crossing: New Horizons\nFeel free to poke around, but be sure to sign up so we can remember what you've caught!";
 export const landingPageExistingUserText =
-	'Welcome back!\n\nLet me know if you have any feedback!\n(discord and twitter links below)';
+    'Welcome back!\n\nLet me know if you have any feedback!\n(discord and twitter links below)';
 
 export const successMessageDataImported =
-	'Data imported successfully! Try refreshing in a minute or so.';
+    'Data imported successfully! Try refreshing in a minute or so.';
 export const successMessageAccountSettingsUpdated =
-	'Account updated successfully!';
+    'Account updated successfully!';
 
 export const errorMessageAccountSettingsCannotImport =
-	'Error importing data. Please try again or contact support.';
+    'Error importing data. Please try again or contact support.';
 export const errorMessageAccountSettingsNotLoggedIn =
-	'You must be logged in to view your account settings!';
+    'You must be logged in to view your account settings!';
 export const errorMessageAccountSettingsCannotUpdate =
-	'Could not update your account. Please try again or contact support.';
+    'Could not update your account. Please try again or contact support.';
 export const errorMessageNoArtFound = 'High-res art image could not be loaded.';
 export const errorMessageNoUserFound = 'Cannot find user:';
 export const errorMessageUsernameTaken = 'Username is already taken!';
 export const errorMessageInvalidImportData =
-	'Invalid format for import data. Please try again or contact support.';
+    'Invalid format for import data. Please try again or contact support.';
 export const errorMessageVillagerExists = 'is already on your island!';
 
 // thresholds
@@ -136,162 +136,174 @@ export const errorMessageUsernameInvalidLength = `Let's keep it between ${minUse
 // types
 
 export enum critterTypes {
-	FISH = 'FISH',
-	BUG = 'BUG',
-	SEA = 'SEA',
-	SONG = 'SONG',
-	FOSSIL = 'FOSSIL',
-	ART = 'ART',
-	GYROID = 'GYROID',
-	VILLAGER = 'VILLAGER',
-	REACTION = 'REACTION',
-	ACHIEVEMENT = 'ACHIEVEMENT',
+    FISH = 'FISH',
+    BUG = 'BUG',
+    SEA = 'SEA',
+    SONG = 'SONG',
+    FOSSIL = 'FOSSIL',
+    ART = 'ART',
+    GYROID = 'GYROID',
+    VILLAGER = 'VILLAGER',
+    REACTION = 'REACTION',
+    ACHIEVEMENT = 'ACHIEVEMENT',
 }
 
 export enum hemispheres {
-	NORTHERN = 0,
-	SOUTHERN = 1,
+    NORTHERN = 0,
+    SOUTHERN = 1,
 }
 
 export const hemisphereChoices = [
-	{
-		id: hemispheres.NORTHERN,
-		text: 'Northern',
-	},
-	{
-		id: hemispheres.SOUTHERN,
-		text: 'Southern',
-	},
+    {
+        id: hemispheres.NORTHERN,
+        text: 'Northern',
+    },
+    {
+        id: hemispheres.SOUTHERN,
+        text: 'Southern',
+    },
 ];
 
 export const footerLinks = [
-	{ id: 0, text: `v${versionNumber}`, class: 'version' },
-	{ id: 1, text: 'github code', link: githubUrl, class: 'code' },
-	{ id: 2, text: 'twitter / feedback', link: twitterUrl, class: 'twitter' },
-	{
-		id: 3,
-		text: 'watch me code this on twitch',
-		link: twitchUrl,
-		class: 'twitch',
-	},
-	{ id: 4, text: 'about', link: '/support', class: 'code' },
-	{ id: 5, text: 'discord / support', link: discordUrl, class: 'discord' },
+    { id: 0, text: `v${versionNumber}`, class: 'version' },
+    { id: 1, text: 'github code', link: githubUrl, class: 'code' },
+    { id: 2, text: 'twitter / feedback', link: twitterUrl, class: 'twitter' },
+    {
+        id: 3,
+        text: 'watch me code this on twitch',
+        link: twitchUrl,
+        class: 'twitch',
+    },
+    { id: 4, text: 'about', link: '/support', class: 'code' },
+    { id: 5, text: 'discord / support', link: discordUrl, class: 'discord' },
 ];
 
 export const navbarMenuItems = [
-	{ id: 0, text: 'Fish', path: '/fish', active: true, type: critterTypes.FISH },
-	{ id: 1, text: 'Bugs', path: '/bugs', active: true, type: critterTypes.BUG },
-	{ id: 2, text: 'Sea', path: '/sea', active: true, type: critterTypes.SEA },
-	{
-		id: 3,
-		text: 'Fossils',
-		path: '/fossils',
-		active: true,
-		type: critterTypes.FOSSIL,
-	},
-	{ id: 4, text: 'Art', path: '/art', active: true, type: critterTypes.ART },
-	{
-		id: 5,
-		text: 'Music',
-		path: '/music',
-		active: true,
-		type: critterTypes.SONG,
-	},
-	{
-		id: 6,
-		text: 'Reactions',
-		path: '/reactions',
-		active: true,
-		type: critterTypes.REACTION,
-	},
-	{
-		id: 7,
-		text: 'Villagers',
-		path: '/villagers',
-		active: true,
-		type: critterTypes.VILLAGER,
-	},
-	{
-		id: 8,
-		text: 'Achievements',
-		path: '/achievements',
-		active: true,
-		type: critterTypes.ACHIEVEMENT,
-	},
-	{
-		id: 9,
-		text: 'Events',
-		path: '/events',
-		active: true,
-	},
+    {
+        id: 0,
+        text: 'Fish',
+        path: '/fish',
+        active: true,
+        type: critterTypes.FISH,
+    },
+    {
+        id: 1,
+        text: 'Bugs',
+        path: '/bugs',
+        active: true,
+        type: critterTypes.BUG,
+    },
+    { id: 2, text: 'Sea', path: '/sea', active: true, type: critterTypes.SEA },
+    {
+        id: 3,
+        text: 'Fossils',
+        path: '/fossils',
+        active: true,
+        type: critterTypes.FOSSIL,
+    },
+    { id: 4, text: 'Art', path: '/art', active: true, type: critterTypes.ART },
+    {
+        id: 5,
+        text: 'Music',
+        path: '/music',
+        active: true,
+        type: critterTypes.SONG,
+    },
+    {
+        id: 6,
+        text: 'Reactions',
+        path: '/reactions',
+        active: true,
+        type: critterTypes.REACTION,
+    },
+    {
+        id: 7,
+        text: 'Villagers',
+        path: '/villagers',
+        active: true,
+        type: critterTypes.VILLAGER,
+    },
+    {
+        id: 8,
+        text: 'Achievements',
+        path: '/achievements',
+        active: true,
+        type: critterTypes.ACHIEVEMENT,
+    },
+    {
+        id: 9,
+        text: 'Events',
+        path: '/events',
+        active: true,
+    },
 ];
 
 export const months = [
-	{
-		nhColumn: 'nh_jan',
-		shColumn: 'sh_jan',
-		name: 'January',
-	},
-	{
-		nhColumn: 'nh_feb',
-		shColumn: 'sh_feb',
-		name: 'February',
-	},
-	{
-		nhColumn: 'nh_mar',
-		shColumn: 'sh_mar',
-		name: 'March',
-	},
-	{
-		nhColumn: 'nh_apr',
-		shColumn: 'sh_apr',
-		name: 'April',
-	},
-	{
-		nhColumn: 'nh_may',
-		shColumn: 'sh_may',
-		name: 'May',
-	},
-	{
-		nhColumn: 'nh_jun',
-		shColumn: 'sh_jun',
-		name: 'June',
-	},
-	{
-		nhColumn: 'nh_jul',
-		shColumn: 'sh_jul',
-		name: 'July',
-	},
-	{
-		nhColumn: 'nh_aug',
-		shColumn: 'sh_aug',
-		name: 'August',
-	},
-	{
-		nhColumn: 'nh_sep',
-		shColumn: 'sh_sep',
-		name: 'September',
-	},
-	{
-		nhColumn: 'nh_oct',
-		shColumn: 'sh_oct',
-		name: 'October',
-	},
-	{
-		nhColumn: 'nh_nov',
-		shColumn: 'sh_nov',
-		name: 'November',
-	},
-	{
-		nhColumn: 'nh_dec',
-		shColumn: 'sh_dec',
-		name: 'December',
-	},
+    {
+        nhColumn: 'nh_jan',
+        shColumn: 'sh_jan',
+        name: 'January',
+    },
+    {
+        nhColumn: 'nh_feb',
+        shColumn: 'sh_feb',
+        name: 'February',
+    },
+    {
+        nhColumn: 'nh_mar',
+        shColumn: 'sh_mar',
+        name: 'March',
+    },
+    {
+        nhColumn: 'nh_apr',
+        shColumn: 'sh_apr',
+        name: 'April',
+    },
+    {
+        nhColumn: 'nh_may',
+        shColumn: 'sh_may',
+        name: 'May',
+    },
+    {
+        nhColumn: 'nh_jun',
+        shColumn: 'sh_jun',
+        name: 'June',
+    },
+    {
+        nhColumn: 'nh_jul',
+        shColumn: 'sh_jul',
+        name: 'July',
+    },
+    {
+        nhColumn: 'nh_aug',
+        shColumn: 'sh_aug',
+        name: 'August',
+    },
+    {
+        nhColumn: 'nh_sep',
+        shColumn: 'sh_sep',
+        name: 'September',
+    },
+    {
+        nhColumn: 'nh_oct',
+        shColumn: 'sh_oct',
+        name: 'October',
+    },
+    {
+        nhColumn: 'nh_nov',
+        shColumn: 'sh_nov',
+        name: 'November',
+    },
+    {
+        nhColumn: 'nh_dec',
+        shColumn: 'sh_dec',
+        name: 'December',
+    },
 ];
 
 export const fakeArtNotes: Array<{ ueid: string; note: string }> = [
-	{
-		ueid: 'zpAsguge9Yb29ksjS',
-		note: 'The fake statue has antennas for ears.',
-	},
+    {
+        ueid: 'zpAsguge9Yb29ksjS',
+        note: 'The fake statue has antennas for ears.',
+    },
 ];
