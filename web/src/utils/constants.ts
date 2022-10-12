@@ -306,4 +306,8 @@ export const fakeArtNotes: Array<{ ueid: string; note: string }> = [
         ueid: 'zpAsguge9Yb29ksjS',
         note: 'The fake statue has antennas for ears.',
     },
+    {
+        ueid: '5ZWqwpgKjNRGgT44E',
+        note: 'The fake statue is holding a shovel instead of a sword.',
+    },
 ];
