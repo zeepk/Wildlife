@@ -5,18 +5,14 @@
   "public": true,
   "builds": [
     {
-      "src": "src/server.ts",
+      "src": "./src/server.ts",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/favicon.ico",
-      "status": 204
-    },
-    {
       "src": "/(.*)",
-      "dest": "/src/server.ts"
+      "dest": "server.ts"
     }
   ]
 }
