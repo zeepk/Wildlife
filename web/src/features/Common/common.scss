@@ -450,18 +450,6 @@
 					justify-content: center;
 				}
 			}
-			.dashboard-right {
-				width: 30%;
-				@media (max-width: 500px) {
-					width: 100%;
-					justify-content: center;
-					margin-left: 0 !important;
-					div {
-						width: 100%;
-						margin: 0;
-					}
-				}
-			}
 			.dashboard-container {
 				min-height: 20vh;
 				background-color: $mediumDarkGreen;
