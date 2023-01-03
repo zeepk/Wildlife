@@ -444,6 +444,7 @@
 				border-bottom: 0.5rem solid $backgroundColor;
 			}
 			.dashboard-left {
+				width: 100%;
 				@media (max-width: 500px) {
 					width: 100%;
 					justify-content: center;
