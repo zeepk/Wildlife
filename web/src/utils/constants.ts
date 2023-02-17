@@ -42,7 +42,7 @@ export const githubUrl = 'https://github.com/zeepk/wildlife';
 export const githubSponsorUrl = 'https://github.com/sponsors/zeepk';
 export const twitchUrl = 'https://www.twitch.tv/zee_pk';
 export const portfolioUrl = 'https://matthughes.dev/support';
-export const discordUrl = 'https://discord.gg/XK369Ez6nY';
+export const discordUrl = 'https://discord.gg/drcgC6GNM3';
 
 // verbiage
 
