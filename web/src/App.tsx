@@ -1,12 +1,12 @@
 import React from 'react';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import { useAppSelector } from './app/hooks';
 import { selectAuthIsLoggedIn } from 'features/Common/commonSlice';
 import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	Redirect,
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
 } from 'react-router-dom';
 import { LandingPage } from 'features/Common/LandingPage';
 import { Footer } from 'features/Common/Footer';
@@ -32,71 +32,71 @@ import { FriendsPage } from 'features/Common/Friends/FriendsPage';
 import { EventsPage } from 'features/Common/EventsPage';
 import { Login } from 'features/Common/Auth/Login';
 function initializeReactGA() {
-	ReactGA.initialize('UA-165301764-1');
-	ReactGA.pageview('/homepage');
+    console.log(process.env.REACT_APP_GA_TRACKING_ID as string);
+    ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID as string);
 }
 initializeReactGA();
 
 function App() {
-	const isLoggedIn = useAppSelector(selectAuthIsLoggedIn);
-	return (
-		<div className="App">
-			<Router>
-				<Navbar />
-				<Switch>
-					<Route path="/login/:id">
-						<Login />
-					</Route>
-					<Route path="/account">
-						{isLoggedIn ? <AccountSettings /> : <Redirect to="/" />}
-					</Route>
-					<Route path="/totals">
-						{isLoggedIn ? <TotalsPage /> : <Redirect to="/" />}
-					</Route>
-					<Route path="/friends">
-						{isLoggedIn ? <FriendsPage /> : <Redirect to="/" />}
-					</Route>
-					<Route path="/events">
-						<EventsPage />
-					</Route>
-					<Route path="/fish">
-						<FishPage />
-					</Route>
-					<Route path="/bugs">
-						<BugsPage />
-					</Route>
-					<Route path="/sea">
-						<SeaPage />
-					</Route>
-					<Route path="/art">
-						<ArtPage />
-					</Route>
-					<Route path="/fossils">
-						<FossilsPage />
-					</Route>
-					<Route path="/reactions">
-						<ReactionsPage />
-					</Route>
-					<Route path="/music">
-						<MusicPage />
-					</Route>
-					<Route path="/achievements">
-						<AchievementsPage />
-					</Route>
-					<Route path="/villagers">
-						<VillagersPage />
-					</Route>
-					<Route path="/support">
-						<SupportPage />
-					</Route>
-					<Route path="/">
-						<LandingPage />
-					</Route>
-				</Switch>
-				<Footer />
-			</Router>
-		</div>
-	);
+    const isLoggedIn = useAppSelector(selectAuthIsLoggedIn);
+    return (
+        <div className="App">
+            <Router>
+                <Navbar />
+                <Switch>
+                    <Route path="/login/:id">
+                        <Login />
+                    </Route>
+                    <Route path="/account">
+                        {isLoggedIn ? <AccountSettings /> : <Redirect to="/" />}
+                    </Route>
+                    <Route path="/totals">
+                        {isLoggedIn ? <TotalsPage /> : <Redirect to="/" />}
+                    </Route>
+                    <Route path="/friends">
+                        {isLoggedIn ? <FriendsPage /> : <Redirect to="/" />}
+                    </Route>
+                    <Route path="/events">
+                        <EventsPage />
+                    </Route>
+                    <Route path="/fish">
+                        <FishPage />
+                    </Route>
+                    <Route path="/bugs">
+                        <BugsPage />
+                    </Route>
+                    <Route path="/sea">
+                        <SeaPage />
+                    </Route>
+                    <Route path="/art">
+                        <ArtPage />
+                    </Route>
+                    <Route path="/fossils">
+                        <FossilsPage />
+                    </Route>
+                    <Route path="/reactions">
+                        <ReactionsPage />
+                    </Route>
+                    <Route path="/music">
+                        <MusicPage />
+                    </Route>
+                    <Route path="/achievements">
+                        <AchievementsPage />
+                    </Route>
+                    <Route path="/villagers">
+                        <VillagersPage />
+                    </Route>
+                    <Route path="/support">
+                        <SupportPage />
+                    </Route>
+                    <Route path="/">
+                        <LandingPage />
+                    </Route>
+                </Switch>
+                <Footer />
+            </Router>
+        </div>
+    );
 }
 
 export default App;
