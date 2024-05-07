@@ -168,12 +168,6 @@ export const footerLinks = [
     { id: 0, text: `v${versionNumber}`, class: 'version' },
     { id: 1, text: 'github code', link: githubUrl, class: 'code' },
     { id: 2, text: 'twitter / feedback', link: twitterUrl, class: 'twitter' },
-    {
-        id: 3,
-        text: 'watch me code this on twitch',
-        link: twitchUrl,
-        class: 'twitch',
-    },
     { id: 4, text: 'about', link: '/support', class: 'code' },
     { id: 5, text: 'discord / support', link: discordUrl, class: 'discord' },
 ];
